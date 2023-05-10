@@ -55,9 +55,10 @@ function ResponsiveAppBar() {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              // fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
+              color: 'secondary.main',
             }}
           >
             <Link
@@ -116,8 +117,12 @@ function ResponsiveAppBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'secondary.main',
               textDecoration: 'none',
+              '&:hover': {
+                fontSize: '2rem',
+                transition: 'all .2s ease-in-out',
+              },
             }}
           >
             <Link

@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 export default function Test() {
   return (
     <Container maxWidth='lg'>
-      <Typography variant='h1'>Test Page</Typography>
+      <Typography variant='h3'>Test Page</Typography>
     </Container>
   );
 }
