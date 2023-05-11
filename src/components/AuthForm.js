@@ -15,7 +15,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 async function createUser(newUser) {
   try {
-    const res = await fetch('/api/auth/signup', {
+    const res = await fetch('/api/v1/user', {
       method: 'POST',
       body: JSON.stringify(newUser),
       headers: {
@@ -40,6 +40,7 @@ export default function AuthForm() {
   const [revealPassword, setRevealPassword] = useState(false);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [formIsValid, setFormIsValid] = useState(true);
 
   const [enteredName, setEnteredName] = useState('');
   const [enteredEmail, setEnteredEmail] = useState('');
@@ -82,7 +83,7 @@ export default function AuthForm() {
         router.push(callbackUrl ?? '/');
       }
     } else {
-      // sign up
+      // create new user
       try {
         const createNewUser = await createUser({
           name: enteredName,
@@ -189,6 +190,7 @@ export default function AuthForm() {
         )}
         {message && <Alert severity='info'>{message}</Alert>}
         <LoadingButton
+          disabled={!formIsValid}
           loading={isLoading}
           variant='contained'
           type='submit'
@@ -200,34 +202,6 @@ export default function AuthForm() {
           {isLogin ? 'Create new account' : 'Login with existing account'}
         </Button>
       </Box>
-      <Typography>
-        250 chars of ipsum lorem dolor sit amet, consectetur adipiscing elit.
-        Donec euismod, nisl sed tempor finibus, massa velit ultricies purus, eu
-        aliquam diam nulla vitae risus. Nulla facilisi. Nulla facilisi. Nulla
-        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-      </Typography>
-      <Typography>
-        250 chars of ipsum lorem dolor sit amet, consectetur adipiscing elit.
-        Donec euismod, nisl sed tempor finibus, massa velit ultricies purus, eu
-        aliquam diam nulla vitae risus. Nulla facilisi. Nulla facilisi. Nulla
-        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-      </Typography>
-      <Typography>
-        250 chars of ipsum lorem dolor sit amet, consectetur adipiscing elit.
-        Donec euismod, nisl sed tempor finibus, massa velit ultricies purus, eu
-        aliquam diam nulla vitae risus. Nulla facilisi. Nulla facilisi. Nulla
-        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-      </Typography>
-      <Typography>
-        250 chars of ipsum lorem dolor sit amet, consectetur adipiscing elit.
-        Donec euismod, nisl sed tempor finibus, massa velit ultricies purus, eu
-        aliquam diam nulla vitae risus. Nulla facilisi. Nulla facilisi. Nulla
-        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
-      </Typography>
     </Paper>
   );
 }

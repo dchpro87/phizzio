@@ -7,14 +7,14 @@ export default function Footer() {
   return (
     <Box
       sx={{
-        height: '4rem',
         bgcolor: 'common.black',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
-        position: 'fixed',
-        bottom: 'fixed',
+        height: '4rem',
+        position: 'absolute',
+        bottom: 0,
       }}
     >
       <Typography variant='body2' align='center' sx={{ color: 'text.light' }}>

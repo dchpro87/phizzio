@@ -20,7 +20,7 @@ import MenuItem from '@mui/material/MenuItem';
 const pages = ['Test'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-let status = 'unauthenticated';
+let status = 'authenticated';
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -50,7 +50,7 @@ function ResponsiveAppBar() {
       <Container maxWidth='lg'>
         <Toolbar disableGutters>
           <Typography
-            variant='h6'
+            variant='h2'
             noWrap
             component='p'
             sx={{
@@ -61,7 +61,6 @@ function ResponsiveAppBar() {
               letterSpacing: '.3rem',
               color: 'secondary.main',
               '&:hover': {
-                // fontSize: '1.5rem',
                 transform: 'scale(1.1)',
                 transition: 'all .1s ease-in-out',
               },
@@ -167,12 +166,19 @@ function ResponsiveAppBar() {
             </Box>
           )}
 
-          {status === 'unauthenticated' && (
+          {status === 'authenticated' && (
             <Box sx={{ flexGrow: 0 }}>
               <Button
                 variant='outlined'
-                sx={{ color: 'text.light', borderColor: 'text.light' }}
-                onClick={() => router.push('/auth')}
+                sx={{
+                  color: 'text.light',
+                  borderColor: 'text.light',
+                  '&:hover': {
+                    borderColor: 'text.light',
+                    bgcolor: 'action.hover',
+                  },
+                }}
+                onClick={() => router.push('/login')}
               >
                 Login
               </Button>

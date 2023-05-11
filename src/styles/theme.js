@@ -27,6 +27,15 @@ const theme = createTheme({
       light: '#f2f2f2',
       dark: '#3c3c3c',
     },
+    paper: {
+      ackground: '#f2f2f2',
+      default: '#f2f2f2',
+    },
+    action: {
+      active: 'rgba(0, 0, 0, 0.54)',
+      hover: '#00000025',
+      // hover: 'rgba(0, 0, 0, 0.2)',
+    },
   },
   shape: {
     borderRadius: 8,

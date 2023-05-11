@@ -20,9 +20,11 @@ export default function RootLayout({ children }) {
     <html lang='en'>
       <body>
         <Providers>
-          <NavBar />
-          {children}
-          <Footer />
+          <div style={{ position: 'relative', minHeight: '100vh' }}>
+            <NavBar />
+            {children}
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>
