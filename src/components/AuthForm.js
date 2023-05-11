@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 // import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
@@ -12,29 +12,28 @@ import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import LoadingButton from '@mui/lab/LoadingButton';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-// import VisibilityIcon from '@mui/icons-material/Visibility';
 
-// async function createUser(newUser) {
-//   try {
-//     const response = await fetch('/api/auth/signup', {
-//       method: 'POST',
-//       body: JSON.stringify(newUser),
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     });
+async function createUser(newUser) {
+  try {
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      body: JSON.stringify(newUser),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-//     const data = await response.json();
+    // const data = await res.json();
 
-//     if (!response.ok) {
-//       throw new Error(data.message || 'Something went wrong!');
-//     }
+    if (!res.ok) {
+      throw new Error(res.message || 'Something went wrong!');
+    }
 
-//     return data;
-//   } catch (err) {
-//     return { error: err.message };
-//   }
-// }
+    return res.json();
+  } catch (err) {
+    return { error: err.message };
+  }
+}
 
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
@@ -42,12 +41,12 @@ export default function AuthForm() {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const router = useRouter();
+  const [enteredName, setEnteredName] = useState('');
+  const [enteredEmail, setEnteredEmail] = useState('');
+  const [enteredPassword, setEnteredPassword] = useState('');
+  const [enteredPasswordConfirm, setEnteredPasswordConfirm] = useState('');
 
-  const userNameInputRef = useRef();
-  const emailInputRef = useRef();
-  const passwordInputRef = useRef();
-  const passwordConfirmInputRef = useRef();
+  const router = useRouter();
 
   let callbackUrl = null;
 
@@ -62,9 +61,6 @@ export default function AuthForm() {
     event.preventDefault();
     setMessage('');
     setIsLoading(true);
-
-    const enteredEmail = emailInputRef.current.value;
-    const enteredPassword = passwordInputRef.current.value;
 
     //    there is no validation yet!!!
 
@@ -87,9 +83,6 @@ export default function AuthForm() {
       }
     } else {
       // sign up
-      const enteredName = userNameInputRef.current.value;
-      const enteredPasswordConfirm = passwordConfirmInputRef.current.value;
-
       try {
         const createNewUser = await createUser({
           name: enteredName,
@@ -140,8 +133,10 @@ export default function AuthForm() {
             id='full-name'
             name='fullName'
             type='text'
-            inputRef={userNameInputRef}
+            // inputRef={userNameInputRef}
+            value={enteredName}
             label='Full Name'
+            onChange={(e) => setEnteredName(e.target.value)}
           />
         )}
         <TextField
@@ -149,9 +144,11 @@ export default function AuthForm() {
           id='email'
           name='email'
           type='email'
-          inputRef={emailInputRef}
+          // inputRef={emailInputRef}
+          value={enteredEmail}
           label='Email'
           autoFocus
+          onChange={(e) => setEnteredEmail(e.target.value)}
         />
 
         <TextField
@@ -159,7 +156,8 @@ export default function AuthForm() {
           id='password'
           name='password'
           type={revealPassword ? 'text' : 'password'}
-          inputRef={passwordInputRef}
+          // inputRef={passwordInputRef}
+          value={enteredPassword}
           label='Password'
           InputProps={{
             endAdornment: (
@@ -174,6 +172,7 @@ export default function AuthForm() {
               />
             ),
           }}
+          onChange={(e) => setEnteredPassword(e.target.value)}
         />
 
         {!isLogin && (
@@ -182,8 +181,10 @@ export default function AuthForm() {
             id='password-confirm'
             name='password'
             type={revealPassword ? 'text' : 'password'}
-            inputRef={passwordConfirmInputRef}
+            // inputRef={passwordConfirmInputRef}
+            value={enteredPasswordConfirm}
             label='Confirm Password'
+            onChange={(e) => setEnteredPasswordConfirm(e.target.value)}
           />
         )}
         {message && <Alert severity='info'>{message}</Alert>}
@@ -199,6 +200,34 @@ export default function AuthForm() {
           {isLogin ? 'Create new account' : 'Login with existing account'}
         </Button>
       </Box>
+      <Typography>
+        250 chars of ipsum lorem dolor sit amet, consectetur adipiscing elit.
+        Donec euismod, nisl sed tempor finibus, massa velit ultricies purus, eu
+        aliquam diam nulla vitae risus. Nulla facilisi. Nulla facilisi. Nulla
+        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+      </Typography>
+      <Typography>
+        250 chars of ipsum lorem dolor sit amet, consectetur adipiscing elit.
+        Donec euismod, nisl sed tempor finibus, massa velit ultricies purus, eu
+        aliquam diam nulla vitae risus. Nulla facilisi. Nulla facilisi. Nulla
+        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+      </Typography>
+      <Typography>
+        250 chars of ipsum lorem dolor sit amet, consectetur adipiscing elit.
+        Donec euismod, nisl sed tempor finibus, massa velit ultricies purus, eu
+        aliquam diam nulla vitae risus. Nulla facilisi. Nulla facilisi. Nulla
+        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+      </Typography>
+      <Typography>
+        250 chars of ipsum lorem dolor sit amet, consectetur adipiscing elit.
+        Donec euismod, nisl sed tempor finibus, massa velit ultricies purus, eu
+        aliquam diam nulla vitae risus. Nulla facilisi. Nulla facilisi. Nulla
+        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+        facilisi. Nulla facilisi. Nulla facilisi. Nulla facilisi. Nulla
+      </Typography>
     </Paper>
   );
 }

@@ -1,6 +1,5 @@
 'use client';
 
-// import { useRouter } from 'next/router';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -47,7 +46,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position='static'>
+    <AppBar position='sticky'>
       <Container maxWidth='lg'>
         <Toolbar disableGutters>
           <Typography

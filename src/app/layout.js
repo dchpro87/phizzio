@@ -1,4 +1,5 @@
 import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
 
 import '../styles/globals.css';
 // import '@fontsource/roboto/300.css';
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <NavBar />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>
