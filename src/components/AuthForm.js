@@ -15,7 +15,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 async function createUser(newUser) {
   try {
-    const res = await fetch('/api/v1/user', {
+    const res = await fetch('/api/auth/signup', {
       method: 'POST',
       body: JSON.stringify(newUser),
       headers: {
@@ -23,13 +23,14 @@ async function createUser(newUser) {
       },
     });
 
-    // const data = await res.json();
+    // if (!res.ok) {
+    //   const result = await res.json();
+    //   console.log(result);
+    //   throw new Error(result || 'Something went wrong!');
+    // }
 
-    if (!res.ok) {
-      throw new Error(res.message || 'Something went wrong!');
-    }
-
-    return res.json();
+    const data = await res.json();
+    return data;
   } catch (err) {
     return { error: err.message };
   }

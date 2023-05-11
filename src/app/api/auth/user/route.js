@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 
 export async function POST(req, res) {
-  console.log('💥💥');
-  console.log(req.body);
+  // console.log('💥💥');
+  // console.log(req.body);
   //   const res = await fetch('https://data.mongodb-api.com/...', {
   //     method: 'POST',
   //     headers: {
