@@ -21,8 +21,11 @@ async function createUser(newUser) {
       'Content-Type': 'application/json',
     },
   });
-  console.log(res);
-  return;
+  const result = await res.json();
+
+  if (!res.ok) throw new Error(result.message || 'Something went wrong!');
+
+  return result;
 }
 
 export default function AuthForm() {
