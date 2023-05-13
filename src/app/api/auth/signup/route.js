@@ -39,6 +39,7 @@ export async function POST(req) {
 
   //  create new user on mongodb
   await connectDb();
+  console.log('💥💥');
 
   try {
     const existingUser = await User.findOne({ email });

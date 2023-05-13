@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 
 const db = process.env.DATABASE_DEV;
 const dbPassword = process.env.DATABASE_PASSWORD;
-const MONGODB_URI = db.replace('<PASSWORD>', dbPassword);
-
-console.log(MONGODB_URI);
+const MONGODB_URI = db.replace('<password>', dbPassword);
+console.log('💥💥💥💥💥');
+console.log(global.mongoose);
 
 if (!MONGODB_URI) {
   throw new Error(
