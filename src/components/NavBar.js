@@ -1,9 +1,12 @@
 'use client';
-
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-
 import * as React from 'react';
+
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
+import { signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -20,12 +23,13 @@ import MenuItem from '@mui/material/MenuItem';
 const pages = ['Test'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-let status = 'authenticated';
+// let status = 'authenticated';
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  const { status } = useSession();
   const router = useRouter();
 
   const handleOpenNavMenu = (event) => {
@@ -41,8 +45,11 @@ function ResponsiveAppBar() {
     if (href !== '') router.push(`/${href}`);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (event) => {
+    const href = event.currentTarget.innerText.toLowerCase();
     setAnchorElUser(null);
+    if (href === 'logout') signOut();
+    // if (href !== '') router.push(`/${href}`);
   };
 
   return (
@@ -166,7 +173,7 @@ function ResponsiveAppBar() {
             </Box>
           )}
 
-          {status === 'authenticated' && (
+          {status === 'unauthenticated' && (
             <Box sx={{ flexGrow: 0 }}>
               <Button
                 variant='outlined'

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-// import { signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 import Box from '@mui/material/Box';
@@ -14,18 +14,22 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 async function createUser(newUser) {
-  const res = await fetch('/api/auth/signup', {
-    method: 'POST',
-    body: JSON.stringify(newUser),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  const result = await res.json();
+  try {
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      body: JSON.stringify(newUser),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await res.json();
 
-  if (!res.ok) throw new Error(result.message || 'Something went wrong!');
+    if (!res.ok) throw new Error(result.message || 'Something went wrong!');
 
-  return result;
+    return result;
+  } catch (err) {
+    throw new Error(err.message || 'Something went wrong!');
+  }
 }
 
 export default function AuthForm() {
@@ -73,6 +77,7 @@ export default function AuthForm() {
         callbackUrl = url.searchParams.get('callbackUrl');
         router.push(callbackUrl ?? '/');
       }
+      router.push('/');
     } else {
       // create new user
       try {
@@ -82,6 +87,14 @@ export default function AuthForm() {
           password: enteredPassword,
           passwordConfirm: enteredPasswordConfirm,
         });
+
+        if (createNewUser.status === 'success') {
+          await signIn('credentials', {
+            email: enteredEmail,
+            password: enteredPassword,
+            redirect: false,
+          });
+        }
 
         setIsLoading(false);
       } catch (err) {
