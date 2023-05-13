@@ -2,7 +2,6 @@ import crypto from 'crypto';
 import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
-// import Complex from './complexModel';
 
 const userSchema = new mongoose.Schema(
   {

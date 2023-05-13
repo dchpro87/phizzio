@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
 
-import connectDb from '@/lib/connectDb';
-
+import dbConnect from '@/lib/dbConnect';
 import User from '@/models/userModel';
 
-export async function POST(req) {
-  const { name, email, password, passwordConfirm } = await req.json();
+export async function POST(nextRequest) {
+  const { name, email, password, passwordConfirm } = await nextRequest.json();
   // console.log({ name, email, password, passwordConfirm });
 
   if (
@@ -38,8 +37,7 @@ export async function POST(req) {
   }
 
   //  create new user on mongodb
-  await connectDb();
-  console.log('💥💥');
+  await dbConnect();
 
   try {
     const existingUser = await User.findOne({ email });
