@@ -56,8 +56,6 @@ export default function AuthForm() {
     setMessage('');
   }
 
-  const handleEyeClicked = () => setRevealPassword((prev) => !prev);
-
   async function handleSubmit(event) {
     event.preventDefault();
     setMessage('');
@@ -70,17 +68,19 @@ export default function AuthForm() {
         redirect: false,
       });
 
+      console.log(result);
+
       if (!result.ok) {
         setMessage('Email or password incorrect!');
         setIsLoading(false);
       }
 
-      if (result.url) {
-        const url = new URL(result.url);
-        callbackUrl = url.searchParams.get('callbackUrl');
-        router.push(callbackUrl ?? '/');
-      }
-      router.push('/');
+      // if (result.url) {
+      //   const url = new URL(result.url);
+      //   callbackUrl = url.searchParams.get('callbackUrl');
+      //   router.push(callbackUrl ?? '/');
+      // }
+      // router.push('/');
     } else {
       // create new user
       try {
@@ -163,7 +163,7 @@ export default function AuthForm() {
             InputProps={{
               endAdornment: (
                 <VisibilityOffIcon
-                  onClick={handleEyeClicked}
+                  onClick={() => setRevealPassword((prev) => !prev)}
                   sx={{
                     cursor: 'pointer',
                     position: 'absolute',

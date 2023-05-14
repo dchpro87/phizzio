@@ -30,6 +30,7 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const { status } = useSession();
+  console.log(status);
   const router = useRouter();
 
   const handleOpenNavMenu = (event) => {

@@ -11,7 +11,7 @@ const handler = NextAuth({
       name: 'credentials',
       async authorize(credentials, req) {
         const { email, password } = credentials;
-
+        console.log('💥💥 authorize');
         await dbConnect();
 
         const fetchedUser = await User.findOne({ email }).select(
@@ -27,7 +27,7 @@ const handler = NextAuth({
 
         const user = fetchedUser.toJSON();
         user.password = undefined;
-
+        console.log('💥💥 user fetched');
         return {
           name: user.name,
           email: user.email,
