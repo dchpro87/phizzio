@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
+import createUser from '../features/create-user';
+import { capitalizeName } from '../helpers/validators';
+
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
@@ -13,24 +16,24 @@ import Alert from '@mui/material/Alert';
 import LoadingButton from '@mui/lab/LoadingButton';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-async function createUser(newUser) {
-  try {
-    const res = await fetch('/api/auth/signup', {
-      method: 'POST',
-      body: JSON.stringify(newUser),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const result = await res.json();
+// async function createUser(newUser) {
+//   try {
+//     const res = await fetch('/api/auth/signup', {
+//       method: 'POST',
+//       body: JSON.stringify(newUser),
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//     });
+//     const result = await res.json();
 
-    if (!res.ok) throw new Error(result.message || 'Something went wrong!');
+//     if (!res.ok) throw new Error(result.message || 'Something went wrong!');
 
-    return result;
-  } catch (err) {
-    throw new Error(err.message || 'Something went wrong!');
-  }
-}
+//     return result;
+//   } catch (err) {
+//     throw new Error(err.message || 'Something went wrong!');
+//   }
+// }
 
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
@@ -140,6 +143,7 @@ export default function AuthForm() {
             id='email'
             name='email'
             type='email'
+            required
             // inputRef={emailInputRef}
             value={enteredEmail}
             label='Email'
@@ -152,6 +156,7 @@ export default function AuthForm() {
             id='password'
             name='password'
             type={revealPassword ? 'text' : 'password'}
+            required
             // inputRef={passwordInputRef}
             value={enteredPassword}
             label='Password'
