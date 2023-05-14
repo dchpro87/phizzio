@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 import createUser from '../features/create-user';
-import { capitalizeName } from '../helpers/validators';
+import { capitalizeName, isValidEmail } from '../helpers/validators';
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -70,33 +70,40 @@ export default function AuthForm() {
 
       console.log(result);
 
-      if (!result.ok) {
+      if (!result.ok || result.error) {
         setMessage('Email or password incorrect!');
         setIsLoading(false);
       }
 
-      // if (result.url) {
-      //   const url = new URL(result.url);
-      //   callbackUrl = url.searchParams.get('callbackUrl');
-      //   router.push(callbackUrl ?? '/');
-      // }
+      if (result.url) {
+        const url = new URL(result.url);
+        callbackUrl = url.searchParams.get('callbackUrl');
+        router.push(callbackUrl ?? '/');
+      }
       // router.push('/');
     } else {
       // create new user
       try {
         const createNewUser = await createUser({
-          name: enteredName,
+          name: capitalizeName(enteredName),
           email: enteredEmail,
           password: enteredPassword,
           passwordConfirm: enteredPasswordConfirm,
         });
 
         if (createNewUser.status === 'success') {
-          await signIn('credentials', {
+          const result = await signIn('credentials', {
             email: enteredEmail,
             password: enteredPassword,
             redirect: false,
           });
+
+          if (result.url) {
+            const url = new URL(result.url);
+            callbackUrl = url.searchParams.get('callbackUrl');
+            router.push(callbackUrl ?? '/');
+          }
+          router.push('/');
         }
 
         setIsLoading(false);

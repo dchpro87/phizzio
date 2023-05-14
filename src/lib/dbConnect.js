@@ -20,7 +20,7 @@ if (!cached) {
 }
 
 async function dbConnect() {
-  console.log('💥💥 dbConnect');
+  // console.log('💥💥 dbConnect');
   if (cached.conn) {
     return cached.conn;
   }
