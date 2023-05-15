@@ -21,7 +21,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
 const pages = ['Test'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Logout'];
 
 // let status = 'authenticated';
 
@@ -30,7 +30,6 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const { status } = useSession();
-  console.log(status);
   const router = useRouter();
 
   const handleOpenNavMenu = (event) => {
@@ -50,7 +49,7 @@ function ResponsiveAppBar() {
     const href = event.currentTarget.innerText.toLowerCase();
     setAnchorElUser(null);
     if (href === 'logout') signOut();
-    // if (href !== '') router.push(`/${href}`);
+    if (href !== '') router.push(`/${href}`);
   };
 
   return (

@@ -1,6 +1,6 @@
 import AuthForm from '@/components/AuthForm';
 
 
-export default function AuthHome() {
+export default function LoginMain() {
   return <AuthForm />;
 }

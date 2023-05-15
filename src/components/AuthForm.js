@@ -68,10 +68,8 @@ export default function AuthForm() {
         redirect: false,
       });
 
-      console.log(result);
-
       if (!result.ok || result.error) {
-        setMessage('Email or password incorrect!');
+        setMessage(result.error || 'Email or password incorrect!');
         setIsLoading(false);
       }
 
@@ -80,7 +78,6 @@ export default function AuthForm() {
         callbackUrl = url.searchParams.get('callbackUrl');
         router.push(callbackUrl ?? '/');
       }
-      // router.push('/');
     } else {
       // create new user
       try {
