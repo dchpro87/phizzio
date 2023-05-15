@@ -12,20 +12,16 @@ const handler = NextAuth({
       async authorize(credentials, req) {
         const { email, password } = credentials;
         await dbConnect();
-
-        const fetchedUser = await User.findOne({ email }).select(
+        const user = await User.findOne({ email }).select(
           'name email cellphone password'
         );
 
-        if (
-          !fetchedUser ||
-          !(await fetchedUser.correctPassword(password, fetchedUser.password))
-        ) {
+        if (!user || !(await user.correctPassword(password, user.password))) {
           throw new Error('Email or password not correct!!');
         }
 
-        const user = fetchedUser.toJSON();
         user.password = undefined;
+
         return {
           name: user.name,
           email: user.email,

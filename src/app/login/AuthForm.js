@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
-import createUser from '../features/create-user';
-import { capitalizeName, isValidEmail } from '../helpers/validators';
+import createUser from '../../features/create-user';
+import { capitalizeName } from '../../helpers/validators';
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -16,31 +16,11 @@ import Alert from '@mui/material/Alert';
 import LoadingButton from '@mui/lab/LoadingButton';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-// async function createUser(newUser) {
-//   try {
-//     const res = await fetch('/api/auth/signup', {
-//       method: 'POST',
-//       body: JSON.stringify(newUser),
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     });
-//     const result = await res.json();
-
-//     if (!res.ok) throw new Error(result.message || 'Something went wrong!');
-
-//     return result;
-//   } catch (err) {
-//     throw new Error(err.message || 'Something went wrong!');
-//   }
-// }
-
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
   const [revealPassword, setRevealPassword] = useState(false);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [formIsValid, setFormIsValid] = useState(true);
 
   const [enteredName, setEnteredName] = useState('');
   const [enteredEmail, setEnteredEmail] = useState('');
@@ -194,7 +174,6 @@ export default function AuthForm() {
           )}
           {message && <Alert severity='info'>{message}</Alert>}
           <LoadingButton
-            disabled={!formIsValid}
             loading={isLoading}
             variant='contained'
             type='submit'

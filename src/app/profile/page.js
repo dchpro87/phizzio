@@ -1,35 +1,23 @@
-import { useState } from 'react';
-import Head from 'next/head';
+'use client';
+
 import { signIn, useSession } from 'next-auth/react';
 
+import Container from '@mui/material/Container';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import MyProfile from './MyProfile';
-import ChangePassword from './ChangePassword';
-import SpinnerWithMessage from '../../components/SpinnerWithMessage';
+// import MyProfile from './MyProfile';
+// import ChangePassword from './ChangePassword';
 
 export default function Profile() {
   const { status } = useSession();
   if (status === 'unauthenticated') signIn();
-  if (status === 'loading')
-    return <SpinnerWithMessage message='Checking User Session' />;
-
-  const headContent = (
-    <Head>
-      <title>ComLog | Login</title>
-      <meta
-        name='description'
-        content='Residential Complex management solution for building managers and trustees.'
-      />
-    </Head>
-  );
 
   return (
-    <>
+    <Container maxWidth='lg'>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -41,11 +29,12 @@ export default function Profile() {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <MyProfile />
+          <p>lkjb</p>
+          {/* <MyProfile /> */}
         </AccordionDetails>
       </Accordion>
 
-      <Accordion>
+      {/* <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls='panel1a-content'
@@ -58,7 +47,7 @@ export default function Profile() {
         <AccordionDetails>
           <ChangePassword />
         </AccordionDetails>
-      </Accordion>
-    </>
+      </Accordion> */}
+    </Container>
   );
 }

@@ -1,5 +1,5 @@
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
+import NavBar from '../ui/NavBar';
+import Footer from '../ui/Footer';
 
 import { Providers } from '@/lib/providers';
 

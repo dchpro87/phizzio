@@ -1,4 +1,4 @@
-import Test from '@/components/Test';
+import Test from './Test';
 
 export default function TestMain() {
   return <Test />;

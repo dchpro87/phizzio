@@ -23,7 +23,6 @@ import MenuItem from '@mui/material/MenuItem';
 const pages = ['Test'];
 const settings = ['Profile', 'Logout'];
 
-// let status = 'authenticated';
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -49,7 +48,7 @@ function ResponsiveAppBar() {
     const href = event.currentTarget.innerText.toLowerCase();
     setAnchorElUser(null);
     if (href === 'logout') signOut();
-    if (href !== '') router.push(`/${href}`);
+    if (href === 'profile') router.push(`/${href}`);
   };
 
   return (
