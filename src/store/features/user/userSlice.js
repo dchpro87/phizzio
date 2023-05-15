@@ -4,7 +4,6 @@ const initialState = {
   name: '',
   email: '',
   cellphone: '',
-  currentComplex: {},
   userId: '',
 };
 
@@ -20,7 +19,6 @@ export const userSlice = createSlice({
       state.name = action.payload.name;
       state.email = action.payload.email;
       state.cellphone = action.payload.cellphone;
-      state.currentComplex = action.payload.currentComplex;
     },
     updateUserName: (state, action) => {
       state.name = action.payload.name;

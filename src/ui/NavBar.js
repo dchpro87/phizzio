@@ -63,7 +63,12 @@ function ResponsiveAppBar() {
 
   return (
     <AppBar position='sticky'>
-      <Dialog showDialog={showDialog} />
+      <Dialog
+        showDialog={showDialog}
+        closeDialog={() => setShowDialog((prev) => !prev)}
+        content='Log out of PHIZZIO?'
+        onConfirm={() => signOut()}
+      />
       <Container maxWidth='lg'>
         <Toolbar disableGutters>
           <Typography

@@ -9,11 +9,16 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-// import MyProfile from './MyProfile';
+import { useGetUserByIdQuery } from '../../store/services/apiSlice';
+
+import MyProfile from './MyProfile';
 // import ChangePassword from './ChangePassword';
 
 export default function Profile() {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+  const id = session?.user?.userId;
+
+  const { data: user, isSuccess } = useGetUserByIdQuery(id);
   if (status === 'unauthenticated') signIn();
 
   return (
@@ -29,8 +34,7 @@ export default function Profile() {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <p>lkjb</p>
-          {/* <MyProfile /> */}
+          <MyProfile />
         </AccordionDetails>
       </Accordion>
 

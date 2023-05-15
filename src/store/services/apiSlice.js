@@ -2,27 +2,26 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { updateUser } from '../features/user/userSlice';
 
 export const apiSlice = createApi({
-  reducerPath: 'comlogApi',
+  reducerPath: 'phizzioApi',
   baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
-  tagTypes: ['User', 'Password', 'Complex', 'Units', 'ComplianceLogs'],
+  tagTypes: ['User', 'Password'],
   endpoints: (builder) => ({
     getUserById: builder.query({
       query: (userId) => `/users/${userId}`,
       async onQueryStarted(userId, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
+          const { data: user } = await queryFulfilled;
+          console.log(user);
           dispatch(
             updateUser({
-              userId: data.user.id,
-              name: data.user.name,
-              email: data.user.email,
-              cellphone: data.user.cellphone,
-              currentComplex: data.user.currentComplex,
+              userId: user.id,
+              name: user.name,
+              email: user.email,
+              cellphone: user.cellphone,
             })
           );
         } catch (err) {
-          console.log('💥 no session on first request :-(');
-          // console.log(err.error.data.message);
+          console.log('no session on first request(');
         }
       },
       providesTags: ['User'],
@@ -33,7 +32,7 @@ export const apiSlice = createApi({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['User', 'Complex'],
+      invalidatesTags: ['User'],
     }),
     updatePassword: builder.mutation({
       query: (payload) => ({
