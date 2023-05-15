@@ -37,8 +37,8 @@ export default function Profile() {
       {/* <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls='panel1a-content'
-          id='panel1a-header'
+          aria-controls='panel2a-content'
+          id='panel2a-header'
         >
           <Typography variant='h3' component='h3'>
             Change my password

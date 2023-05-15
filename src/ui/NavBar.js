@@ -1,9 +1,9 @@
 'use client';
-import * as React from 'react';
+
+import { useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
 import { signOut } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
 
@@ -19,17 +19,21 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import CircularProgress from '@mui/material/CircularProgress';
+
+import Dialog from './Dialog';
 
 const pages = ['Test'];
 const settings = ['Profile', 'Logout'];
 
-
 function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [showDialog, setShowDialog] = useState(false);
 
-  const { status } = useSession();
   const router = useRouter();
+  const { data: session, status } = useSession();
+  const name = session?.user?.name;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -47,12 +51,19 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = (event) => {
     const href = event.currentTarget.innerText.toLowerCase();
     setAnchorElUser(null);
-    if (href === 'logout') signOut();
+    if (href === 'logout') setShowDialog(true);
     if (href === 'profile') router.push(`/${href}`);
   };
+  if (status === 'loading')
+    return (
+      <Box sx={{ textAlign: 'center' }}>
+        <CircularProgress size='2rem' />
+      </Box>
+    );
 
   return (
     <AppBar position='sticky'>
+      <Dialog showDialog={showDialog} />
       <Container maxWidth='lg'>
         <Toolbar disableGutters>
           <Typography
@@ -192,9 +203,15 @@ function ResponsiveAppBar() {
           )}
           {status === 'authenticated' && (
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title='Open settings'>
+              <Tooltip>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt='Remy Sharp' src='' />
+                  <Avatar
+                    alt={`${name}`}
+                    src=''
+                    sx={{ bgcolor: 'secondary.main' }}
+                  >
+                    {name && name.at(0).toUpperCase()}
+                  </Avatar>
                 </IconButton>
               </Tooltip>
               <Menu
