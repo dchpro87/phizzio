@@ -14,12 +14,14 @@ export default function AddClient() {
   const [message, setMessage] = useState('');
   const [isUpdated, setIsUpdated] = useState(true);
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [cellphone, setCellphone] = useState('');
+
   const btnColor = isUpdated ? 'primary.main' : 'secondary.main';
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    console.log('submit clicked');
   };
 
   return (
@@ -49,27 +51,36 @@ export default function AddClient() {
               size='small'
               name='fullName'
               type='text'
-              // value={name ? name : ''}
+              value={name ? name : ''}
               label='Full Name'
-              // onChange={handleNameChange}
+              onChange={(e) => {
+                setName(e.target.value);
+                setIsUpdated(false);
+              }}
             />
             <TextField
               id='email'
               size='small'
               name='email'
               type='email'
-              // value={name ? name : ''}
+              value={email ? email : ''}
               label='Email'
-              // onChange={handleNameChange}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setIsUpdated(false);
+              }}
             />
             <TextField
               id='cellphone'
               size='small'
               name='cellphone'
               type='tel'
-              // value={name ? name : ''}
+              value={cellphone ? cellphone : ''}
               label='Cellphone'
-              // onChange={handleNameChange}
+              onChange={(e) => {
+                setCellphone(e.target.value);
+                setIsUpdated(false);
+              }}
             />
           </Box>
           {message && (

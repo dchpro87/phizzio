@@ -8,6 +8,7 @@ export async function GET(req, { params }) {
   const token = await getToken({ req });
 
   await dbConnect();
+
   try {
     if (token?.sub !== params.id) {
       throw new Error('You are not authorized to perform this action.');
