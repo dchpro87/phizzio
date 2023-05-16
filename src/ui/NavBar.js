@@ -57,7 +57,7 @@ function ResponsiveAppBar() {
   if (status === 'loading')
     return (
       <Box sx={{ textAlign: 'center' }}>
-        <CircularProgress size='2rem' />
+        <CircularProgress size='1rem' />
       </Box>
     );
 

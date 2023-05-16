@@ -15,6 +15,8 @@ import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import LoadingButton from '@mui/lab/LoadingButton';
 
+import { capitalizeName } from '../../helpers/validators';
+
 export default function MyProfile() {
   const [message, setMessage] = useState('');
   const { userId, name, email, cellphone } = useSelector((state) => state.user);
@@ -25,7 +27,7 @@ export default function MyProfile() {
 
   //  change button color when user updates profile
   //  no validation!!!
-  const btnColor = isUpdated ? 'primary.main' : 'warning.main';
+  const btnColor = isUpdated ? 'primary.main' : 'secondary.main';
 
   const handleNameChange = (event) => {
     setIsUpdated(false);
@@ -42,14 +44,20 @@ export default function MyProfile() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (isUpdated) return;
+
     setMessage('');
 
-    const payload = { userId, name, email, cellphone };
+    const payload = { userId, name: capitalizeName(name), email, cellphone };
 
     try {
+      //  check email and cellphone are valid
+      if (!payload.email || !/\S+@\S+\.\S+/.test(payload.email))
+        throw new Error('Please provide a valid email');
+
       const result = await updateUserById(payload);
 
-      if (result.error) throw new Error(result.error.data.message);
+      if (result.status === 'fail') throw new Error(result.message);
       setIsUpdated(true);
     } catch (err) {
       setMessage(err.message);
@@ -73,7 +81,7 @@ export default function MyProfile() {
             size='small'
             name='fullName'
             type='text'
-            value={name}
+            value={name ? name : ''}
             label='Full Name'
             onChange={handleNameChange}
           />
@@ -82,7 +90,7 @@ export default function MyProfile() {
             size='small'
             name='email'
             type='email'
-            value={email}
+            value={email ? email : ''}
             label='Email'
             onChange={handleEmailChange}
           />
@@ -91,20 +99,24 @@ export default function MyProfile() {
             size='small'
             name='cellphone'
             type='text'
-            value={cellphone}
+            value={cellphone ? cellphone : ''}
             label='Cellphone'
             onChange={handleCellphoneChange}
           />
         </Box>
-        {message && <Alert severity='info'>{message}</Alert>}
+        {message && (
+          <Alert severity='info' sx={{ m: 1 }}>
+            {message}
+          </Alert>
+        )}
         <LoadingButton
           size='small'
           loading={mutationResult.isLoading}
           variant='contained'
           type='submit'
-          sx={{ bgcolor: btnColor }}
+          sx={{ bgcolor: btnColor, color: 'text.light' }}
         >
-          <span>Confirm</span>
+          <span>Update</span>
         </LoadingButton>
       </form>
     </>

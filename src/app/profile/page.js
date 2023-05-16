@@ -12,18 +12,21 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useGetUserByIdQuery } from '../../store/services/apiSlice';
 
 import MyProfile from './MyProfile';
-// import ChangePassword from './ChangePassword';
+import SpinnerWithMessage from '@/ui/SpinnerWithMessage';
+import ChangePassword from './ChangePassword';
 
 export default function Profile() {
   const { data: session, status } = useSession();
   const id = session?.user?.userId;
 
-  const { data: user, isSuccess } = useGetUserByIdQuery(id);
+  const { isSuccess } = useGetUserByIdQuery(id);
   if (status === 'unauthenticated') signIn();
 
+  if (!isSuccess) return <SpinnerWithMessage message='Fetching your profile' />;
+
   return (
-    <Container maxWidth='lg'>
-      <Accordion>
+    <Container maxWidth='sm'>
+      <Accordion defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls='panel1a-content'
@@ -38,7 +41,7 @@ export default function Profile() {
         </AccordionDetails>
       </Accordion>
 
-      {/* <Accordion>
+      <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls='panel2a-content'
@@ -51,7 +54,7 @@ export default function Profile() {
         <AccordionDetails>
           <ChangePassword />
         </AccordionDetails>
-      </Accordion> */}
+      </Accordion>
     </Container>
   );
 }
