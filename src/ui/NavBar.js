@@ -72,31 +72,21 @@ function ResponsiveAppBar() {
       />
       <Container maxWidth='lg'>
         <Toolbar disableGutters>
-          <Typography
-            variant='h2'
-            noWrap
-            component='p'
+          <Box
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              // fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'secondary.main',
-              '&:hover': {
-                transform: 'scale(1.1)',
-                transition: 'all .1s ease-in-out',
-              },
             }}
           >
-            <Link
-              href='/'
-              passHref
-              style={{ textDecoration: 'none', color: 'inherit' }}
-            >
-              PHIZZIO
+            <Link href='/' passHref>
+              <Image
+                src='/phizzio-logo-word.png'
+                alt='logo'
+                width={160}
+                height={38}
+              />
             </Link>
-          </Typography>
+          </Box>
           {status === 'authenticated' && (
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
@@ -135,33 +125,23 @@ function ResponsiveAppBar() {
               </Menu>
             </Box>
           )}
-          <Typography
-            variant='h5'
-            noWrap
-            component='p'
+          <Box
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'secondary.main',
-              textDecoration: 'none',
-              '&:hover': {
-                fontSize: '1.8rem',
-                transition: 'all .1s ease-in-out',
-              },
             }}
           >
-            <Link
-              href='/'
-              passHref
-              style={{ textDecoration: 'none', color: 'inherit' }}
-            >
-              PHIZZIO
+            <Link href='/' passHref>
+              <Image
+                src='/phizzio-logo-word.png'
+                alt='logo'
+                width={140}
+                height={34}
+              />
             </Link>
-          </Typography>
+          </Box>
+
           {status === 'authenticated' && (
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
@@ -176,17 +156,9 @@ function ResponsiveAppBar() {
             </Box>
           )}
           {status === 'unauthenticated' && (
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {/* {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'text.light', display: 'block' }}
-                >
-                  {page}
-                </Button>
-              ))} */}
-            </Box>
+            <Box
+              sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}
+            ></Box>
           )}
 
           {status === 'unauthenticated' && (
