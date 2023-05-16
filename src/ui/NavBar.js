@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -67,7 +68,7 @@ function ResponsiveAppBar() {
         showDialog={showDialog}
         closeDialog={() => setShowDialog((prev) => !prev)}
         content='Log out of PHIZZIO?'
-        onConfirm={() => signOut()}
+        onConfirm={() => signOut({ callBackUrl: '/', redirect: true })}
       />
       <Container maxWidth='lg'>
         <Toolbar disableGutters>
