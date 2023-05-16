@@ -14,6 +14,7 @@ import { useGetUserByIdQuery } from '../../store/services/apiSlice';
 import MyProfile from './MyProfile';
 import SpinnerWithMessage from '@/ui/SpinnerWithMessage';
 import ChangePassword from './ChangePassword';
+import { Divider } from '@mui/material';
 
 export default function Profile() {
   const { data: session, status } = useSession();
@@ -36,6 +37,9 @@ export default function Profile() {
             My Profile
           </Typography>
         </AccordionSummary>
+
+        <Divider />
+
         <AccordionDetails>
           <MyProfile />
         </AccordionDetails>
@@ -51,10 +55,17 @@ export default function Profile() {
             Change my password
           </Typography>
         </AccordionSummary>
+
+        <Divider />
+
         <AccordionDetails>
           <ChangePassword />
         </AccordionDetails>
       </Accordion>
+      <br />
+      <br />
+      <br />
+      <br />
     </Container>
   );
 }

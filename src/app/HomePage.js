@@ -11,7 +11,12 @@ export default function HomePage() {
       <Box
         sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
       >
-        <Image src={'/phizzio-logo-dude.png'} width={200} height={128} />
+        <Image
+          src={'/phizzio-logo-dude.png'}
+          width={200}
+          height={128}
+          alt='PHIZZIO Logo'
+        />
         <Typography variant='body1'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
           voluptatum, quibusdam, quia, voluptates quos voluptate quod

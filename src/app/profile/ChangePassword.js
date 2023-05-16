@@ -60,7 +60,6 @@ export default function ChangePassword() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <hr />
         <Box
           my={2}
           sx={{

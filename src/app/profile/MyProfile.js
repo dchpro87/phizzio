@@ -67,7 +67,7 @@ export default function MyProfile() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <hr />
+        {/* <hr /> */}
         <Box
           my={2}
           sx={{

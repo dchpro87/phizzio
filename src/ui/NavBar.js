@@ -24,7 +24,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import Dialog from './Dialog';
 
-const pages = ['Test'];
+const pages = ['Clients'];
 const settings = ['Profile', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -81,7 +81,7 @@ function ResponsiveAppBar() {
             <Link href='/' passHref>
               <Image
                 src='/phizzio-logo-word.png'
-                alt='logo'
+                alt='PHIZZIO logo'
                 width={160}
                 height={38}
               />
@@ -135,7 +135,7 @@ function ResponsiveAppBar() {
             <Link href='/' passHref>
               <Image
                 src='/phizzio-logo-word.png'
-                alt='logo'
+                alt='PHIZZIO logo'
                 width={140}
                 height={34}
               />
