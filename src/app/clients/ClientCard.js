@@ -15,7 +15,7 @@ export default function Client({ client }) {
           cursor: 'pointer',
         },
       }}
-      onClick={() => onResidentClicked(index)}
+      onClick={() => {}}
     >
       <Box display={'flex'} justifyContent={'space-between'}>
         <div>

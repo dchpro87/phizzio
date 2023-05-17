@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import SpinnerWithMessage from '@/ui/SpinnerWithMessage';
+import Container from '@mui/material/Container';
 
 import { useGetClientsQuery } from '@/store/services/apiSlice';
 
@@ -23,7 +24,7 @@ export default function ClientsMain() {
       <ClientCard key={client._id} client={client} />
     ));
 
-    return <>{clientsList}</>;
+    return <Container maxWidth='sm'>{clientsList}</Container>;
   }
 
   return (
