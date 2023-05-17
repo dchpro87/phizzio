@@ -24,7 +24,7 @@ export async function POST(req) {
   }
 }
 
-export async function GET() {
+export async function GET(req, { params }) {
   await dbConnect();
 
   try {

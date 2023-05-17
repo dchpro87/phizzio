@@ -65,36 +65,36 @@ export const getOne = (Model, popOptions) =>
     });
   });
 
-export const getAll = (Model) =>
-  catchAsync(async (req, res, next) => {
-    let filter = {};
+// export const getAll = (Model) =>
+//   catchAsync(async (req, res, next) => {
+//     let filter = {};
 
-    const features = new APIFeatures(Model.find(filter), req.query)
-      .filter()
-      .sort()
-      .limitFields()
-      .paginate();
-    // const doc = await features.query.explain();
-    const doc = await features.query;
+//     const features = new APIFeatures(Model.find(filter), req.query)
+//       .filter()
+//       .sort()
+//       .limitFields()
+//       .paginate();
+//     // const doc = await features.query.explain();
+//     const doc = await features.query;
 
-    // SEND RESPONSE
-    res.status(200).json({
-      status: 'success',
-      results: doc.length,
-      data: {
-        data: doc,
-      },
-    });
-  });
+//     // SEND RESPONSE
+//     res.status(200).json({
+//       status: 'success',
+//       results: doc.length,
+//       data: {
+//         data: doc,
+//       },
+//     });
+//   });
 
-// export const getAll = async (Model, req) => {
-//   const filter = {};
-//   const features = new APIFeatures(Model.find(filter), req.query)
-//     .filter()
-//     .sort()
-//     .limitFields()
-//     .paginate();
+export const getAll = async (Model, req) => {
+  const filter = {};
+  const features = new APIFeatures(Model.find(filter), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
 
-//   const doc = await features.query;
-//   return doc;
-// };
+  const doc = await features.query;
+  return doc;
+};
