@@ -18,8 +18,8 @@ export default function RootLayout({ children }) {
         <Providers>
           <div style={{ position: 'relative', minHeight: '100vh' }}>
             <NavBar />
-            {/* <div style={{ marginTop: '1rem' }}>{children}</div> */}
-            {/* <Footer /> */}
+            <div style={{ marginTop: '1rem' }}>{children}</div>
+            <Footer />
           </div>
         </Providers>
       </body>

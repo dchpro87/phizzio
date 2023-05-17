@@ -13,6 +13,7 @@ import TextField from '@mui/material/TextField';
 export default function AddClient() {
   const [message, setMessage] = useState('');
   const [isUpdated, setIsUpdated] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -22,6 +23,25 @@ export default function AddClient() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsSubmitting(true);
+
+    const payload = { name, email, cellphone };
+
+    try {
+      const response = await fetch('/api/v1/clients', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+      if (!result.ok) throw new Error(result.message);
+      setIsSubmitting(false);
+    } catch (err) {
+      setIsSubmitting(false);
+      setMessage(err.message);
+      console.log(err.message);
+    }
   };
 
   return (
@@ -90,7 +110,7 @@ export default function AddClient() {
           )}
           <LoadingButton
             size='small'
-            // loading={mutationResult.isLoading}
+            loading={isSubmitting}
             variant='contained'
             type='submit'
             sx={{ bgcolor: btnColor, color: 'text.light' }}

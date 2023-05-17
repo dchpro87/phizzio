@@ -4,7 +4,7 @@ import { updateUser } from '../features/user/userSlice';
 export const apiSlice = createApi({
   reducerPath: 'phizzioApi',
   baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
-  tagTypes: ['User', 'Password'],
+  tagTypes: ['User', 'Password', 'Client'],
   endpoints: (builder) => ({
     getUserById: builder.query({
       query: (userId) => `/users/${userId}`,
@@ -41,6 +41,10 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ['Password'],
     }),
+    getClients: builder.query({
+      query: () => '/clients',
+      providesTags: ['Client'],
+    }),
   }),
 });
 
@@ -48,4 +52,5 @@ export const {
   useGetUserByIdQuery,
   useUpdateUserByIdMutation,
   useUpdatePasswordMutation,
+  useGetClientsQuery,
 } = apiSlice;
