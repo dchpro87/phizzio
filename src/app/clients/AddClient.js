@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 
@@ -21,13 +22,13 @@ export default function AddClient() {
   const [cellphone, setCellphone] = useState('');
 
   const { data: session } = useSession();
-  const { userId } = session.user;
 
   const btnColor = isUpdated ? 'primary.main' : 'secondary.main';
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
+    const { userId } = session.user;
 
     const payload = { name, email, cellphone, userId };
 

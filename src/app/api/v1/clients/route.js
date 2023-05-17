@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import dbConnect from '@/lib/dbConnect';
 import Client from '@/models/clientModel';
+import { getAll } from '@/lib/handlerFactory';
 
 export async function POST(req) {
   const body = await req.json();
