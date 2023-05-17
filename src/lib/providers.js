@@ -12,8 +12,10 @@ export function Providers({ children, session }) {
     <>
       <SessionProvider session={session}>
         <Provider store={store}>
-          <CssBaseline />
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            {children}
+          </ThemeProvider>
         </Provider>
       </SessionProvider>
     </>

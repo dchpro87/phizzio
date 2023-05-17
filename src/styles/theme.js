@@ -36,6 +36,10 @@ const theme = createTheme({
       hover: '#00000025',
       // hover: 'rgba(0, 0, 0, 0.2)',
     },
+    background: {
+      paper: '#f2f2f2',
+      default: '#EFF8E7',
+    },
   },
   shape: {
     borderRadius: 8,
