@@ -87,9 +87,9 @@ export const getOne = (Model, popOptions) =>
 //     });
 //   });
 
-export const getAll = async (Model, req) => {
+export const getAll = async (Model, query) => {
   const filter = {};
-  const features = new APIFeatures(Model.find(filter), req.query)
+  const features = new APIFeatures(Model.find(filter), query)
     .filter()
     .sort()
     .limitFields()

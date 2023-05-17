@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 
-export default function NoClient() {
+export default function NoClient({ onAddClicked }) {
   return (
     <Container maxWidth='sm'>
       <Paper
@@ -19,7 +19,11 @@ export default function NoClient() {
         <Typography variant='h3' component='h3' gutterBottom>
           No Clients found. Add some.
         </Typography>
-        <Button variant='contained' sx={{ color: 'text.light' }}>
+        <Button
+          variant='contained'
+          sx={{ color: 'text.light' }}
+          onClick={() => onAddClicked((prev) => !prev)}
+        >
           Add a client
         </Button>
       </Paper>

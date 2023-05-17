@@ -11,8 +11,9 @@ import Alert from '@mui/material/Alert';
 import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
+import { Button, Stack } from '@mui/material';
 
-export default function AddClient() {
+export default function AddClient({ onCancelClicked }) {
   const [message, setMessage] = useState('');
   const [isUpdated, setIsUpdated] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,8 +41,10 @@ export default function AddClient() {
       });
 
       const result = await response.json();
-      if (!result.ok) throw new Error(result.message);
-      setIsSubmitting(false);
+      if (result.status === 'fail') throw new Error(result.message);
+
+      setIsSubmitting((prev) => !prev);
+      onCancelClicked((prev) => !prev);
     } catch (err) {
       setIsSubmitting(false);
       setMessage(err.message);
@@ -113,15 +116,23 @@ export default function AddClient() {
               {message}
             </Alert>
           )}
-          <LoadingButton
-            size='small'
-            loading={isSubmitting}
-            variant='contained'
-            type='submit'
-            sx={{ bgcolor: btnColor, color: 'text.light' }}
-          >
-            <span>Add</span>
-          </LoadingButton>
+          <Stack direction='row' spacing={2}>
+            <LoadingButton
+              size='small'
+              loading={isSubmitting}
+              variant='contained'
+              type='submit'
+              sx={{ bgcolor: btnColor, color: 'text.light' }}
+            >
+              <span>Add</span>
+            </LoadingButton>
+            <Button
+              variant='outlined'
+              onClick={() => onCancelClicked((prev) => !prev)}
+            >
+              Cancel
+            </Button>
+          </Stack>
         </form>
       </Paper>
       <br />

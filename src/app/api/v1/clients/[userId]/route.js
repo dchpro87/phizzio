@@ -1,14 +1,22 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
+import { getAll } from '@/lib/handlerFactory';
 
 import dbConnect from '@/lib/dbConnect';
 import Client from '@/models/clientModel';
 
-export async function GET(req, { params }) {
-  await dbConnect();
-  console.log(params);
+export async function GET(request, response) {
+  //  get userid from parth params
+  const { userId } = response.params;
+
+  //  get query params from url
+  const { searchParams } = new URL(request.url);
+
+  //  convert query params to object
+  const queryParams = Object.fromEntries(searchParams.entries());
 
   try {
-    const clients = await Client.find({ userId: params.userId });
+    const clients = await Client.find({ userId, ...queryParams });
+
     if (!clients) throw new Error('No clients found');
 
     return NextResponse.json(clients, { status: 200 });
