@@ -15,6 +15,11 @@ const clientSchema = new mongoose.Schema(
     cellphone: {
       type: String,
     },
+    userId: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'A Client must belong to a User'],
+    },
   },
   {
     toJSON: { virtuals: true },

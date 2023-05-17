@@ -55,12 +55,12 @@ function ResponsiveAppBar() {
     if (href === 'logout') setShowDialog(true);
     if (href === 'profile') router.push(`/${href}`);
   };
-  if (status === 'loading')
-    return (
-      <Box sx={{ textAlign: 'center' }}>
-        <CircularProgress size='1rem' />
-      </Box>
-    );
+  // if (status === 'loading')
+  //   return (
+  //     <Box sx={{ textAlign: 'center' }}>
+  //       <CircularProgress size='1rem' />
+  //     </Box>
+  //   );
 
   return (
     <AppBar position='sticky'>

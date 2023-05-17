@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -19,13 +20,16 @@ export default function AddClient() {
   const [email, setEmail] = useState('');
   const [cellphone, setCellphone] = useState('');
 
+  const { data: session } = useSession();
+  const { userId } = session.user;
+
   const btnColor = isUpdated ? 'primary.main' : 'secondary.main';
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
 
-    const payload = { name, email, cellphone };
+    const payload = { name, email, cellphone, userId };
 
     try {
       const response = await fetch('/api/v1/clients', {
@@ -119,6 +123,10 @@ export default function AddClient() {
           </LoadingButton>
         </form>
       </Paper>
+      <br />
+      <br />
+      <br />
+      <br />
     </Container>
   );
 }

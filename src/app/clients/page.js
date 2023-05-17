@@ -1,7 +1,7 @@
 import AddClient from './AddClient';
 import NoClient from './NoClients';
 
-export default function Clients() {
+export default function ClientsMain() {
   return (
     <div>
       <NoClient />
