@@ -8,6 +8,8 @@ import { signOut } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 
+import { useGetUserByIdQuery } from '@/store/services/apiSlice';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -35,6 +37,9 @@ function ResponsiveAppBar() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const name = session?.user?.name;
+  const userId = session?.user?.userId;
+
+  const { isSuccess } = useGetUserByIdQuery(userId);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

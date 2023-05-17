@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 
+import { useCreateClientMutation } from '@/store/services/apiSlice';
+
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -16,7 +18,6 @@ import { Button, Stack } from '@mui/material';
 export default function AddClient({ onCancelClicked }) {
   const [message, setMessage] = useState('');
   const [isUpdated, setIsUpdated] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -26,27 +27,23 @@ export default function AddClient({ onCancelClicked }) {
 
   const btnColor = isUpdated ? 'primary.main' : 'secondary.main';
 
+  const [createClient, isLoading] = useCreateClientMutation();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setIsSubmitting(true);
     const { userId } = session.user;
 
     const payload = { name, email, cellphone, userId };
 
     try {
-      const response = await fetch('/api/v1/clients', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+      if (!payload.name || payload.name.trim().length < 3)
+        onCancelClicked((prev) => !prev);
+      const result = await createClient(payload);
+      console.log(result);
+      if (result.error) throw new Error(result.error.data.message);
 
-      const result = await response.json();
-      if (result.status === 'fail') throw new Error(result.message);
-
-      setIsSubmitting((prev) => !prev);
       onCancelClicked((prev) => !prev);
     } catch (err) {
-      setIsSubmitting(false);
       setMessage(err.message);
       console.log(err.message);
     }
@@ -119,7 +116,7 @@ export default function AddClient({ onCancelClicked }) {
           <Stack direction='row' spacing={2}>
             <LoadingButton
               size='small'
-              loading={isSubmitting}
+              loading={!isLoading}
               variant='contained'
               type='submit'
               sx={{ bgcolor: btnColor, color: 'text.light' }}

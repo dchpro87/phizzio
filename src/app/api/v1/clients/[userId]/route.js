@@ -14,8 +14,11 @@ export async function GET(request, response) {
   //  convert query params to object
   const queryParams = Object.fromEntries(searchParams.entries());
 
+  await dbConnect();
+
   try {
     // const clients = await Client.getAll({ userId, ...queryParams });
+
     const clients = await Client.find({ userId });
 
     if (!clients) throw new Error('No clients found');
