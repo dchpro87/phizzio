@@ -2,11 +2,11 @@ import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-export default function Client({ client }) {
+export default function Client({ client, onCardClicked }) {
   return (
     <Card
       sx={{
-        width: '14ch',
+        width: '19ch',
         mt: 2,
         p: 2,
         // bgcolor: "grey.900",
@@ -15,7 +15,7 @@ export default function Client({ client }) {
           cursor: 'pointer',
         },
       }}
-      onClick={() => {}}
+      onClick={() => onCardClicked(client.id)}
     >
       <Box display={'flex'} justifyContent={'space-between'}>
         <div>

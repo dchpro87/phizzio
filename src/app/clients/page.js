@@ -11,14 +11,16 @@ import { useGetClientsQuery } from '@/store/services/apiSlice';
 
 import NoClient from './NoClients';
 import AddClient from './AddClient';
+import UpdateClient from './UpdateClient';
 import ClientCard from './ClientCard';
 import ClientHeader from './ClientHeader';
 import Box from '@mui/material/Box';
 
 export default function ClientsMain() {
   const [isaddingClient, setIsAddingClient] = useState(false);
-
+  const [clickedClientId, setClickedClientId] = useState('');
   const { userId } = useSelector((state) => state.user);
+
   const {
     data: clients,
     isSuccess,
@@ -32,13 +34,19 @@ export default function ClientsMain() {
 
   if (isSuccess && clients.length > 0) {
     const clientsList = clients.map((client) => (
-      <ClientCard key={client._id} client={client} />
+      <ClientCard
+        key={client._id}
+        client={client}
+        onCardClicked={setClickedClientId}
+      />
     ));
 
     return (
       <Container maxWidth='sm'>
-        {isaddingClient && <AddClient onCancelClicked={setIsAddingClient} />}
-        {!isaddingClient && (
+        {isaddingClient && clickedClientId === '' && (
+          <AddClient onCancelClicked={setIsAddingClient} />
+        )}
+        {!isaddingClient && clickedClientId === '' && (
           <>
             <ClientHeader onAddClicked={setIsAddingClient} />
             <Box
@@ -46,12 +54,15 @@ export default function ClientsMain() {
                 display: 'flex',
                 flexDirection: 'rows',
                 flexWrap: 'wrap',
-                justifyContent: 'space-between',
+                justifyContent: 'space-around',
               }}
             >
               {clientsList}
             </Box>
           </>
+        )}
+        {clickedClientId.length > 0 && (
+          <UpdateClient onCancelClicked={() => setClickedClientId('')} />
         )}
       </Container>
     );
