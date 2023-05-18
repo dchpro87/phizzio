@@ -51,7 +51,7 @@ export const apiSlice = createApi({
       invalidatesTags: ['Client'],
     }),
     getClients: builder.query({
-      query: (queryStr) => `/clients/${queryStr}`,
+      query: (queryStr) => `/clients/${queryStr.userId}${queryStr.filter}`,
       providesTags: ['Client'],
     }),
   }),

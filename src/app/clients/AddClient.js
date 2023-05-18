@@ -50,7 +50,8 @@ export default function AddClient({ onCancelClicked }) {
   };
 
   return (
-    <Container maxWidth='sm'>
+    <>
+      {/* <Container maxWidth='sm'> */}
       <Paper
         sx={{
           p: 2,
@@ -136,6 +137,7 @@ export default function AddClient({ onCancelClicked }) {
       <br />
       <br />
       <br />
-    </Container>
+      {/* </Container> */}
+    </>
   );
 }

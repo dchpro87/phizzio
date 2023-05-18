@@ -17,9 +17,9 @@ export async function GET(request, response) {
   await dbConnect();
 
   try {
-    // const clients = await Client.getAll({ userId, ...queryParams });
+    const clients = await getAll(Client, { userId, ...queryParams });
 
-    const clients = await Client.find({ userId });
+    // const clients = await Client.find({ userId });
 
     if (!clients) throw new Error('No clients found');
 

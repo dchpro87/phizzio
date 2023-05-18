@@ -7,7 +7,8 @@ import Container from '@mui/material/Container';
 
 export default function NoClient({ onAddClicked }) {
   return (
-    <Container maxWidth='sm'>
+    <>
+      {/* <Container maxWidth='sm'> */}
       <Paper
         sx={{
           p: 2,
@@ -27,6 +28,7 @@ export default function NoClient({ onAddClicked }) {
           Add a client
         </Button>
       </Paper>
-    </Container>
+      {/* </Container> */}
+    </>
   );
 }

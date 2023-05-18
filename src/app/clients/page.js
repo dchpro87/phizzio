@@ -18,9 +18,12 @@ import Box from '@mui/material/Box';
 export default function ClientsMain() {
   const [isaddingClient, setIsAddingClient] = useState(false);
 
-  // const userId = '6461ed1cb88848b2ef3607c4';
   const { userId } = useSelector((state) => state.user);
-  const { data: clients, isSuccess, isLoading } = useGetClientsQuery(userId);
+  const {
+    data: clients,
+    isSuccess,
+    isLoading,
+  } = useGetClientsQuery({ userId, filter: '?sort=name' });
 
   const { status } = useSession();
   if (status === 'unauthenticated') signIn();
@@ -55,9 +58,9 @@ export default function ClientsMain() {
   }
 
   return (
-    <>
+    <Container maxWidth='sm'>
       {!isaddingClient && <NoClient onAddClicked={setIsAddingClient} />}
       {isaddingClient && <AddClient onCancelClicked={setIsAddingClient} />}
-    </>
+    </Container>
   );
 }
