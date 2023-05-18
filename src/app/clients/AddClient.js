@@ -27,7 +27,7 @@ export default function AddClient({ onCancelClicked }) {
 
   const btnColor = isUpdated ? 'primary.main' : 'secondary.main';
 
-  const [createClient, isLoading] = useCreateClientMutation();
+  const [createClient, mutationResult] = useCreateClientMutation();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -39,7 +39,6 @@ export default function AddClient({ onCancelClicked }) {
       if (!payload.name || payload.name.trim().length < 3)
         onCancelClicked((prev) => !prev);
       const result = await createClient(payload);
-      console.log(result);
       if (result.error) throw new Error(result.error.data.message);
 
       onCancelClicked((prev) => !prev);
@@ -117,7 +116,7 @@ export default function AddClient({ onCancelClicked }) {
           <Stack direction='row' spacing={2}>
             <LoadingButton
               size='small'
-              loading={!isLoading}
+              loading={mutationResult.isLoading}
               variant='contained'
               type='submit'
               sx={{ bgcolor: btnColor, color: 'text.light' }}

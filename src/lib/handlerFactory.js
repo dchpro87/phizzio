@@ -1,69 +1,80 @@
-import catchAsync from './catchAsync';
-import AppError from './appError';
+// import catchAsync from './catchAsync';
+// import AppError from './appError';
 import APIFeatures from './apiFeatures';
 
-export const deleteOne = (Model) =>
-  catchAsync(async (req, res, next) => {
-    const doc = await Model.findByIdAndDelete(req.params.id);
+export const getAll = async (Model, query) => {
+  const filter = {};
+  const features = new APIFeatures(Model.find(filter), query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
 
-    if (!doc) {
-      return next(new AppError('No document found with that ID', 404));
-    }
+  const doc = await features.query;
+  return doc;
+};
+// export const deleteOne = (Model) =>
+//   catchAsync(async (req, res, next) => {
+//     const doc = await Model.findByIdAndDelete(req.params.id);
 
-    res.status(204).json({
-      status: 'success',
-      data: null,
-    });
-  });
+//     if (!doc) {
+//       return next(new AppError('No document found with that ID', 404));
+//     }
 
-export const updateOne = (Model) =>
-  catchAsync(async (req, res, next) => {
-    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+//     res.status(204).json({
+//       status: 'success',
+//       data: null,
+//     });
+//   });
 
-    if (!doc) {
-      return next(new AppError('No document found with that ID', 404));
-    }
+// export const updateOne = (Model) =>
+//   catchAsync(async (req, res, next) => {
+//     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+//       new: true,
+//       runValidators: true,
+//     });
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: doc,
-      },
-    });
-  });
+//     if (!doc) {
+//       return next(new AppError('No document found with that ID', 404));
+//     }
 
-export const createOne = (Model) =>
-  catchAsync(async (req, res, next) => {
-    const doc = await Model.create(req.body);
+//     res.status(200).json({
+//       status: 'success',
+//       data: {
+//         data: doc,
+//       },
+//     });
+//   });
 
-    res.status(201).json({
-      status: 'success',
-      data: {
-        data: doc,
-      },
-    });
-  });
+// export const createOne = (Model) =>
+//   catchAsync(async (req, res, next) => {
+//     const doc = await Model.create(req.body);
 
-export const getOne = (Model, popOptions) =>
-  catchAsync(async (req, res, next) => {
-    let query = Model.findById(req.params.id);
-    if (popOptions) query = query.populate(popOptions);
-    const doc = await query;
+//     res.status(201).json({
+//       status: 'success',
+//       data: {
+//         data: doc,
+//       },
+//     });
+//   });
 
-    if (!doc) {
-      return next(new AppError('No document found with that ID', 404));
-    }
+// export const getOne = (Model, popOptions) =>
+//   catchAsync(async (req, res, next) => {
+//     let query = Model.findById(req.params.id);
+//     if (popOptions) query = query.populate(popOptions);
+//     const doc = await query;
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: doc,
-      },
-    });
-  });
+//     if (!doc) {
+//       return next(new AppError('No document found with that ID', 404));
+//     }
+
+//     res.status(200).json({
+//       status: 'success',
+//       data: {
+//         data: doc,
+//       },
+//     });
+//   });
 
 // export const getAll = (Model) =>
 //   catchAsync(async (req, res, next) => {
@@ -86,15 +97,3 @@ export const getOne = (Model, popOptions) =>
 //       },
 //     });
 //   });
-
-export const getAll = async (Model, query) => {
-  const filter = {};
-  const features = new APIFeatures(Model.find(filter), query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-
-  const doc = await features.query;
-  return doc;
-};

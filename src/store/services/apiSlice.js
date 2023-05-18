@@ -54,6 +54,22 @@ export const apiSlice = createApi({
       query: (queryStr) => `/clients/${queryStr.userId}${queryStr.filter}`,
       providesTags: ['Client'],
     }),
+    updateClient: builder.mutation({
+      query: (payload) => ({
+        url: '/clients',
+        method: 'PATCH',
+        body: payload,
+      }),
+      invalidatesTags: ['Client'],
+    }),
+    deleteClient: builder.mutation({
+      query: (payload) => ({
+        url: '/clients',
+        method: 'DELETE',
+        body: payload,
+      }),
+      invalidatesTags: ['Client'],
+    }),
   }),
 });
 
@@ -61,6 +77,8 @@ export const {
   useGetUserByIdQuery,
   useUpdateUserByIdMutation,
   useUpdatePasswordMutation,
-  useGetClientsQuery,
   useCreateClientMutation,
+  useGetClientsQuery,
+  useUpdateClientMutation,
+  useDeleteClientMutation,
 } = apiSlice;

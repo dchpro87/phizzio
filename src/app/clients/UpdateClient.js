@@ -1,9 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 
-import { useUpdateClientMutation } from '@/store/services/apiSlice';
+import {
+  useUpdateClientMutation,
+  useDeleteClientMutation,
+} from '@/store/services/apiSlice';
 
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -13,33 +16,52 @@ import Alert from '@mui/material/Alert';
 import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
-import { Button, Stack } from '@mui/material';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
-export default function UpdateClient({ onCancelClicked }) {
+import Dialog from '@/ui/Dialog';
+
+export default function UpdateClient({ client, onCancelClicked }) {
   const [message, setMessage] = useState('');
   const [isUpdated, setIsUpdated] = useState(true);
+  const [showDialog, setShowDialog] = useState(false);
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [cellphone, setCellphone] = useState('');
+  const [name, setName] = useState(client.name);
+  const [email, setEmail] = useState(client.email);
+  const [cellphone, setCellphone] = useState(client.cellphone);
 
-  const { data: session } = useSession();
+  const { status } = useSession();
 
   const btnColor = isUpdated ? 'primary.main' : 'secondary.main';
 
-  const [createClient, isLoading] = useUpdateClientMutation();
+  const [updateClient, mutationResult] = useUpdateClientMutation();
+  const [deleteClient, deleteResult] = useDeleteClientMutation();
+  if (status === 'unauthenticated') signIn();
+
+  const handleDeleteClient = async () => {
+    try {
+      setShowDialog((prev) => !prev);
+      const payload = { clientId: client.id };
+      const result = await deleteClient(payload);
+
+      if (result.error) throw new Error(result.error.data.message);
+      onCancelClicked((prev) => !prev);
+    } catch (err) {
+      setMessage(err.message);
+      console.log(err);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const { userId } = session.user;
 
-    const payload = { name, email, cellphone, userId };
+    const payload = { name, email, cellphone, clientId: client.id };
 
     try {
       if (!payload.name || payload.name.trim().length < 3)
         onCancelClicked((prev) => !prev);
-      const result = await createClient(payload);
-      console.log(result);
+      const result = await updateClient(payload);
+
       if (result.error) throw new Error(result.error.data.message);
 
       onCancelClicked((prev) => !prev);
@@ -51,7 +73,12 @@ export default function UpdateClient({ onCancelClicked }) {
 
   return (
     <>
-      {/* <Container maxWidth='sm'> */}
+      <Dialog
+        showDialog={showDialog}
+        closeDialog={() => setShowDialog((prev) => !prev)}
+        content='Delete this client?'
+        onConfirm={handleDeleteClient}
+      />
       <Paper
         sx={{
           p: 2,
@@ -117,13 +144,26 @@ export default function UpdateClient({ onCancelClicked }) {
           <Stack direction='row' spacing={2}>
             <LoadingButton
               size='small'
-              loading={!isLoading}
+              loading={mutationResult.isLoading}
               variant='contained'
               type='submit'
               sx={{ bgcolor: btnColor, color: 'text.light' }}
             >
               <span>Update</span>
             </LoadingButton>
+            <LoadingButton
+              size='small'
+              loading={deleteResult.isLoading}
+              variant='outlined'
+              onClick={() => setShowDialog((prev) => !prev)}
+            >
+              <span>Delete</span>
+            </LoadingButton>
+            {/* <Button
+              variant='outlined'
+            >
+              Delete Client
+            </Button> */}
             <Button
               variant='outlined'
               onClick={() => onCancelClicked((prev) => !prev)}
@@ -137,7 +177,6 @@ export default function UpdateClient({ onCancelClicked }) {
       <br />
       <br />
       <br />
-      {/* </Container> */}
     </>
   );
 }

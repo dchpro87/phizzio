@@ -7,7 +7,7 @@ export default function ClientHeader({ onAddClicked }) {
   return (
     <Paper sx={{ p: 2 }}>
       <Typography variant='h3' component='h3' gutterBottom>
-        Specs
+        Your Clients
       </Typography>
       <Divider />
       <Button

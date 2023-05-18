@@ -32,10 +32,12 @@ export default function ClientsMain() {
 
   if (isLoading) return <SpinnerWithMessage message='Fetching your clients' />;
 
+  const client = clients?.find((client) => client.id === clickedClientId);
+
   if (isSuccess && clients.length > 0) {
     const clientsList = clients.map((client) => (
       <ClientCard
-        key={client._id}
+        key={client.id}
         client={client}
         onCardClicked={setClickedClientId}
       />
@@ -62,7 +64,10 @@ export default function ClientsMain() {
           </>
         )}
         {clickedClientId.length > 0 && (
-          <UpdateClient onCancelClicked={() => setClickedClientId('')} />
+          <UpdateClient
+            client={client}
+            onCancelClicked={() => setClickedClientId('')}
+          />
         )}
       </Container>
     );
