@@ -13,9 +13,9 @@ export async function POST(req) {
 
   try {
     const userId = await getUserIdFromToken(req);
-    await incrementUserActivety(userId);
 
     const client = await Client.create(body);
+    await incrementUserActivety(userId);
 
     return NextResponse.json(client, { status: 201 });
   } catch (err) {

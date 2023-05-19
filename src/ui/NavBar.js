@@ -33,7 +33,7 @@ const settings = ['Profile', 'Logout'];
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [showDialog, setShowDialog] = useState(false);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [showCommentDialog, setShowCommentDialog] = useState(false);
 
   const router = useRouter();
@@ -59,22 +59,48 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = (event) => {
     const href = event.currentTarget.innerText.toLowerCase();
     setAnchorElUser(null);
-    if (href === 'logout') setShowDialog(true);
+    if (href === 'logout') setShowLogoutDialog(true);
     if (href === 'profile') router.push(`/${href}`);
+  };
+
+  const handleSendUserComment = async (userComment) => {
+    const payload = {
+      userComment,
+      userId,
+      name,
+    };
+
+    try {
+      const res = await fetch('/api/v1/users/comments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+      const result = await res.json();
+      if (!result.ok)
+        throw new Error(result.message || 'Something went wrong!');
+
+      setShowCommentDialog((prev) => !prev);
+    } catch (err) {
+      console.log(err.message);
+    }
+    setShowCommentDialog((prev) => !prev);
   };
 
   return (
     <AppBar position='sticky'>
       <Dialog
-        showDialog={showDialog}
-        closeDialog={() => setShowDialog((prev) => !prev)}
+        showDialog={showLogoutDialog}
+        closeDialog={() => setShowLogoutDialog((prev) => !prev)}
         content='Log out of PHIZZIO?'
         onConfirm={() => signOut({ callBackUrl: '/', redirect: true })}
       />
       <CommentDialog
         showDialog={showCommentDialog}
         closeDialog={() => setShowCommentDialog((prev) => !prev)}
-        onSend={() => {}}
+        onSend={handleSendUserComment}
       />
       <Container maxWidth='lg'>
         <Toolbar disableGutters>

@@ -12,7 +12,15 @@ export function capitalizeName(str) {
 
 //  get userId from jwt token
 export const getUserIdFromToken = async (req) => {
-  const token = await getToken({ req });
-  const { sub: userId } = token;
-  return userId;
+  try {
+    const token = await getToken({ req });
+    const { sub: userId } = token;
+    return userId;
+  } catch {
+    err;
+  }
+  {
+    console.log(err);
+    return err.message;
+  }
 };

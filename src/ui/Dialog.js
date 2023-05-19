@@ -1,13 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { forwardRef } from 'react';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
+// import DialogContent from '@mui/material/DialogContent';
+// import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction='up' ref={ref} {...props} />;
+});
 
 export default function AlertDialog({
   showDialog,
@@ -29,7 +34,8 @@ export default function AlertDialog({
   return (
     <Dialog
       open={showDialog}
-      onClose={closeDialog}
+      onClose={() => closeDialog((prev) => !prev)}
+      TransitionComponent={Transition}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
@@ -41,10 +47,10 @@ export default function AlertDialog({
         </DialogContent> */}
 
       <DialogActions>
-        <Button onClick={onConfirm}>Yes</Button>
-        <Button onClick={closeDialog} autoFocus>
+        <Button onClick={() => closeDialog((prev) => !prev)} autoFocus>
           No
         </Button>
+        <Button onClick={onConfirm}>Yes</Button>
       </DialogActions>
     </Dialog>
   );
