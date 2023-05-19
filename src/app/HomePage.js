@@ -36,6 +36,7 @@ export default function HomePage() {
           scheduling, and embrace a seamless and efficient approach to client
           management.
         </Typography>
+        <br />
         <Typography variant='h3' align='center' gutterBottom>
           Key Features:
         </Typography>

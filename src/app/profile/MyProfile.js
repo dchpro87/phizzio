@@ -15,7 +15,7 @@ import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-import { capitalizeName } from '../../helpers/utils';
+import { capitalizeName } from '../../lib/utils';
 
 export default function MyProfile() {
   const [message, setMessage] = useState('');

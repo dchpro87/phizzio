@@ -4,12 +4,12 @@ import { getAll } from '@/lib/handlerFactory';
 import dbConnect from '@/lib/dbConnect';
 import Client from '@/models/clientModel';
 
-export async function GET(request, response) {
+export async function GET(req, response) {
   //  get userid from path params
   const { userId } = response.params;
 
   //  get query params from url
-  const { searchParams } = new URL(request.url);
+  const { searchParams } = new URL(req.url);
 
   //  convert query searchParams object to POJO
   const queryParams = Object.fromEntries(searchParams.entries());
@@ -18,8 +18,6 @@ export async function GET(request, response) {
 
   try {
     const clients = await getAll(Client, { userId, ...queryParams });
-
-    // const clients = await Client.find({ userId });
 
     if (!clients) throw new Error('No clients found');
 

@@ -15,6 +15,8 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import { Button, Stack } from '@mui/material';
 
+import { capitalizeName } from '@/lib/utils';
+
 export default function AddClient({ onCancelClicked }) {
   const [message, setMessage] = useState('');
   const [isUpdated, setIsUpdated] = useState(true);

@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 
+import { incrementUserActivety } from '@/lib/incrementUserActivety';
+import { getUserIdFromToken } from '@/lib/utils';
+
 import dbConnect from '@/lib/dbConnect';
 import Client from '@/models/clientModel';
 
@@ -9,6 +12,9 @@ export async function POST(req) {
   await dbConnect();
 
   try {
+    const userId = await getUserIdFromToken(req);
+    await incrementUserActivety(userId);
+
     const client = await Client.create(body);
 
     return NextResponse.json(client, { status: 201 });
@@ -29,6 +35,9 @@ export async function PATCH(req) {
   await dbConnect();
 
   try {
+    const userId = await getUserIdFromToken(req);
+    await incrementUserActivety(userId);
+
     const client = await Client.findOneAndUpdate({ _id: body.clientId }, body);
 
     if (!client) throw new Error('Client not found!');
@@ -45,13 +54,16 @@ export async function PATCH(req) {
   }
 }
 
-export async function DELETE(request) {
-  const { searchParams } = new URL(request.url);
+export async function DELETE(req) {
+  const { searchParams } = new URL(req.url);
   const clientId = searchParams.get('clientId');
 
   await dbConnect();
 
   try {
+    const userId = await getUserIdFromToken(req);
+    await incrementUserActivety(userId);
+
     const client = await Client.findOneAndDelete({ _id: clientId });
 
     if (!client) throw new Error('Client not found!');

@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 import createUser from '../../features/create-user';
-import { capitalizeName } from '../../helpers/utils';
+import { capitalizeName } from '../../lib/utils';
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';

@@ -23,9 +23,9 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import MessageIcon from '@mui/icons-material/Message';
-// import CircularProgress from '@mui/material/CircularProgress';
 
 import Dialog from './Dialog';
+import CommentDialog from './CommentDialog';
 
 const pages = ['Clients'];
 const settings = ['Profile', 'Logout'];
@@ -34,13 +34,14 @@ function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
+  const [showCommentDialog, setShowCommentDialog] = useState(false);
 
   const router = useRouter();
   const { data: session, status } = useSession();
   const name = session?.user?.name;
   const userId = session?.user?.userId;
 
-  const { isSuccess } = useGetUserByIdQuery(userId);
+  useGetUserByIdQuery(userId);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -61,12 +62,6 @@ function ResponsiveAppBar() {
     if (href === 'logout') setShowDialog(true);
     if (href === 'profile') router.push(`/${href}`);
   };
-  // if (status === 'loading')
-  //   return (
-  //     <Box sx={{ textAlign: 'center' }}>
-  //       <CircularProgress size='1rem' />
-  //     </Box>
-  //   );
 
   return (
     <AppBar position='sticky'>
@@ -75,6 +70,11 @@ function ResponsiveAppBar() {
         closeDialog={() => setShowDialog((prev) => !prev)}
         content='Log out of PHIZZIO?'
         onConfirm={() => signOut({ callBackUrl: '/', redirect: true })}
+      />
+      <CommentDialog
+        showDialog={showCommentDialog}
+        closeDialog={() => setShowCommentDialog((prev) => !prev)}
+        onSend={() => {}}
       />
       <Container maxWidth='lg'>
         <Toolbar disableGutters>
@@ -185,20 +185,27 @@ function ResponsiveAppBar() {
               </Button>
             </Box>
           )}
-          <MessageIcon sx={{ mr: 2 }} />
+          <Tooltip arrow title='Send comments to the development dudes'>
+            <MessageIcon
+              sx={{
+                mr: 2,
+                color: 'grey.200',
+                '&:hover': { color: 'action.hover', cursor: 'pointer' },
+              }}
+              onClick={() => setShowCommentDialog((prev) => !prev)}
+            />
+          </Tooltip>
           {status === 'authenticated' && (
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip>
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar
-                    alt={`${name}`}
-                    src=''
-                    sx={{ bgcolor: 'secondary.main' }}
-                  >
-                    {name && name.at(0).toUpperCase()}
-                  </Avatar>
-                </IconButton>
-              </Tooltip>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar
+                  alt={`${name}`}
+                  src=''
+                  sx={{ bgcolor: 'secondary.main' }}
+                >
+                  {name && name.at(0).toUpperCase()}
+                </Avatar>
+              </IconButton>
               <Menu
                 sx={{ mt: '45px' }}
                 id='menu-appbar'
