@@ -6,9 +6,14 @@ const userCommentSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A User must have a name'],
     },
+    email: {
+      type: String,
+      lowercase: true,
+      // validate: [validator.isEmail, 'Please provide valid email'],
+    },
     userComment: {
       type: String,
-      required: [true, 'Must send a comment'],
+      // required: [true, 'Must send a comment'],
     },
     userId: {
       type: mongoose.Schema.ObjectId,

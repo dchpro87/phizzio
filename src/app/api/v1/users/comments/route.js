@@ -6,7 +6,6 @@ import UserComment from '@/models/userCommentModel';
 
 export async function POST(nextRequest) {
   const body = await nextRequest.json();
-  console.log(body);
 
   await dbConnect();
 

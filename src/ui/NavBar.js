@@ -40,6 +40,7 @@ function ResponsiveAppBar() {
   const { data: session, status } = useSession();
   const name = session?.user?.name;
   const userId = session?.user?.userId;
+  const email = session?.user?.email;
 
   useGetUserByIdQuery(userId);
 
@@ -68,6 +69,7 @@ function ResponsiveAppBar() {
       userComment,
       userId,
       name,
+      email,
     };
 
     try {
@@ -211,16 +213,18 @@ function ResponsiveAppBar() {
               </Button>
             </Box>
           )}
-          <Tooltip arrow title='Send comments to the development dudes'>
-            <MessageIcon
-              sx={{
-                mr: 2,
-                color: 'grey.200',
-                '&:hover': { color: 'action.hover', cursor: 'pointer' },
-              }}
-              onClick={() => setShowCommentDialog((prev) => !prev)}
-            />
-          </Tooltip>
+          {status === 'authenticated' && (
+            <Tooltip arrow title='Send comments to the development dudes'>
+              <MessageIcon
+                sx={{
+                  mr: 2,
+                  color: 'grey.200',
+                  '&:hover': { color: 'action.hover', cursor: 'pointer' },
+                }}
+                onClick={() => setShowCommentDialog((prev) => !prev)}
+              />
+            </Tooltip>
+          )}
           {status === 'authenticated' && (
             <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
