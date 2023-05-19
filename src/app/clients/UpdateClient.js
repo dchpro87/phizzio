@@ -36,13 +36,15 @@ export default function UpdateClient({ client, onCancelClicked }) {
 
   const [updateClient, mutationResult] = useUpdateClientMutation();
   const [deleteClient, deleteResult] = useDeleteClientMutation();
+
   if (status === 'unauthenticated') signIn();
 
   const handleDeleteClient = async () => {
     try {
       setShowDialog((prev) => !prev);
       const payload = { clientId: client.id };
-      const result = await deleteClient(payload);
+
+      const result = await deleteClient(payload).unwrap();
 
       if (result.error) throw new Error(result.error.data.message);
       onCancelClicked((prev) => !prev);

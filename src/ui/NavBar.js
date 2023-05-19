@@ -22,6 +22,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import MessageIcon from '@mui/icons-material/Message';
 // import CircularProgress from '@mui/material/CircularProgress';
 
 import Dialog from './Dialog';
@@ -184,6 +185,7 @@ function ResponsiveAppBar() {
               </Button>
             </Box>
           )}
+          <MessageIcon sx={{ mr: 2 }} />
           {status === 'authenticated' && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip>

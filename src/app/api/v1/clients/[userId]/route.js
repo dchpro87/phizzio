@@ -5,13 +5,13 @@ import dbConnect from '@/lib/dbConnect';
 import Client from '@/models/clientModel';
 
 export async function GET(request, response) {
-  //  get userid from parth params
+  //  get userid from path params
   const { userId } = response.params;
 
   //  get query params from url
   const { searchParams } = new URL(request.url);
 
-  //  convert query params to object
+  //  convert query searchParams object to POJO
   const queryParams = Object.fromEntries(searchParams.entries());
 
   await dbConnect();

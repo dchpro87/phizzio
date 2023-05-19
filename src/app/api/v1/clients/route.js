@@ -25,7 +25,6 @@ export async function POST(req) {
 
 export async function PATCH(req) {
   const body = await req.json();
-  console.log(body);
 
   await dbConnect();
 
@@ -46,24 +45,25 @@ export async function PATCH(req) {
   }
 }
 
-export async function DELETE(req) {
-  console.log('💥💥');
-  const body = await req.json();
-  console.log(body);
+export async function DELETE(request) {
+  const { searchParams } = new URL(request.url);
+  const clientId = searchParams.get('clientId');
 
-  // await dbConnect();
+  await dbConnect();
 
-  // try {
-  //   const client = await Client.findOneAndDelete({ _id: body.clientId });
+  try {
+    const client = await Client.findOneAndDelete({ _id: clientId });
 
-  //   return NextResponse.json({ status: 'success' }, { status: 204 });
-  // } catch (err) {
-  //   return NextResponse.json(
-  //     {
-  //       status: 'fail',
-  //       message: err.message,
-  //     },
-  //     { status: 400 }
-  //   );
-  // }
+    if (!client) throw new Error('Client not found!');
+
+    return NextResponse.json(client, { status: 200 });
+  } catch (err) {
+    return NextResponse.json(
+      {
+        status: 'fail',
+        message: err.message,
+      },
+      { status: 400 }
+    );
+  }
 }

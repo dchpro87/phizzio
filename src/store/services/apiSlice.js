@@ -64,7 +64,7 @@ export const apiSlice = createApi({
     }),
     deleteClient: builder.mutation({
       query: (payload) => ({
-        url: '/clients',
+        url: `/clients?clientId=${payload.clientId}`,
         method: 'DELETE',
         body: payload,
       }),

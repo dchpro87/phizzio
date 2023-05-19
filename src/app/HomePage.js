@@ -23,17 +23,20 @@ export default function HomePage() {
           height={128}
           alt='PHIZZIO Logo'
         />
-        <Typography variant='h4' component='h1' align='center' gutterBottom>
-          Welcome to Phizio: Streamline Your Physiotherapy Practice
+        <Typography variant='h1' component='h1' align='center' gutterBottom>
+          Welcome to Phi:zio
+        </Typography>
+        <Typography variant='h2' component='h2' align='center' gutterBottom>
+          Streamline Your Physiotherapy Practice
         </Typography>
         <Typography variant='body1' align='center' gutterBottom>
-          Phizio is a revolutionary web application designed to empower
+          Phi:zio is a revolutionary web application designed to empower
           physiotherapists in managing their clients and optimizing their
           practice. Say goodbye to manual record-keeping and disorganized
           scheduling, and embrace a seamless and efficient approach to client
           management.
         </Typography>
-        <Typography variant='h6' align='center' gutterBottom>
+        <Typography variant='h3' align='center' gutterBottom>
           Key Features:
         </Typography>
         <ul>
@@ -41,13 +44,13 @@ export default function HomePage() {
             <Typography variant='body1'>
               <strong>Client Management Made Easy:</strong> Keep track of your
               clients' information, progress, and appointments all in one place.
-              Phizio simplifies client management, allowing you to access
+              Phi:zio simplifies client management, allowing you to access
               crucial details and history with just a few clicks.
             </Typography>
           </li>
           <li>
             <Typography variant='body1'>
-              <strong>Effortless Booking Organization:</strong> With Phizio,
+              <strong>Effortless Booking Organization:</strong> With Phi:zio,
               scheduling appointments becomes a breeze. Seamlessly manage your
               calendar, check availability, and book sessions efficiently,
               ensuring optimal time management for both you and your clients.
@@ -55,15 +58,15 @@ export default function HomePage() {
           </li>
           <li>
             <Typography variant='body1'>
-              <strong>Intuitive User Interface:</strong> Phizio boasts a modern
+              <strong>Intuitive User Interface:</strong> Phi:zio boasts a modern
               and intuitive user interface that enhances your workflow. With a
               clean and visually appealing design, navigating through the app
               becomes a delightful experience.
             </Typography>
           </li>
         </ul>
-        <Typography variant='h6' align='center' gutterBottom>
-          Benefits of Using Phizio:
+        <Typography variant='h3' align='center' gutterBottom>
+          Benefits of Using Phi:zio:
         </Typography>
         <ul>
           <li>
@@ -76,7 +79,7 @@ export default function HomePage() {
           <li>
             <Typography variant='body1'>
               <strong>Enhanced Organization:</strong> Say goodbye to scattered
-              spreadsheets and notebooks. Phizio centralizes all your client
+              spreadsheets and notebooks. Phi:zio centralizes all your client
               data, making it easily accessible and simplifying your practice's
               organization.
             </Typography>
@@ -91,15 +94,15 @@ export default function HomePage() {
           </li>
           <li>
             <Typography variant='body1'>
-              <strong>Data-driven Insights:</strong> Leverage Phizio's reporting
-              and analytics features to gain valuable insights into your
-              practice's performance, track client progress, and identify areas
-              for improvement.
+              <strong>Data-driven Insights:</strong> Leverage Phi:zio's
+              reporting and analytics features to gain valuable insights into
+              your practice's performance, track client progress, and identify
+              areas for improvement.
             </Typography>
           </li>
         </ul>
         <Typography variant='body1' align='center'>
-          Get Started with Phizio Today
+          Get Started with Phi:zio Today
         </Typography>
         {status === 'unauthenticated' && (
           <Button
