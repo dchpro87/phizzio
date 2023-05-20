@@ -31,7 +31,7 @@ export default function CommentDialog({ showDialog, closeDialog, onSend }) {
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
-      <DialogTitle>Any comments</DialogTitle>
+      <DialogTitle>Any comments?</DialogTitle>
       <DialogContent>
         <DialogContentText>Send a comment to the developer.</DialogContentText>
         <TextField
@@ -43,7 +43,7 @@ export default function CommentDialog({ showDialog, closeDialog, onSend }) {
           fullWidth
           variant='standard'
           multiline
-          rows={4}
+          rows={3}
           value={userComment}
           onChange={(e) => setUserComment(e.target.value)}
         />

@@ -18,6 +18,10 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
 
 import Dialog from '@/ui/Dialog';
 
@@ -81,100 +85,108 @@ export default function UpdateClient({ client, onCancelClicked }) {
         content='Delete this client?'
         onConfirm={handleDeleteClient}
       />
-      <Paper
+      {/* <Paper
         sx={{
           p: 2,
         }}
-      >
-        <Typography variant='h3' component='h3' gutterBottom>
-          Update client
-        </Typography>
-
+      > */}
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls='panel1a-content'
+          id='panel1a-header'
+        >
+          <Typography variant='h3' component='h3' gutterBottom>
+            {client.name}
+          </Typography>
+        </AccordionSummary>
         <Divider />
-
-        <form onSubmit={handleSubmit}>
-          <Box
-            my={2}
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              '& .MuiTextField-root': { my: 1 },
-            }}
-          >
-            <TextField
-              id='full-name'
-              size='small'
-              name='fullName'
-              type='text'
-              value={name ? name : ''}
-              label='Full Name'
-              onChange={(e) => {
-                setName(e.target.value);
-                setIsUpdated(false);
+        <AccordionDetails>
+          <form onSubmit={handleSubmit}>
+            <Box
+              my={2}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                '& .MuiTextField-root': { my: 1 },
               }}
-            />
-            <TextField
-              id='email'
-              size='small'
-              name='email'
-              type='email'
-              value={email ? email : ''}
-              label='Email'
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setIsUpdated(false);
-              }}
-            />
-            <TextField
-              id='cellphone'
-              size='small'
-              name='cellphone'
-              type='tel'
-              value={cellphone ? cellphone : ''}
-              label='Cellphone'
-              onChange={(e) => {
-                setCellphone(e.target.value);
-                setIsUpdated(false);
-              }}
-            />
-          </Box>
-          {message && (
-            <Alert severity='info' sx={{ m: 1 }}>
-              {message}
-            </Alert>
-          )}
-          <Stack direction='row' spacing={2}>
-            <LoadingButton
-              size='small'
-              loading={mutationResult.isLoading}
-              variant='contained'
-              type='submit'
-              sx={{ bgcolor: btnColor, color: 'text.light' }}
             >
-              <span>Update</span>
-            </LoadingButton>
-            <LoadingButton
-              size='small'
-              loading={deleteResult.isLoading}
-              variant='outlined'
-              onClick={() => setShowDialog((prev) => !prev)}
-            >
-              <span>Delete</span>
-            </LoadingButton>
-            {/* <Button
+              <TextField
+                id='full-name'
+                size='small'
+                name='fullName'
+                type='text'
+                value={name ? name : ''}
+                label='Full Name'
+                onChange={(e) => {
+                  setName(e.target.value);
+                  setIsUpdated(false);
+                }}
+              />
+              <TextField
+                id='email'
+                size='small'
+                name='email'
+                type='email'
+                value={email ? email : ''}
+                label='Email'
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setIsUpdated(false);
+                }}
+              />
+              <TextField
+                id='cellphone'
+                size='small'
+                name='cellphone'
+                type='tel'
+                value={cellphone ? cellphone : ''}
+                label='Cellphone'
+                onChange={(e) => {
+                  setCellphone(e.target.value);
+                  setIsUpdated(false);
+                }}
+              />
+            </Box>
+            {message && (
+              <Alert severity='info' sx={{ m: 1 }}>
+                {message}
+              </Alert>
+            )}
+            <Stack direction='row' spacing={2}>
+              <LoadingButton
+                size='small'
+                loading={mutationResult.isLoading}
+                variant='contained'
+                type='submit'
+                sx={{ bgcolor: btnColor, color: 'text.light' }}
+              >
+                <span>Update</span>
+              </LoadingButton>
+              <LoadingButton
+                size='small'
+                loading={deleteResult.isLoading}
+                variant='outlined'
+                onClick={() => setShowDialog((prev) => !prev)}
+              >
+                <span>Delete</span>
+              </LoadingButton>
+              {/* <Button
               variant='outlined'
             >
               Delete Client
             </Button> */}
-            <Button
-              variant='outlined'
-              onClick={() => onCancelClicked((prev) => !prev)}
-            >
-              Cancel
-            </Button>
-          </Stack>
-        </form>
-      </Paper>
+              <Button
+                variant='outlined'
+                onClick={() => onCancelClicked((prev) => !prev)}
+              >
+                Cancel
+              </Button>
+            </Stack>
+          </form>
+        </AccordionDetails>
+      </Accordion>
+      {/* </Paper> */}
       <br />
       <br />
       <br />

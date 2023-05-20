@@ -44,7 +44,7 @@ export default function HomePage() {
           <li>
             <Typography variant='body1'>
               <strong>Client Management Made Easy:</strong> Keep track of your
-              clients' information, progress, and appointments all in one place.
+              clients information, progress, and appointments all in one place.
               Phi:zio simplifies client management, allowing you to access
               crucial details and history with just a few clicks.
             </Typography>

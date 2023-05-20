@@ -214,7 +214,7 @@ function ResponsiveAppBar() {
             </Box>
           )}
           {status === 'authenticated' && (
-            <Tooltip arrow title='Send comments to the development dudes'>
+            <Tooltip arrow title='Send comments to the developer guys'>
               <MessageIcon
                 sx={{
                   mr: 2,

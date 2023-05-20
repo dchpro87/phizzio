@@ -10,9 +10,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />;
-});
+// const Transition = forwardRef(function Transition(props, ref) {
+//   return <Slide direction='up' ref={ref} {...props} />;
+// });
 
 export default function AlertDialog({
   showDialog,
@@ -35,7 +35,7 @@ export default function AlertDialog({
     <Dialog
       open={showDialog}
       onClose={() => closeDialog((prev) => !prev)}
-      TransitionComponent={Transition}
+      // TransitionComponent={Transition}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
