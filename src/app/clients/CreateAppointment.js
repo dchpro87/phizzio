@@ -13,9 +13,15 @@ import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 export default function CreateAppointment({ onCancelClicked }) {
   const [message, setMessage] = useState('');
@@ -63,7 +69,7 @@ export default function CreateAppointment({ onCancelClicked }) {
             '& .MuiTextField-root': { my: 1 },
           }}
         >
-          <DatePicker
+          <DateTimePicker
             label='Date'
             // value={dayjs(dateRaised)}
             // onChange={handleDateRaisedChange}
@@ -71,6 +77,40 @@ export default function CreateAppointment({ onCancelClicked }) {
             // slotProps={{ field: { InputProps: { size: 'small' } } }}
             // disabled={isDisabled}
           />
+          <FormControl>
+            <FormLabel id='demo-row-radio-buttons-group-label'>Type</FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby='demo-row-radio-buttons-group-label'
+              name='row-radio-buttons-group'
+            >
+              <FormControlLabel
+                value='musculoskeletal-disorders'
+                control={<Radio />}
+                label='Musculoskeletal disorders'
+              />
+              <FormControlLabel
+                value='sports-injuries'
+                control={<Radio />}
+                label='Sports injuries'
+              />
+              <FormControlLabel
+                value='post-surgical-rehabilitation'
+                control={<Radio />}
+                label='Post-surgical rehabilitation'
+              />
+              <FormControlLabel
+                value='chronic-pain'
+                control={<Radio />}
+                label='Chronic pain'
+              />
+              <FormControlLabel
+                value='pediatric'
+                control={<Radio />}
+                label='Pediatric'
+              />
+            </RadioGroup>
+          </FormControl>
         </Box>
         {message && (
           <Alert severity='info' sx={{ m: 1 }}>

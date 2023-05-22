@@ -16,6 +16,9 @@ const appointmentSchema = new mongoose.Schema(
       type: Date,
       required: [true, 'An Appointment must have a date and time'],
     },
+    treatmentType: {
+      type: String,
+    },
     confirmed: {
       type: Boolean,
       default: false,
@@ -32,7 +35,7 @@ const appointmentSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    complaint: {
+    causality: {
       type: String,
     },
     treatmentNote: {

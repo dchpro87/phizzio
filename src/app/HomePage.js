@@ -81,8 +81,8 @@ export default function HomePage() {
             <Typography variant='body1'>
               <strong>Enhanced Organization:</strong> Say goodbye to scattered
               spreadsheets and notebooks. Phi:zio centralizes all your client
-              data, making it easily accessible and simplifying your practice's
-              organization.
+              data, making it easily accessible and simplifying your practice
+              &apos;s organization.
             </Typography>
           </li>
           <li>
@@ -95,10 +95,10 @@ export default function HomePage() {
           </li>
           <li>
             <Typography variant='body1'>
-              <strong>Data-driven Insights:</strong> Leverage Phi:zio's
+              <strong>Data-driven Insights:</strong> Leverage Phi:zio&apos;s
               reporting and analytics features to gain valuable insights into
-              your practice's performance, track client progress, and identify
-              areas for improvement.
+              your practice&apos;s performance, track client progress, and
+              identify areas for improvement.
             </Typography>
           </li>
         </ul>
