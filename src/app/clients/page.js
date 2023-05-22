@@ -6,18 +6,21 @@ import { useSelector } from 'react-redux';
 
 import SpinnerWithMessage from '@/ui/SpinnerWithMessage';
 import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 
 import { useGetClientsQuery } from '@/store/services/apiSlice';
 
 import NoClient from './NoClients';
-import AddClient from './AddClient';
-import UpdateClient from './UpdateClient';
+import CreateClient from './CreateClient';
+import ClientDetails from './ClientDetails';
 import ClientCard from './ClientCard';
 import ClientHeader from './ClientHeader';
-import Box from '@mui/material/Box';
+import ClientMenu from './ClientMenu';
+import CreateAppointment from './CreateAppointment';
 
 export default function ClientsMain() {
   const [isAddingClient, setIsAddingClient] = useState(false);
+  const [isAddingAppointment, setIsAddingAppointment] = useState(false);
   const [clickedClientId, setClickedClientId] = useState('');
   const { userId } = useSelector((state) => state.user);
 
@@ -49,6 +52,19 @@ export default function ClientsMain() {
           <ClientHeader onAddClicked={setIsAddingClient} />
         )}
 
+        {!isAddingClient && clickedClientId.length > 0 && (
+          <ClientMenu
+            name={client.name}
+            onBackClicked={() => {
+              setClickedClientId('');
+              setIsAddingAppointment(false);
+            }}
+            onBookClicked={() => {
+              setIsAddingAppointment(true);
+            }}
+          />
+        )}
+
         {!isAddingClient && clickedClientId === '' && (
           <Box
             sx={{
@@ -63,13 +79,18 @@ export default function ClientsMain() {
         )}
 
         {isAddingClient && clickedClientId === '' && (
-          <AddClient onCancelClicked={setIsAddingClient} />
+          <CreateClient onCancelClicked={setIsAddingClient} />
         )}
 
         {clickedClientId.length > 0 && (
-          <UpdateClient
+          <ClientDetails
             client={client}
             onCancelClicked={() => setClickedClientId('')}
+          />
+        )}
+        {isAddingAppointment && (
+          <CreateAppointment
+            onCancelClicked={() => setIsAddingAppointment(false)}
           />
         )}
       </Container>
@@ -79,7 +100,7 @@ export default function ClientsMain() {
   return (
     <Container maxWidth='sm'>
       {!isAddingClient && <NoClient onAddClicked={setIsAddingClient} />}
-      {isAddingClient && <AddClient onCancelClicked={setIsAddingClient} />}
+      {isAddingClient && <CreateClient onCancelClicked={setIsAddingClient} />}
     </Container>
   );
 }

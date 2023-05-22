@@ -53,12 +53,7 @@ export default function AddClient({ onCancelClicked }) {
 
   return (
     <>
-      {/* <Container maxWidth='sm'> */}
-      <Paper
-        sx={{
-          p: 2,
-        }}
-      >
+      <Paper sx={{ p: 2 }}>
         <Typography variant='h3' component='h3' gutterBottom>
           Add a client
         </Typography>
@@ -153,7 +148,6 @@ export default function AddClient({ onCancelClicked }) {
       <br />
       <br />
       <br />
-      {/* </Container> */}
     </>
   );
 }

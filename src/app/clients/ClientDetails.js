@@ -22,14 +22,15 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 import Dialog from '@/ui/Dialog';
 
-export default function UpdateClient({ client, onCancelClicked }) {
+export default function ClientDetals({ client, onCancelClicked }) {
   const [message, setMessage] = useState('');
   const [isUpdated, setIsUpdated] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
-  const [expandClientUpdate, setExpandClientUpdate] = useState(true);
+  const [expandClientUpdate, setExpandClientUpdate] = useState(false);
 
   const [name, setName] = useState(client.name);
   const [email, setEmail] = useState(client.email);
@@ -60,10 +61,29 @@ export default function UpdateClient({ client, onCancelClicked }) {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmitClientDetails = async (event) => {
     event.preventDefault();
 
     const payload = { name, email, cellphone, clientId: client.id, note };
+
+    try {
+      if (!payload.name || payload.name.trim().length < 3)
+        onCancelClicked((prev) => !prev);
+      const result = await updateClient(payload);
+
+      if (result.error) throw new Error(result.error.data.message);
+
+      onCancelClicked((prev) => !prev);
+    } catch (err) {
+      setMessage(err.message);
+      console.log(err.message);
+    }
+  };
+
+  const handleSubmitAppointment = async (event) => {
+    event.preventDefault();
+
+    const payload = {};
 
     try {
       if (!payload.name || payload.name.trim().length < 3)
@@ -87,48 +107,23 @@ export default function UpdateClient({ client, onCancelClicked }) {
         content='Delete this client?'
         onConfirm={handleDeleteClient}
       />
-      <Paper sx={{ p: 2 }}>
-        <Typography variant='h3' component='h3' gutterBottom>
-          {client.name}
-        </Typography>
-        <Divider sx={{ mb: 2 }} />
-        <Stack direction='row' spacing={2}>
-          <Button
-            variant='contained'
-            size='small'
-            onClick={() => onCancelClicked((prev) => !prev)}
-            sx={{ color: 'text.light' }}
-          >
-            Back
-          </Button>
-          <Button
-            variant='contained'
-            size='small'
-            onClick={() => onCancelClicked((prev) => !prev)}
-            sx={{ color: 'text.light' }}
-          >
-            Book
-          </Button>
-        </Stack>
-      </Paper>
 
-      <Accordion
-        expanded={expandClientUpdate}
-        onClick={() => setExpandClientUpdate((prev) => !prev)}
-      >
+      <Accordion expanded={expandClientUpdate}>
         <AccordionSummary
+          onClick={() => setExpandClientUpdate((prev) => !prev)}
           expandIcon={<ExpandMoreIcon />}
           aria-controls='panel1a-content'
           id='panel1a-header'
         >
-          <Typography variant='h3' component='h3'>
-            Update Client
+          <Typography variant='h4' component='h4'>
+            Details
           </Typography>
         </AccordionSummary>
+        <Divider />
         <AccordionDetails>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmitClientDetails}>
             <Box
-              my={2}
+              mb={2}
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -197,7 +192,7 @@ export default function UpdateClient({ client, onCancelClicked }) {
                 loading={mutationResult.isLoading}
                 variant='contained'
                 type='submit'
-                sx={{ color: 'text.light' }}
+                sx={{ backgroundColor: btnColor, color: 'text.light' }}
               >
                 <span>Update</span>
               </LoadingButton>
@@ -220,11 +215,6 @@ export default function UpdateClient({ client, onCancelClicked }) {
           </form>
         </AccordionDetails>
       </Accordion>
-
-      <br />
-      <br />
-      <br />
-      <br />
     </>
   );
 }
