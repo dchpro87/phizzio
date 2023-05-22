@@ -17,7 +17,7 @@ import ClientHeader from './ClientHeader';
 import Box from '@mui/material/Box';
 
 export default function ClientsMain() {
-  const [isaddingClient, setIsAddingClient] = useState(false);
+  const [isAddingClient, setIsAddingClient] = useState(false);
   const [clickedClientId, setClickedClientId] = useState('');
   const { userId } = useSelector((state) => state.user);
 
@@ -45,24 +45,27 @@ export default function ClientsMain() {
 
     return (
       <Container maxWidth='sm'>
-        {isaddingClient && clickedClientId === '' && (
+        {!isAddingClient && clickedClientId === '' && (
+          <ClientHeader onAddClicked={setIsAddingClient} />
+        )}
+
+        {!isAddingClient && clickedClientId === '' && (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'rows',
+              flexWrap: 'wrap',
+              justifyContent: 'space-around',
+            }}
+          >
+            {clientsList}
+          </Box>
+        )}
+
+        {isAddingClient && clickedClientId === '' && (
           <AddClient onCancelClicked={setIsAddingClient} />
         )}
-        {!isaddingClient && clickedClientId === '' && (
-          <>
-            <ClientHeader onAddClicked={setIsAddingClient} />
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'rows',
-                flexWrap: 'wrap',
-                justifyContent: 'space-around',
-              }}
-            >
-              {clientsList}
-            </Box>
-          </>
-        )}
+
         {clickedClientId.length > 0 && (
           <UpdateClient
             client={client}
@@ -75,8 +78,8 @@ export default function ClientsMain() {
 
   return (
     <Container maxWidth='sm'>
-      {!isaddingClient && <NoClient onAddClicked={setIsAddingClient} />}
-      {isaddingClient && <AddClient onCancelClicked={setIsAddingClient} />}
+      {!isAddingClient && <NoClient onAddClicked={setIsAddingClient} />}
+      {isAddingClient && <AddClient onCancelClicked={setIsAddingClient} />}
     </Container>
   );
 }

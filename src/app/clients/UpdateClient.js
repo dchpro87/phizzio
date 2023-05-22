@@ -29,6 +29,7 @@ export default function UpdateClient({ client, onCancelClicked }) {
   const [message, setMessage] = useState('');
   const [isUpdated, setIsUpdated] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
+  const [expandClientUpdate, setExpandClientUpdate] = useState(true);
 
   const [name, setName] = useState(client.name);
   const [email, setEmail] = useState(client.email);
@@ -87,6 +88,10 @@ export default function UpdateClient({ client, onCancelClicked }) {
         onConfirm={handleDeleteClient}
       />
       <Paper sx={{ p: 2 }}>
+        <Typography variant='h3' component='h3' gutterBottom>
+          {client.name}
+        </Typography>
+        <Divider sx={{ mb: 2 }} />
         <Stack direction='row' spacing={2}>
           <Button
             variant='contained'
@@ -107,17 +112,19 @@ export default function UpdateClient({ client, onCancelClicked }) {
         </Stack>
       </Paper>
 
-      <Accordion>
+      <Accordion
+        expanded={expandClientUpdate}
+        onClick={() => setExpandClientUpdate((prev) => !prev)}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls='panel1a-content'
           id='panel1a-header'
         >
-          <Typography variant='h3' component='h3' gutterBottom>
-            {client.name}
+          <Typography variant='h3' component='h3'>
+            Update Client
           </Typography>
         </AccordionSummary>
-        <Divider />
         <AccordionDetails>
           <form onSubmit={handleSubmit}>
             <Box
@@ -204,7 +211,8 @@ export default function UpdateClient({ client, onCancelClicked }) {
               </LoadingButton>
               <Button
                 variant='outlined'
-                onClick={() => onCancelClicked((prev) => !prev)}
+                // onClick={() => onCancelClicked((prev) => !prev)}
+                onClick={() => setExpandClientUpdate((prev) => !prev)}
               >
                 Cancel
               </Button>
