@@ -24,6 +24,7 @@ export default function AddClient({ onCancelClicked }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [cellphone, setCellphone] = useState('');
+  const [note, setNote] = useState('');
 
   const { data: session } = useSession();
 
@@ -35,7 +36,7 @@ export default function AddClient({ onCancelClicked }) {
     event.preventDefault();
     const { userId } = session.user;
 
-    const payload = { name, email, cellphone, userId };
+    const payload = { name, email, cellphone, userId, note };
 
     try {
       if (!payload.name || payload.name.trim().length < 3)
@@ -106,6 +107,20 @@ export default function AddClient({ onCancelClicked }) {
               label='Cellphone'
               onChange={(e) => {
                 setCellphone(e.target.value);
+                setIsUpdated(false);
+              }}
+            />
+            <TextField
+              id='note'
+              size='small'
+              name='note'
+              multiline
+              type='text'
+              rows={3}
+              value={note ? note : ''}
+              label='Notes'
+              onChange={(e) => {
+                setNote(e.target.value);
                 setIsUpdated(false);
               }}
             />

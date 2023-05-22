@@ -8,6 +8,7 @@ import Client from '@/models/clientModel';
 
 export async function POST(req) {
   const body = await req.json();
+  console.log(body);
 
   await dbConnect();
 
@@ -16,6 +17,7 @@ export async function POST(req) {
 
     const client = await Client.create(body);
     await incrementUserActivety(userId);
+    console.log(client);
 
     return NextResponse.json(client, { status: 201 });
   } catch (err) {

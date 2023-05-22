@@ -65,6 +65,11 @@ function ResponsiveAppBar() {
   };
 
   const handleSendUserComment = async (userComment) => {
+    if (userComment.trim() === '') {
+      setShowCommentDialog((prev) => !prev);
+      return;
+    }
+
     const payload = {
       userComment,
       userId,

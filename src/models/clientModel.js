@@ -15,6 +15,9 @@ const clientSchema = new mongoose.Schema(
     cellphone: {
       type: String,
     },
+    note: {
+      type: String,
+    },
     userId: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',

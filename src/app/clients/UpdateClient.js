@@ -33,6 +33,7 @@ export default function UpdateClient({ client, onCancelClicked }) {
   const [name, setName] = useState(client.name);
   const [email, setEmail] = useState(client.email);
   const [cellphone, setCellphone] = useState(client.cellphone);
+  const [note, setNote] = useState(client.note);
 
   const { status } = useSession();
 
@@ -61,7 +62,7 @@ export default function UpdateClient({ client, onCancelClicked }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const payload = { name, email, cellphone, clientId: client.id };
+    const payload = { name, email, cellphone, clientId: client.id, note };
 
     try {
       if (!payload.name || payload.name.trim().length < 3)
@@ -85,11 +86,27 @@ export default function UpdateClient({ client, onCancelClicked }) {
         content='Delete this client?'
         onConfirm={handleDeleteClient}
       />
-      {/* <Paper
-        sx={{
-          p: 2,
-        }}
-      > */}
+      <Paper sx={{ p: 2 }}>
+        <Stack direction='row' spacing={2}>
+          <Button
+            variant='contained'
+            size='small'
+            onClick={() => onCancelClicked((prev) => !prev)}
+            sx={{ color: 'text.light' }}
+          >
+            Back
+          </Button>
+          <Button
+            variant='contained'
+            size='small'
+            onClick={() => onCancelClicked((prev) => !prev)}
+            sx={{ color: 'text.light' }}
+          >
+            Book
+          </Button>
+        </Stack>
+      </Paper>
+
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -147,6 +164,20 @@ export default function UpdateClient({ client, onCancelClicked }) {
                   setIsUpdated(false);
                 }}
               />
+              <TextField
+                id='note'
+                size='small'
+                name='note'
+                multiline
+                type='text'
+                rows={3}
+                value={note ? note : ''}
+                label='Notes'
+                onChange={(e) => {
+                  setNote(e.target.value);
+                  setIsUpdated(false);
+                }}
+              />
             </Box>
             {message && (
               <Alert severity='info' sx={{ m: 1 }}>
@@ -159,7 +190,7 @@ export default function UpdateClient({ client, onCancelClicked }) {
                 loading={mutationResult.isLoading}
                 variant='contained'
                 type='submit'
-                sx={{ bgcolor: btnColor, color: 'text.light' }}
+                sx={{ color: 'text.light' }}
               >
                 <span>Update</span>
               </LoadingButton>
@@ -171,11 +202,6 @@ export default function UpdateClient({ client, onCancelClicked }) {
               >
                 <span>Delete</span>
               </LoadingButton>
-              {/* <Button
-              variant='outlined'
-            >
-              Delete Client
-            </Button> */}
               <Button
                 variant='outlined'
                 onClick={() => onCancelClicked((prev) => !prev)}
@@ -186,7 +212,7 @@ export default function UpdateClient({ client, onCancelClicked }) {
           </form>
         </AccordionDetails>
       </Accordion>
-      {/* </Paper> */}
+
       <br />
       <br />
       <br />
