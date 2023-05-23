@@ -18,12 +18,24 @@ import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import Checkbox from '@mui/material/Checkbox';
+import TextField from '@mui/material/TextField';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 export default function CreateAppointment({ onCancelClicked }) {
+  const [dateTime, setDateTime] = useState('');
+  const [treatmentType, setTreatmentType] = useState('');
+  const [confirmed, setConfirmed] = useState(false);
+  const [charge, setCharge] = useState(0);
+  const [paid, setPaid] = useState(false);
+  const [completed, setCompleted] = useState(false);
+  const [causality, setCausality] = useState('');
+  const [treatmentNotes, setTreatmentNotes] = useState('');
+
   const [message, setMessage] = useState('');
   const [isUpdated, setIsUpdated] = useState(true);
 
@@ -55,7 +67,7 @@ export default function CreateAppointment({ onCancelClicked }) {
   return (
     <Paper sx={{ p: 2 }}>
       <Typography variant='h4' component='h4' gutterBottom>
-        Set an Appointment
+        New Appointment
       </Typography>
 
       <Divider />
@@ -69,10 +81,33 @@ export default function CreateAppointment({ onCancelClicked }) {
             '& .MuiTextField-root': { my: 1 },
           }}
         >
+          <FormGroup row>
+            <FormControlLabel
+              control={<Checkbox />}
+              label='Confirmed'
+              onChange={() => setConfirmed((prev) => !prev)}
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label='Paid'
+              onChange={() => setPaid((prev) => !prev)}
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label='Completed'
+              onChange={() => setCompleted((prev) => !prev)}
+            />
+          </FormGroup>
+          <TextField
+            label='Charge'
+            variant='outlined'
+            onChange={(e) => setCharge(e.target.value)}
+          />
+
           <DateTimePicker
             label='Date'
             // value={dayjs(dateRaised)}
-            // onChange={handleDateRaisedChange}
+            onChange={(date) => setDateTime(date.toISOString())}
             // sx={{ m: 1 }}
             // slotProps={{ field: { InputProps: { size: 'small' } } }}
             // disabled={isDisabled}
@@ -88,29 +123,48 @@ export default function CreateAppointment({ onCancelClicked }) {
                 value='musculoskeletal-disorders'
                 control={<Radio />}
                 label='Musculoskeletal disorders'
+                onChange={(e) => setTreatmentType(e.target.value)}
               />
               <FormControlLabel
                 value='sports-injuries'
                 control={<Radio />}
                 label='Sports injuries'
+                onChange={(e) => setTreatmentType(e.target.value)}
               />
               <FormControlLabel
                 value='post-surgical-rehabilitation'
                 control={<Radio />}
                 label='Post-surgical rehabilitation'
+                onChange={(e) => setTreatmentType(e.target.value)}
               />
               <FormControlLabel
                 value='chronic-pain'
                 control={<Radio />}
                 label='Chronic pain'
+                onChange={(e) => setTreatmentType(e.target.value)}
               />
               <FormControlLabel
                 value='pediatric'
                 control={<Radio />}
                 label='Pediatric'
+                onChange={(e) => setTreatmentType(e.target.value)}
               />
             </RadioGroup>
           </FormControl>
+          <TextField
+            label='Causality'
+            variant='outlined'
+            multiline
+            rows={2}
+            onChange={(e) => setCausality(e.target.value)}
+          />
+          <TextField
+            label='Treatment Notes'
+            variant='outlined'
+            multiline
+            rows={2}
+            onChange={(e) => setTreatmentNotes(e.target.value)}
+          />
         </Box>
         {message && (
           <Alert severity='info' sx={{ m: 1 }}>
