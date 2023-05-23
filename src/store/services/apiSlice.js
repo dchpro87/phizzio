@@ -4,7 +4,7 @@ import { updateUser } from '../features/user/userSlice';
 export const apiSlice = createApi({
   reducerPath: 'phizzioApi',
   baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
-  tagTypes: ['User', 'Password', 'Client'],
+  tagTypes: ['User', 'Password', 'Client', 'Appointment'],
   endpoints: (builder) => ({
     getUserById: builder.query({
       query: (userId) => `/users/${userId}`,
@@ -70,6 +70,18 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ['Client'],
     }),
+    createAppointment: builder.mutation({
+      query: (payload) => ({
+        url: '/appointments',
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['Appointment'],
+    }),
+    getAllAppointments: builder.query({
+      query: (queryStr) => `/appointments/${queryStr.filter}`,
+      providesTags: ['Appointment'],
+    }),
   }),
 });
 
@@ -81,4 +93,6 @@ export const {
   useGetClientsQuery,
   useUpdateClientMutation,
   useDeleteClientMutation,
+  useCreateAppointmentMutation,
+  useGetAllAppointmentsQuery,
 } = apiSlice;

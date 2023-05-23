@@ -8,7 +8,6 @@ import Client from '@/models/clientModel';
 
 export async function POST(req) {
   const body = await req.json();
-  console.log(body);
 
   await dbConnect();
 

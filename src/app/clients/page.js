@@ -8,7 +8,10 @@ import SpinnerWithMessage from '@/ui/SpinnerWithMessage';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
-import { useGetClientsQuery } from '@/store/services/apiSlice';
+import {
+  useGetClientsQuery,
+  useGetAllAppointmentsQuery,
+} from '@/store/services/apiSlice';
 
 import NoClient from './NoClients';
 import CreateClient from './CreateClient';
@@ -26,18 +29,27 @@ export default function ClientsMain() {
 
   const {
     data: clients,
-    isSuccess,
-    isLoading,
+    isSuccess: isClientsSuccess,
+    isLoading: isClientsLoading,
   } = useGetClientsQuery({ userId, filter: '?sort=name' });
+
+  const {
+    data: appointments,
+    isSuccess: isAppointmentsSuccess,
+    isLoading: isAppointmentsLoading,
+  } = useGetAllAppointmentsQuery({
+    filter: `?userId=${userId}`,
+  });
 
   const { status } = useSession();
   if (status === 'unauthenticated') signIn();
 
-  if (isLoading) return <SpinnerWithMessage message='Fetching your clients' />;
+  if (isClientsLoading)
+    return <SpinnerWithMessage message='Fetching your clients' />;
 
   const client = clients?.find((client) => client.id === clickedClientId);
 
-  if (isSuccess && clients.length > 0) {
+  if (isClientsSuccess && clients.length > 0) {
     const clientsList = clients.map((client) => (
       <ClientCard
         key={client.id}
@@ -89,9 +101,11 @@ export default function ClientsMain() {
               onCancelClicked={() => setClickedClientId('')}
             />
           )}
+
           {isAddingAppointment && (
             <CreateAppointment
               onCancelClicked={() => setIsAddingAppointment(false)}
+              clientId={clickedClientId}
             />
           )}
         </Container>

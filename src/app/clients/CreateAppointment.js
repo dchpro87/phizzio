@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 
-import { useCreateClientMutation } from '@/store/services/apiSlice';
+import { useCreateAppointmentMutation } from '@/store/services/apiSlice';
 
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -21,20 +21,21 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
-export default function CreateAppointment({ onCancelClicked }) {
+export default function CreateAppointment({ onCancelClicked, clientId }) {
   const [dateTime, setDateTime] = useState('');
-  const [treatmentType, setTreatmentType] = useState('');
+  const [treatmentType, setTreatmentType] = useState('sports-injuries');
   const [confirmed, setConfirmed] = useState(false);
   const [charge, setCharge] = useState(0);
   const [paid, setPaid] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [causality, setCausality] = useState('');
-  const [treatmentNotes, setTreatmentNotes] = useState('');
+  const [treatmentNote, setTreatmentNotes] = useState('');
 
   const [message, setMessage] = useState('');
   const [isUpdated, setIsUpdated] = useState(true);
@@ -43,25 +44,37 @@ export default function CreateAppointment({ onCancelClicked }) {
 
   const btnColor = isUpdated ? 'primary.main' : 'secondary.main';
 
-  // const [createClient, mutationResult] = useCreateClientMutation();
+  const [createAppointment, createAppointmentResult] =
+    useCreateAppointmentMutation();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // const { userId } = session.user;
+    const { userId } = session.user;
 
-    // const payload = {};
+    const payload = {
+      userId,
+      clientId,
+      dateTime,
+      treatmentType,
+      confirmed,
+      charge,
+      paid,
+      completed,
+      causality,
+      treatmentNote,
+    };
 
-    // try {
-    //   if (!payload.name || payload.name.trim().length < 3)
-    //     onCancelClicked((prev) => !prev);
-    //   const result = await createClient(payload);
-    //   if (result.error) throw new Error(result.error.data.message);
+    try {
+      if (!dateTime) onCancelClicked();
 
-    //   onCancelClicked((prev) => !prev);
-    // } catch (err) {
-    //   setMessage(err.message);
-    //   console.log(err.message);
-    // }
+      const result = await createAppointment(payload);
+      if (result.error) throw new Error(result.error.data.message);
+
+      onCancelClicked();
+    } catch (err) {
+      setMessage(err.message);
+      console.log(err.message);
+    }
   };
 
   return (
@@ -98,56 +111,63 @@ export default function CreateAppointment({ onCancelClicked }) {
               onChange={() => setCompleted((prev) => !prev)}
             />
           </FormGroup>
-          <TextField
-            label='Charge'
-            variant='outlined'
-            onChange={(e) => setCharge(e.target.value)}
-          />
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+            <TextField
+              label='Charge'
+              variant='outlined'
+              inputProps={{ maxLength: 4, step: '2' }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>R</InputAdornment>
+                ),
+              }}
+              sx={{ width: '10ch', mr: 2 }}
+              onChange={(e) => setCharge(parseFloat(e.target.value).toFixed(2))}
+            />
 
-          <DateTimePicker
-            label='Date'
-            // value={dayjs(dateRaised)}
-            onChange={(date) => setDateTime(date.toISOString())}
-            // sx={{ m: 1 }}
-            // slotProps={{ field: { InputProps: { size: 'small' } } }}
-            // disabled={isDisabled}
-          />
+            <DateTimePicker
+              label='Date'
+              sx={{ width: '30ch' }}
+              // value={dayjs(dateRaised)}
+              onChange={(date) => setDateTime(date.toISOString())}
+              // sx={{ m: 1 }}
+              // slotProps={{ field: { InputProps: { size: 'small' } } }}
+              // disabled={isDisabled}
+            />
+          </Box>
           <FormControl>
             <FormLabel id='demo-row-radio-buttons-group-label'>Type</FormLabel>
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='row-radio-buttons-group'
+              value={treatmentType}
+              onChange={(e) => setTreatmentType(e.target.value)}
             >
-              <FormControlLabel
-                value='musculoskeletal-disorders'
-                control={<Radio />}
-                label='Musculoskeletal disorders'
-                onChange={(e) => setTreatmentType(e.target.value)}
-              />
               <FormControlLabel
                 value='sports-injuries'
                 control={<Radio />}
                 label='Sports injuries'
-                onChange={(e) => setTreatmentType(e.target.value)}
+              />
+              <FormControlLabel
+                value='musculoskeletal-disorders'
+                control={<Radio />}
+                label='Musculoskeletal disorders'
               />
               <FormControlLabel
                 value='post-surgical-rehabilitation'
                 control={<Radio />}
                 label='Post-surgical rehabilitation'
-                onChange={(e) => setTreatmentType(e.target.value)}
               />
               <FormControlLabel
                 value='chronic-pain'
                 control={<Radio />}
                 label='Chronic pain'
-                onChange={(e) => setTreatmentType(e.target.value)}
               />
               <FormControlLabel
                 value='pediatric'
                 control={<Radio />}
                 label='Pediatric'
-                onChange={(e) => setTreatmentType(e.target.value)}
               />
             </RadioGroup>
           </FormControl>
@@ -174,7 +194,7 @@ export default function CreateAppointment({ onCancelClicked }) {
         <Stack direction='row' spacing={2}>
           <LoadingButton
             size='small'
-            // loading={mutationResult.isLoading}
+            loading={createAppointmentResult.isLoading}
             variant='contained'
             type='submit'
             sx={{ bgcolor: btnColor, color: 'text.light' }}
