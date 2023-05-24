@@ -20,6 +20,7 @@ import ClientCard from './ClientCard';
 import ClientHeader from './ClientHeader';
 import ClientMenu from './ClientMenu';
 import CreateAppointment from './CreateAppointment';
+import AppointmentCard from './AppointmentCard';
 
 export default function ClientsMain() {
   const [isAddingClient, setIsAddingClient] = useState(false);
@@ -44,20 +45,22 @@ export default function ClientsMain() {
   const { status } = useSession();
   if (status === 'unauthenticated') signIn();
 
-  if (isClientsLoading)
-    return <SpinnerWithMessage message='Fetching your clients' />;
+  if (isClientsLoading || isAppointmentsLoading)
+    return (
+      <SpinnerWithMessage message='Fetching your clients and checking for appointments' />
+    );
 
   const client = clients?.find((client) => client.id === clickedClientId);
 
-  if (isClientsSuccess && clients.length > 0) {
-    const clientsList = clients.map((client) => (
-      <ClientCard
-        key={client.id}
-        client={client}
-        onCardClicked={setClickedClientId}
-      />
-    ));
+  const clientsList = clients?.map((client) => (
+    <ClientCard
+      key={client.id}
+      client={client}
+      onCardClicked={setClickedClientId}
+    />
+  ));
 
+  if (isClientsSuccess && clients.length > 0) {
     return (
       <>
         <Container maxWidth='sm'>
