@@ -13,7 +13,7 @@ import {
   useGetAllAppointmentsQuery,
 } from '@/store/services/apiSlice';
 
-import NoClient from './NoClients';
+import NoClients from './NoClients';
 import CreateClient from './CreateClient';
 import ClientDetails from './ClientDetails';
 import ClientCard from './ClientCard';
@@ -80,7 +80,14 @@ export default function ClientsMain() {
     />
   ));
 
-  if (isClientsSuccess && clientsData.length > 0) {
+  if (isClientsLoading || isAppointmentsLoading) {
+    return (
+      <SpinnerWithMessage message='Fetching your clients and checking for appointments' />
+    );
+  }
+
+  if (isClientsSuccess && clientsData?.clients?.length > 0) {
+    // Render the main content
     return (
       <>
         <Container maxWidth='sm'>
@@ -147,10 +154,88 @@ export default function ClientsMain() {
     );
   }
 
+  // Render when there are no clients
   return (
     <Container maxWidth='sm'>
-      {!isAddingClient && <NoClient onAddClicked={setIsAddingClient} />}
-      {isAddingClient && <CreateClient onCancelClicked={setIsAddingClient} />}
+      {!isAddingClient ? (
+        <NoClients onAddClicked={setIsAddingClient} />
+      ) : (
+        <CreateClient onCancelClicked={setIsAddingClient} />
+      )}
     </Container>
   );
+
+  // if (isClientsSuccess && clientsData.length > 0) {
+  //   return (
+  //     <>
+  //       <Container maxWidth='sm'>
+  //         {!isAddingClient && clickedClientId === '' && (
+  //           <ClientHeader onAddClicked={setIsAddingClient} />
+  //         )}
+  //         {!isAddingClient && clickedClientId.length > 0 && (
+  //           <ClientMenu
+  //             name={client.name}
+  //             onBackClicked={() => {
+  //               setClickedClientId('');
+  //               setIsAddingAppointment(false);
+  //               setClickedAppointmentId('');
+  //             }}
+  //             onBookClicked={() => {
+  //               setIsAddingAppointment((prev) => !prev);
+  //             }}
+  //           />
+  //         )}
+  //         {!isAddingClient && clickedClientId === '' && (
+  //           <Box
+  //             sx={{
+  //               display: 'flex',
+  //               flexDirection: 'rows',
+  //               flexWrap: 'wrap',
+  //               justifyContent: 'space-around',
+  //             }}
+  //           >
+  //             {clientsList}
+  //           </Box>
+  //         )}
+  //         {isAddingClient && clickedClientId === '' && (
+  //           <CreateClient onCancelClicked={setIsAddingClient} />
+  //         )}
+  //         {clickedClientId.length > 0 && (
+  //           <ClientDetails
+  //             client={client}
+  //             onCancelClicked={() => setClickedClientId('')}
+  //           />
+  //         )}
+  //         {!isAddingAppointment &&
+  //           clickedClientId.length > 0 &&
+  //           appointmentsData.length > 0 &&
+  //           !clickedAppointmentId && <Box>{appointmentsList}</Box>}
+
+  //         {isAddingAppointment && (
+  //           <CreateAppointment
+  //             onCancelClicked={() => setIsAddingAppointment(false)}
+  //             clientId={clickedClientId}
+  //           />
+  //         )}
+  //         {clickedAppointmentId.length > 0 && (
+  //           <UpdateAppointment
+  //             appointment={appointment}
+  //             onCancelClicked={() => setClickedAppointmentId('')}
+  //           />
+  //         )}
+  //       </Container>
+  //       <br />
+  //       <br />
+  //       <br />
+  //       <br />
+  //     </>
+  //   );
+  // }
+
+  // return (
+  //   <Container maxWidth='sm'>
+  //     {!isAddingClient && <NoClients onAddClicked={setIsAddingClient} />}
+  //     {isAddingClient && <CreateClient onCancelClicked={setIsAddingClient} />}
+  //   </Container>
+  // );
 }

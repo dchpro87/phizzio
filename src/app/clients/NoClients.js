@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 
-export default function NoClient({ onAddClicked }) {
+export default function NoClients({ onAddClicked }) {
   return (
     <>
       {/* <Container maxWidth='sm'> */}
