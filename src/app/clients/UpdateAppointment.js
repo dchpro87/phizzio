@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 
-import { useCreateAppointmentMutation } from '@/store/services/apiSlice';
+import dayjs from 'dayjs';
 
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -23,20 +23,31 @@ import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
-export default function CreateAppointment({ onCancelClicked, clientId }) {
-  const [dateTime, setDateTime] = useState('');
-  const [treatmentType, setTreatmentType] = useState('sports-injuries');
-  const [confirmed, setConfirmed] = useState(false);
-  const [charge, setCharge] = useState(0);
-  const [paid, setPaid] = useState(false);
-  const [completed, setCompleted] = useState(false);
-  const [causality, setCausality] = useState('');
-  const [treatmentNote, setTreatmentNotes] = useState('');
+import Dialog from '@/ui/Dialog';
+import {
+  useUpdateAppointmentMutation,
+  useDeleteAppointmentMutation,
+} from '@/store/services/apiSlice';
 
+export default function UpdateAppointment({
+  onCancelClicked,
+  clientId,
+  appointment,
+}) {
+  const [dateTime, setDateTime] = useState(appointment.dateTime);
+  const [treatmentType, setTreatmentType] = useState(appointment.treatmentType);
+  const [confirmed, setConfirmed] = useState(appointment.confirmed);
+  const [charge, setCharge] = useState(appointment.charge);
+  const [paid, setPaid] = useState(appointment.paid);
+  const [completed, setCompleted] = useState(appointment.completed);
+  const [causality, setCausality] = useState(appointment.causality);
+  const [treatmentNote, setTreatmentNotes] = useState(
+    appointment.treatmentNote
+  );
+
+  const [showDialog, setShowDialog] = useState(false);
   const [message, setMessage] = useState('');
   const [isUpdated, setIsUpdated] = useState(true);
 
@@ -44,14 +55,17 @@ export default function CreateAppointment({ onCancelClicked, clientId }) {
 
   const btnColor = isUpdated ? 'primary.main' : 'secondary.main';
 
-  const [createAppointment, createAppointmentResult] =
-    useCreateAppointmentMutation();
+  const [updateAppointment, updateAppointmentResult] =
+    useUpdateAppointmentMutation();
+  const [deleteAppointment, deleteAppointmentResult] =
+    useDeleteAppointmentMutation();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { userId } = session.user;
 
     const payload = {
+      appointmentId: appointment.id,
       userId,
       clientId,
       dateTime,
@@ -65,11 +79,9 @@ export default function CreateAppointment({ onCancelClicked, clientId }) {
     };
 
     try {
-      if (!dateTime) setMessage('Please select a date and time');
+      const result = await updateAppointment(payload);
 
-      const result = await createAppointment(payload);
       if (result.error) throw new Error(result.error.data.message);
-
       onCancelClicked();
     } catch (err) {
       setMessage(err.message);
@@ -77,10 +89,32 @@ export default function CreateAppointment({ onCancelClicked, clientId }) {
     }
   };
 
+  const handleDeleteAppointment = async () => {
+    try {
+      setShowDialog((prev) => !prev);
+
+      const payload = { appointmentId: appointment.id };
+
+      const result = await deleteAppointment(payload);
+
+      if (result.error) throw new Error(result.error.data.message);
+      onCancelClicked();
+    } catch (err) {
+      setMessage(err.message);
+      console.log(err);
+    }
+  };
+
   return (
     <Paper sx={{ p: 2 }}>
+      <Dialog
+        showDialog={showDialog}
+        closeDialog={() => setShowDialog((prev) => !prev)}
+        content='Delete this appointment?'
+        onConfirm={handleDeleteAppointment}
+      />
       <Typography variant='h4' component='h4' gutterBottom>
-        New Appointment
+        Update Appointment
       </Typography>
 
       <Divider />
@@ -98,39 +132,61 @@ export default function CreateAppointment({ onCancelClicked, clientId }) {
             <FormControlLabel
               control={<Checkbox />}
               label='Confirmed'
-              onChange={() => setConfirmed((prev) => !prev)}
+              checked={confirmed}
+              value={confirmed}
+              onChange={() => {
+                setConfirmed((prev) => !prev);
+                setIsUpdated(false);
+              }}
             />
             <FormControlLabel
               control={<Checkbox />}
               label='Paid'
-              onChange={() => setPaid((prev) => !prev)}
+              checked={paid}
+              value={paid}
+              onChange={() => {
+                setPaid((prev) => !prev);
+                setIsUpdated(false);
+              }}
             />
             <FormControlLabel
               control={<Checkbox />}
               label='Completed'
-              onChange={() => setCompleted((prev) => !prev)}
+              checked={completed}
+              value={completed}
+              onChange={() => {
+                setCompleted((prev) => !prev);
+                setIsUpdated(false);
+              }}
             />
           </FormGroup>
           <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             <TextField
               label='Charge'
-              variant='outlined'
               type='number'
-              // inputProps={{ maxLength: 6, step: '2' }}
+              variant='outlined'
+              inputProps={{ maxLength: 15, step: '2' }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>R</InputAdornment>
                 ),
               }}
               sx={{ width: '15ch', mr: 2 }}
-              onChange={(e) => setCharge(parseFloat(e.target.value).toFixed(2))}
+              value={charge}
+              onChange={(e) => {
+                setCharge(parseFloat(e.target.value));
+                setIsUpdated(false);
+              }}
             />
 
             <DateTimePicker
               label='Date'
               sx={{ width: '30ch' }}
-              // value={dayjs(dateRaised)}
-              onChange={(date) => setDateTime(date.toISOString())}
+              value={dayjs(dateTime)}
+              onChange={(date) => {
+                setDateTime(date.toISOString());
+                setIsUpdated(false);
+              }}
               // sx={{ m: 1 }}
               // slotProps={{ field: { InputProps: { size: 'small' } } }}
               // disabled={isDisabled}
@@ -143,7 +199,10 @@ export default function CreateAppointment({ onCancelClicked, clientId }) {
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='row-radio-buttons-group'
               value={treatmentType}
-              onChange={(e) => setTreatmentType(e.target.value)}
+              onChange={(e) => {
+                setTreatmentType(e.target.value);
+                setIsUpdated(false);
+              }}
             >
               <FormControlLabel
                 value='sports-injuries'
@@ -177,14 +236,22 @@ export default function CreateAppointment({ onCancelClicked, clientId }) {
             variant='outlined'
             multiline
             rows={2}
-            onChange={(e) => setCausality(e.target.value)}
+            value={causality}
+            onChange={(e) => {
+              setCausality(e.target.value);
+              setIsUpdated(false);
+            }}
           />
           <TextField
             label='Treatment Notes'
             variant='outlined'
             multiline
             rows={2}
-            onChange={(e) => setTreatmentNotes(e.target.value)}
+            value={treatmentNote}
+            onChange={(e) => {
+              setTreatmentNotes(e.target.value);
+              setIsUpdated(false);
+            }}
           />
         </Box>
         {message && (
@@ -195,12 +262,20 @@ export default function CreateAppointment({ onCancelClicked, clientId }) {
         <Stack direction='row' spacing={2}>
           <LoadingButton
             size='small'
-            loading={createAppointmentResult.isLoading}
+            loading={updateAppointmentResult.isLoading}
             variant='contained'
             type='submit'
             sx={{ bgcolor: btnColor, color: 'text.light' }}
           >
-            <span>Add</span>
+            <span>Update</span>
+          </LoadingButton>
+          <LoadingButton
+            size='small'
+            loading={deleteAppointmentResult.isLoading}
+            variant='outlined'
+            onClick={() => setShowDialog((prev) => !prev)}
+          >
+            <span>Delete</span>
           </LoadingButton>
           <Button variant='outlined' onClick={onCancelClicked}>
             Cancel

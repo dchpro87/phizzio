@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -9,6 +11,7 @@ export default function AppointmentCard({
   onCardClicked,
 }) {
   const {
+    id,
     userId,
     clientId,
     dateTime,
@@ -21,26 +24,26 @@ export default function AppointmentCard({
     treatmentNote,
   } = appointment;
 
-  const { name } = client;
+  // convert dateTime to date and time
+  const date = dayjs(dateTime).format('ddd, MMM D, YYYY');
+  const time = dayjs(dateTime).format('h:mm A');
 
   return (
     <Card
       sx={{
         width: '100%',
-        maxWidth: 345,
-        margin: '0.5rem',
+        mt: 2,
+        ':hover': {
+          bgcolor: 'action.hover',
+          cursor: 'pointer',
+        },
+        // maxWidth: 345,
+        // margin: '0.5rem',
       }}
       onClick={() => onCardClicked(id)}
     >
-      <CardHeader title='Name' subheader={`${dateTime}`} />
-      <CardContent>
-        <Typography variant='body2' color='text.secondary'>
-          {treatmentType}
-        </Typography>
-        <Typography variant='body2' color='text.secondary'>
-          {notes}
-        </Typography>
-      </CardContent>
+      <CardHeader title={treatmentType} subheader={`${date} ${time}`} />
+      <CardContent></CardContent>
     </Card>
   );
 }

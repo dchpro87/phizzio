@@ -21,7 +21,10 @@ export async function GET(req, response) {
 
     if (!clients) throw new Error('No clients found');
 
-    return NextResponse.json(clients, { status: 200 });
+    return NextResponse.json(
+      { length: clients.length, clients },
+      { status: 200 }
+    );
   } catch (err) {
     return NextResponse.json(
       {

@@ -34,13 +34,11 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const queryStr = Object.fromEntries(searchParams);
 
-  console.log(queryStr);
-
   try {
-    const appointment = await getAll(Appointment, queryStr);
-    const length = appointment.length;
+    const appointments = await getAll(Appointment, queryStr);
+    const length = appointments.length;
 
-    return NextResponse.json({ length, appointment }, { status: 200 });
+    return NextResponse.json({ length, appointments }, { status: 200 });
   } catch (err) {
     return NextResponse.json(
       {
@@ -52,53 +50,56 @@ export async function GET(req) {
   }
 }
 
-// export async function PATCH(req) {
-//   const body = await req.json();
+export async function PATCH(req) {
+  const body = await req.json();
 
-//   await dbConnect();
+  await dbConnect();
 
-//   try {
-//     const userId = await getUserIdFromToken(req);
-//     await incrementUserActivety(userId);
+  try {
+    const userId = await getUserIdFromToken(req);
+    await incrementUserActivety(userId);
 
-//     const client = await Client.findOneAndUpdate({ _id: body.clientId }, body);
+    const appointment = await Appointment.findOneAndUpdate(
+      { _id: body.appointmentId },
+      body
+    );
 
-//     if (!client) throw new Error('Client not found!');
+    if (!appointment) throw new Error('Appointment not found!');
 
-//     return NextResponse.json(client, { status: 200 });
-//   } catch (err) {
-//     return NextResponse.json(
-//       {
-//         status: 'fail',
-//         message: err.message,
-//       },
-//       { status: 400 }
-//     );
-//   }
-// }
+    return NextResponse.json(appointment, { status: 200 });
+  } catch (err) {
+    return NextResponse.json(
+      {
+        status: 'fail',
+        message: err.message,
+      },
+      { status: 400 }
+    );
+  }
+}
 
-// export async function DELETE(req) {
-//   const { searchParams } = new URL(req.url);
-//   const clientId = searchParams.get('clientId');
+export async function DELETE(req) {
+  const { searchParams } = new URL(req.url);
+  const appointmentId = searchParams.get('appointmentId');
 
-//   await dbConnect();
+  await dbConnect();
 
-//   try {
-//     const userId = await getUserIdFromToken(req);
-//     await incrementUserActivety(userId);
+  try {
+    const userId = await getUserIdFromToken(req);
+    await incrementUserActivety(userId);
 
-//     const client = await Client.findOneAndDelete({ _id: clientId });
+    const appointment = await Appointment.findOneAndDelete({ _id: appointmentId });
 
-//     if (!client) throw new Error('Client not found!');
+    if (!appointment) throw new Error('Appointment not found!');
 
-//     return NextResponse.json(client, { status: 200 });
-//   } catch (err) {
-//     return NextResponse.json(
-//       {
-//         status: 'fail',
-//         message: err.message,
-//       },
-//       { status: 400 }
-//     );
-//   }
-// }
+    return NextResponse.json(appointment, { status: 200 });
+  } catch (err) {
+    return NextResponse.json(
+      {
+        status: 'fail',
+        message: err.message,
+      },
+      { status: 400 }
+    );
+  }
+}

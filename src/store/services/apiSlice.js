@@ -78,9 +78,25 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ['Appointment'],
     }),
+    updateAppointment: builder.mutation({
+      query: (payload) => ({
+        url: '/appointments',
+        method: 'PATCH',
+        body: payload,
+      }),
+      invalidatesTags: ['Appointment'],
+    }),
     getAllAppointments: builder.query({
       query: (queryStr) => `/appointments/${queryStr.filter}`,
       providesTags: ['Appointment'],
+    }),
+    deleteAppointment: builder.mutation({
+      query: (payload) => ({
+        url: `/appointments?appointmentId=${payload.appointmentId}`,
+        method: 'DELETE',
+        body: payload,
+      }),
+      invalidatesTags: ['Appointment'],
     }),
   }),
 });
@@ -95,4 +111,6 @@ export const {
   useDeleteClientMutation,
   useCreateAppointmentMutation,
   useGetAllAppointmentsQuery,
+  useUpdateAppointmentMutation,
+  useDeleteAppointmentMutation,
 } = apiSlice;
