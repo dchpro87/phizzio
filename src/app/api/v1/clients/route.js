@@ -1,22 +1,32 @@
 import { NextResponse } from 'next/server';
-
-import { incrementUserActivety } from '@/lib/incrementUserActivety';
 import { getUserIdFromToken } from '@/lib/utils';
+import { getServerSession } from 'next-auth';
 
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import dbConnect from '@/lib/dbConnect';
 import Client from '@/models/clientModel';
+import { incrementUserActivety } from '@/lib/incrementUserActivety';
 
 export async function POST(req) {
+  const session = await getServerSession({ req, authOptions });
+  if (!session) {
+    return NextResponse.json(
+      {
+        status: 'fail',
+        message: 'You are not logged in! Please log in to get access.',
+      },
+      { status: 401 }
+    );
+  }
+
   const body = await req.json();
 
   await dbConnect();
-
   try {
     const userId = await getUserIdFromToken(req);
 
     const client = await Client.create(body);
     await incrementUserActivety(userId);
-    console.log(client);
 
     return NextResponse.json(client, { status: 201 });
   } catch (err) {
@@ -31,10 +41,19 @@ export async function POST(req) {
 }
 
 export async function PATCH(req) {
+  const session = await getServerSession({ req, authOptions });
+  if (!session) {
+    return NextResponse.json(
+      {
+        status: 'fail',
+        message: 'You are not logged in! Please log in to get access.',
+      },
+      { status: 401 }
+    );
+  }
   const body = await req.json();
 
   await dbConnect();
-
   try {
     const userId = await getUserIdFromToken(req);
     await incrementUserActivety(userId);

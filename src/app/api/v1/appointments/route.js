@@ -1,17 +1,29 @@
 import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 import { incrementUserActivety } from '@/lib/incrementUserActivety';
 import { getUserIdFromToken } from '@/lib/utils';
 
-import dbConnect from '@/lib/dbConnect';
 import { getAll } from '@/lib/handlerFactory';
+import dbConnect from '@/lib/dbConnect';
 import Appointment from '@/models/appointmentModel';
 
 export async function POST(req) {
+  const session = await getServerSession({ req, authOptions });
+  if (!session) {
+    return NextResponse.json(
+      {
+        status: 'fail',
+        message: 'You are not logged in! Please log in to get access.',
+      },
+      { status: 401 }
+    );
+  }
+
   const body = await req.json();
 
   await dbConnect();
-
   try {
     const userId = await getUserIdFromToken(req);
     const appointment = await Appointment.create(body);
@@ -31,9 +43,21 @@ export async function POST(req) {
 }
 
 export async function GET(req) {
+  const session = await getServerSession({ req, authOptions });
+  if (!session) {
+    return NextResponse.json(
+      {
+        status: 'fail',
+        message: 'You are not logged in! Please log in to get access.',
+      },
+      { status: 401 }
+    );
+  }
+
   const { searchParams } = new URL(req.url);
   const queryStr = Object.fromEntries(searchParams);
 
+  await dbConnect();
   try {
     const appointments = await getAll(Appointment, queryStr);
     const length = appointments.length;
@@ -51,10 +75,20 @@ export async function GET(req) {
 }
 
 export async function PATCH(req) {
+  const session = await getServerSession({ req, authOptions });
+  if (!session) {
+    return NextResponse.json(
+      {
+        status: 'fail',
+        message: 'You are not logged in! Please log in to get access.',
+      },
+      { status: 401 }
+    );
+  }
+
   const body = await req.json();
 
   await dbConnect();
-
   try {
     const userId = await getUserIdFromToken(req);
     await incrementUserActivety(userId);
@@ -79,16 +113,28 @@ export async function PATCH(req) {
 }
 
 export async function DELETE(req) {
+  const session = await getServerSession({ req, authOptions });
+  if (!session) {
+    return NextResponse.json(
+      {
+        status: 'fail',
+        message: 'You are not logged in! Please log in to get access.',
+      },
+      { status: 401 }
+    );
+  }
+
   const { searchParams } = new URL(req.url);
   const appointmentId = searchParams.get('appointmentId');
 
   await dbConnect();
-
   try {
     const userId = await getUserIdFromToken(req);
     await incrementUserActivety(userId);
 
-    const appointment = await Appointment.findOneAndDelete({ _id: appointmentId });
+    const appointment = await Appointment.findOneAndDelete({
+      _id: appointmentId,
+    });
 
     if (!appointment) throw new Error('Appointment not found!');
 

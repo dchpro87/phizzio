@@ -56,7 +56,7 @@ export default function ClientsMain() {
     (client) => client.id === clickedClientId
   );
 
-  const clientsList = clientsData.clients?.map((client) => (
+  const clientsList = clientsData?.clients?.map((client) => (
     <ClientCard
       key={client.id}
       client={client}
@@ -64,7 +64,7 @@ export default function ClientsMain() {
     />
   ));
 
-  const clientAppointments = appointmentsData.appointments?.filter(
+  const clientAppointments = appointmentsData?.appointments?.filter(
     (appointment) => appointment.clientId === clickedClientId
   );
 
