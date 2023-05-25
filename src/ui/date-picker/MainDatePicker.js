@@ -12,13 +12,9 @@ import CheckIcon from '@mui/icons-material/Check';
 
 const initialValue = dayjs(new Date());
 
-function getRandomNumber(min, max) {
-  return Math.round(Math.random() * (max - min) + min);
-}
-
-async function getAppointments(date, { signal }) {
-  const url =
-    './api/v1/appointments?userId=6461ed1cb88848b2ef3607c4&fields=dateTime';
+async function getAppointments(date, userId, { signal }) {
+  const _month = date.month() + 1;
+  const url = `./api/v1/appointments/month?userId=${userId}&year=${date.year()}&month=${_month}`;
 
   const response = await fetch(url, { signal });
   const data = await response.json();
@@ -26,8 +22,9 @@ async function getAppointments(date, { signal }) {
   if (!response.ok) {
     throw new Error(data.message || 'Could not fetch appointments.');
   }
+  console.log(data);
   //  create array of days from the dates returned in data
-  const daysToHighlight = data.appointments.map((appointment) =>
+  const daysToHighlight = data.map((appointment) =>
     dayjs(appointment.dateTime).date()
   );
 
@@ -58,14 +55,14 @@ function ServerDay(props) {
   );
 }
 
-export default function MainDatePicker() {
+export default function MainDatePicker({ userId }) {
   const requestAbortController = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [highlightedDays, setHighlightedDays] = useState([]);
 
-  const fetchHighlightedDays = (date) => {
+  const fetchHighlightedDays = (date, userId) => {
     const controller = new AbortController();
-    getAppointments(date, {
+    getAppointments(date, userId, {
       signal: controller.signal,
     })
       .then(({ daysToHighlight }) => {
@@ -83,10 +80,10 @@ export default function MainDatePicker() {
   };
 
   useEffect(() => {
-    fetchHighlightedDays(initialValue);
+    fetchHighlightedDays(initialValue, userId);
     // abort request on unmount
     return () => requestAbortController.current?.abort();
-  }, []);
+  }, [userId]);
 
   const handleMonthChange = (date) => {
     if (requestAbortController.current) {
@@ -97,7 +94,7 @@ export default function MainDatePicker() {
 
     setIsLoading(true);
     setHighlightedDays([]);
-    fetchHighlightedDays(date);
+    fetchHighlightedDays(date, userId);
   };
 
   return (
