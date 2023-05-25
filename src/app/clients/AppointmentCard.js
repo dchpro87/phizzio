@@ -42,7 +42,7 @@ export default function AppointmentCard({
       }}
       onClick={() => onCardClicked(id)}
     >
-      <CardHeader title={treatmentType} subheader={`${date} ${time}`} />
+      <CardHeader title={`${date} ${time}`} subheader={treatmentType} />
       <CardContent></CardContent>
     </Card>
   );

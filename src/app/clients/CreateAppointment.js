@@ -29,7 +29,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 export default function CreateAppointment({ onCancelClicked, clientId }) {
   const [dateTime, setDateTime] = useState('');
-  const [treatmentType, setTreatmentType] = useState('sports-injuries');
+  const [treatmentType, setTreatmentType] = useState('Sports injuries');
   const [confirmed, setConfirmed] = useState(false);
   const [charge, setCharge] = useState(0);
   const [paid, setPaid] = useState(false);
@@ -146,27 +146,27 @@ export default function CreateAppointment({ onCancelClicked, clientId }) {
               onChange={(e) => setTreatmentType(e.target.value)}
             >
               <FormControlLabel
-                value='sports-injuries'
+                value='Sports injuries'
                 control={<Radio />}
                 label='Sports injuries'
               />
               <FormControlLabel
-                value='musculoskeletal-disorders'
+                value='Musculoskeletal disorders'
                 control={<Radio />}
                 label='Musculoskeletal disorders'
               />
               <FormControlLabel
-                value='post-surgical-rehabilitation'
+                value='Post surgical rehabilitation'
                 control={<Radio />}
                 label='Post-surgical rehabilitation'
               />
               <FormControlLabel
-                value='chronic-pain'
+                value='Chronic pain'
                 control={<Radio />}
                 label='Chronic pain'
               />
               <FormControlLabel
-                value='pediatric'
+                value='Pediatric'
                 control={<Radio />}
                 label='Pediatric'
               />

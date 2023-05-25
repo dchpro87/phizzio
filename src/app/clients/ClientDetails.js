@@ -116,7 +116,7 @@ export default function ClientDetals({ client, onCancelClicked }) {
           id='panel1a-header'
         >
           <Typography variant='h4' component='h4'>
-            Details
+            Info
           </Typography>
         </AccordionSummary>
         <Divider />

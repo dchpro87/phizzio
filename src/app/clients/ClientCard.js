@@ -28,7 +28,7 @@ export default function Client({ client, onCardClicked }) {
         <Typography fontSize='0.8rem' sx={{ fontWeight: '500' }}>
           {client.name}
         </Typography>
-        <Divider sx={{ mb: 1 }} />
+        <Divider sx={{ mb: 1, bgcolor: 'secondary.main' }} />
         <Typography fontSize='0.6rem'>{client.email}</Typography>
         <Typography fontSize='0.6rem'>{client.cellphone}</Typography>
         {/* </div> */}
