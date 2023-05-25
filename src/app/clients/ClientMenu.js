@@ -8,7 +8,12 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 export default function ClientMenu({ name, onBackClicked, onBookClicked }) {
   return (
     <Paper sx={{ p: 2 }}>
-      <Typography variant='h3' component='h3' gutterBottom>
+      <Typography
+        variant='h3'
+        component='h3'
+        gutterBottom
+        color={'secondary.main'}
+      >
         {name}
       </Typography>
       <Divider sx={{ mb: 2 }} />

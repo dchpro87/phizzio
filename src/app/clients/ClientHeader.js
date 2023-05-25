@@ -6,7 +6,12 @@ import Button from '@mui/material/Button';
 export default function ClientHeader({ onAddClicked }) {
   return (
     <Paper sx={{ p: 2 }}>
-      <Typography variant='h3' component='h3' gutterBottom>
+      <Typography
+        variant='h3'
+        component='h3'
+        gutterBottom
+        color={'secondary.main'}
+      >
         Your Clients
       </Typography>
       <Divider />
