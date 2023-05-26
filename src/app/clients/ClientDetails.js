@@ -32,6 +32,10 @@ export default function ClientDetals({ client, onCancelClicked }) {
   const [name, setName] = useState(client.name);
   const [email, setEmail] = useState(client.email);
   const [cellphone, setCellphone] = useState(client.cellphone);
+  const [address1, setAddress1] = useState(client.address1);
+  const [city, setCity] = useState(client.city);
+  const [state, setState] = useState(client.state);
+  const [zip, setZip] = useState(client.zip);
   const [note, setNote] = useState(client.note);
 
   const { status } = useSession();
@@ -61,7 +65,17 @@ export default function ClientDetals({ client, onCancelClicked }) {
   const handleSubmitClientDetails = async (event) => {
     event.preventDefault();
 
-    const payload = { name, email, cellphone, clientId: client.id, note };
+    const payload = {
+      name,
+      email,
+      cellphone,
+      address1,
+      city,
+      state,
+      zip,
+      clientId: client.id,
+      note,
+    };
 
     try {
       if (!payload.name || payload.name.trim().length < 3)
@@ -160,6 +174,54 @@ export default function ClientDetals({ client, onCancelClicked }) {
                 label='Cellphone'
                 onChange={(e) => {
                   setCellphone(e.target.value);
+                  setIsUpdated(false);
+                }}
+              />
+              <TextField
+                id='address1'
+                size='small'
+                name='address1'
+                type='text'
+                value={address1 ? address1 : ''}
+                label='Street Address'
+                onChange={(e) => {
+                  setAddress1(e.target.value);
+                  setIsUpdated(false);
+                }}
+              />
+              <TextField
+                id='city'
+                size='small'
+                name='city'
+                type='text'
+                value={city ? city : ''}
+                label='Town or suburb'
+                onChange={(e) => {
+                  setCity(e.target.value);
+                  setIsUpdated(false);
+                }}
+              />
+              <TextField
+                id='state'
+                size='small'
+                name='state'
+                type='text'
+                value={state ? state : ''}
+                label='State or Province'
+                onChange={(e) => {
+                  setState(e.target.value);
+                  setIsUpdated(false);
+                }}
+              />
+              <TextField
+                id='zip'
+                size='small'
+                name='zip'
+                type='text'
+                value={zip ? zip : ''}
+                label='Code'
+                onChange={(e) => {
+                  setZip(e.target.value);
                   setIsUpdated(false);
                 }}
               />

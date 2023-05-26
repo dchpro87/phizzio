@@ -15,6 +15,18 @@ const clientSchema = new mongoose.Schema(
     cellphone: {
       type: String,
     },
+    address1: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
+    zip: {
+      type: String,
+    },
     note: {
       type: String,
     },

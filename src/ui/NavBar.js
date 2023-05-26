@@ -27,7 +27,7 @@ import MessageIcon from '@mui/icons-material/Message';
 import Dialog from './Dialog';
 import CommentDialog from './CommentDialog';
 
-const pages = ['Clients', 'Appointments'];
+const pages = ['Clients', 'Calendar'];
 const settings = ['Profile', 'Logout'];
 
 function ResponsiveAppBar() {

@@ -6,7 +6,7 @@ import dbConnect from '@/lib/dbConnect';
 import User from '@/models/userModel';
 
 export async function PATCH(req) {
-  const session = await getServerSession({ req, res, authOptions });
+  const session = await getServerSession({ req, authOptions });
   if (!session) {
     return NextResponse.json(
       {

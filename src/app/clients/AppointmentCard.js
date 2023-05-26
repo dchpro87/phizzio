@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
 export default function AppointmentCard({
-  client,
+  clientName,
   appointment,
   onCardClicked,
 }) {
@@ -42,8 +42,8 @@ export default function AppointmentCard({
       }}
       onClick={() => onCardClicked(id)}
     >
-      <CardHeader title={`${date} ${time}`} subheader={treatmentType} />
-      <CardContent></CardContent>
+      <CardHeader title={`${date} ${time}`} subheader={clientName} />
+      <CardContent>{treatmentType}</CardContent>
     </Card>
   );
 }

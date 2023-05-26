@@ -53,7 +53,7 @@ function ServerDay(props) {
   );
 }
 
-export default function MainDatePicker({ userId, selectedMonth }) {
+export default function MainDatePicker({ userId, onDateSelected }) {
   const requestAbortController = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [highlightedDays, setHighlightedDays] = useState([]);
@@ -93,10 +93,11 @@ export default function MainDatePicker({ userId, selectedMonth }) {
     setIsLoading(true);
     setHighlightedDays([]);
     fetchHighlightedDays(date, userId);
+    onDateSelected(date);
   };
 
   const handleChange = (date) => {
-    selectedMonth(date.month() + 1)
+    onDateSelected(date);
   };
 
   return (

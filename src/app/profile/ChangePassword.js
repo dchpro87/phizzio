@@ -45,13 +45,13 @@ export default function ChangePassword() {
     try {
       const result = await updatePassword(userData);
 
-      if (result.status === 'fail') throw new Error(result.message);
+      if (result.data.status === 'fail') throw new Error(result.data.message);
 
       currentPasswordInputRef.current.value = '';
       newPasswordInputRef.current.value = '';
       confirmPasswordInputRef.current.value = '';
 
-      setMessage('Success. Password updated.');
+      setMessage('Success. Password changed.');
     } catch (err) {
       setMessage(err.message);
     }

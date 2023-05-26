@@ -34,6 +34,7 @@ import {
 export default function UpdateAppointment({
   onCancelClicked,
   clientId,
+  clientName,
   appointment,
 }) {
   const [dateTime, setDateTime] = useState(appointment.dateTime);
@@ -114,7 +115,9 @@ export default function UpdateAppointment({
         onConfirm={handleDeleteAppointment}
       />
       <Typography variant='h4' component='h4' gutterBottom>
-        Update Appointment
+        {clientName
+          ? `Update ${clientName}'s appointment`
+          : `Update appointment`}
       </Typography>
 
       <Divider />
@@ -215,12 +218,12 @@ export default function UpdateAppointment({
                 label='Musculoskeletal disorders'
               />
               <FormControlLabel
-                value='Post-surgical rehabilitation'
+                value='post-surgical-rehabilitation'
                 control={<Radio />}
-                label='Post-surgical rehabilitation'
+                label='Post surgical rehabilitation'
               />
               <FormControlLabel
-                value='chronic pain'
+                value='chronic-pain'
                 control={<Radio />}
                 label='Chronic pain'
               />

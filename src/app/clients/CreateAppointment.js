@@ -158,7 +158,7 @@ export default function CreateAppointment({ onCancelClicked, clientId }) {
               <FormControlLabel
                 value='Post surgical rehabilitation'
                 control={<Radio />}
-                label='Post-surgical rehabilitation'
+                label='Post surgical rehabilitation'
               />
               <FormControlLabel
                 value='Chronic pain'
