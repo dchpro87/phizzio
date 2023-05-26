@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import dayjs from 'dayjs';
 
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
-// import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 
@@ -22,7 +21,6 @@ async function getAppointments(date, userId, { signal }) {
   if (!response.ok) {
     throw new Error(data.message || 'Could not fetch appointments.');
   }
-  console.log(data);
   //  create array of days from the dates returned in data
   const daysToHighlight = data.map((appointment) =>
     dayjs(appointment.dateTime).date()
@@ -55,7 +53,7 @@ function ServerDay(props) {
   );
 }
 
-export default function MainDatePicker({ userId }) {
+export default function MainDatePicker({ userId, selectedMonth }) {
   const requestAbortController = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [highlightedDays, setHighlightedDays] = useState([]);
@@ -97,11 +95,16 @@ export default function MainDatePicker({ userId }) {
     fetchHighlightedDays(date, userId);
   };
 
+  const handleChange = (date) => {
+    selectedMonth(date.month() + 1)
+  };
+
   return (
     <StaticDatePicker
       defaultValue={initialValue}
       loading={isLoading}
       onMonthChange={handleMonthChange}
+      onChange={handleChange}
       renderLoading={() => <DayCalendarSkeleton />}
       slots={{
         day: ServerDay,
