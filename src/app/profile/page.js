@@ -20,10 +20,11 @@ export default function Profile() {
   const { data: session, status } = useSession();
   const id = session?.user?.userId;
 
-  const { isSuccess } = useGetUserByIdQuery(id);
+  const { isSuccess, isError } = useGetUserByIdQuery(id);
   if (status === 'unauthenticated') signIn();
 
   if (!isSuccess) return <SpinnerWithMessage message='Fetching your profile' />;
+  if (isError) return <p>Something went wrong, maybe check your connection.</p>;
 
   return (
     <Container maxWidth='sm'>

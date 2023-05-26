@@ -5,8 +5,8 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import dbConnect from '@/lib/dbConnect';
 import UserComment from '@/models/userCommentModel';
 
-export async function POST(nextRequest) {
-  const session = await getServerSession({ req, res, authOptions });
+export async function POST(req) {
+  const session = await getServerSession({ req, authOptions });
   if (!session) {
     return NextResponse.json(
       {
@@ -17,7 +17,7 @@ export async function POST(nextRequest) {
     );
   }
 
-  const body = await nextRequest.json();
+  const body = await req.json();
 
   await dbConnect();
   try {

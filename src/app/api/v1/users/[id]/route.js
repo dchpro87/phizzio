@@ -40,8 +40,8 @@ export async function GET(req, { params }) {
   }
 }
 
-export async function PATCH(req, res, { params }) {
-  const session = await getServerSession({ req, res, authOptions });
+export async function PATCH(req, { params }) {
+  const session = await getServerSession({ req, authOptions });
   if (!session) {
     return NextResponse.json(
       {
@@ -53,6 +53,7 @@ export async function PATCH(req, res, { params }) {
   }
 
   const body = await req.json();
+
   const options = { returnDocument: 'after' };
 
   await dbConnect();

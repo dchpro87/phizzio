@@ -205,27 +205,27 @@ export default function UpdateAppointment({
               }}
             >
               <FormControlLabel
-                value='sports-injuries'
+                value='Sports injuries'
                 control={<Radio />}
                 label='Sports injuries'
               />
               <FormControlLabel
-                value='musculoskeletal-disorders'
+                value='Musculoskeletal disorders'
                 control={<Radio />}
                 label='Musculoskeletal disorders'
               />
               <FormControlLabel
-                value='post-surgical-rehabilitation'
+                value='Post surgical rehabilitation'
                 control={<Radio />}
-                label='Post-surgical rehabilitation'
+                label='Post surgical rehabilitation'
               />
               <FormControlLabel
-                value='chronic-pain'
+                value='Chronic pain'
                 control={<Radio />}
                 label='Chronic pain'
               />
               <FormControlLabel
-                value='pediatric'
+                value='Pediatric'
                 control={<Radio />}
                 label='Pediatric'
               />
