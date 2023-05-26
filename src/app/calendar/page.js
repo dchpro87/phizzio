@@ -68,28 +68,40 @@ export default function AppointmentsMain() {
     );
 
     return (
-      <Container maxWidth='sm'>
-        <UpdateAppointment
-          appointment={appointment}
-          clientName={
-            clientsData?.clients?.find(
-              (client) => client.id === appointment.clientId
-            ).name
-          }
-          onCancelClicked={() => setClickedAppointmentId('')}
-        />
-      </Container>
+      <>
+        <Container maxWidth='sm'>
+          <UpdateAppointment
+            appointment={appointment}
+            clientName={
+              clientsData?.clients?.find(
+                (client) => client.id === appointment.clientId
+              ).name
+            }
+            onCancelClicked={() => setClickedAppointmentId('')}
+          />
+        </Container>
+        <br />
+        <br />
+        <br />
+        <br />
+      </>
     );
   }
 
   return (
-    <Container maxWidth='sm'>
-      <MainDatePicker userId={userId} onDateSelected={handleDateSelected} />
-      {isAppointmentsLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <Box>{appointmentsList}</Box>
-      )}
-    </Container>
+    <>
+      <Container maxWidth='sm'>
+        <MainDatePicker userId={userId} onDateSelected={handleDateSelected} />
+        {isAppointmentsLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <Box>{appointmentsList}</Box>
+        )}
+      </Container>
+      <br />
+      <br />
+      <br />
+      <br />
+    </>
   );
 }
