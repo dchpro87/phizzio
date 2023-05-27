@@ -96,13 +96,20 @@ function ResponsiveAppBar() {
     setShowCommentDialog((prev) => !prev);
   };
 
+  const handleSignout = async () => {
+    setShowLogoutDialog((prev) => !prev);
+    const data = await signOut({ redirect: false, callbackUrl: '/' });
+    router.push(data.url);
+  };
+
   return (
     <AppBar position='sticky'>
       <Dialog
         showDialog={showLogoutDialog}
         closeDialog={() => setShowLogoutDialog((prev) => !prev)}
         content='Log out of PHIZZIO?'
-        onConfirm={() => signOut({ callBackUrl: '/', redirect: true })}
+        // onConfirm={() => signOut({ callBackUrl: '/thanks', redirect: true })}
+        onConfirm={handleSignout}
       />
       <CommentDialog
         showDialog={showCommentDialog}
