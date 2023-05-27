@@ -30,6 +30,11 @@ const clientSchema = new mongoose.Schema(
     note: {
       type: String,
     },
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
+    },
     userId: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',

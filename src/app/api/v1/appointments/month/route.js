@@ -8,6 +8,7 @@ import { getUserIdFromToken } from '@/lib/utils';
 import { getAll } from '@/lib/handlerFactory';
 import dbConnect from '@/lib/dbConnect';
 import Appointment from '@/models/appointmentModel';
+import Client from '@/models/clientModel';
 
 export async function GET(req) {
   const session = await getServerSession({ req, authOptions });
@@ -44,8 +45,13 @@ export async function GET(req) {
         message: 'No appointments found!',
       });
     }
-    // const appointments = await getAll(Appointment, queryStr);
-    // const length = appointmets.length;
+
+    const clients = await Client.find({ userId: userId, active: true });
+
+    console.log('Appointment', appointments);
+    console.log('Clients', clients);
+
+    //remove appointments with inactive clients
 
     return NextResponse.json(appointments, { status: 200 });
   } catch (err) {
