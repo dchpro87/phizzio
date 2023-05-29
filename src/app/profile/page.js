@@ -1,7 +1,6 @@
 'use client';
 
 import { signIn, useSession } from 'next-auth/react';
-import { useSelector } from 'react-redux';
 
 import Container from '@mui/material/Container';
 import Accordion from '@mui/material/Accordion';
@@ -9,19 +8,19 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Divider from '@mui/material/Divider';
 
 import { useGetUserByIdQuery } from '../../store/services/apiSlice';
 
 import MyProfile from './MyProfile';
 import SpinnerWithMessage from '@/ui/SpinnerWithMessage';
 import ChangePassword from './ChangePassword';
-import { Divider } from '@mui/material';
 
 export default function Profile() {
   const { data: session, status } = useSession();
-  const id = session?.user?.userId;
+  const userId = session?.user?.userId;
 
-  const { isSuccess, isError } = useGetUserByIdQuery(id);
+  const { isSuccess, isError } = useGetUserByIdQuery(userId);
   if (status === 'unauthenticated') signIn();
 
   if (!isSuccess) return <SpinnerWithMessage message='Fetching your profile' />;

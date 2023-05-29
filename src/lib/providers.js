@@ -9,7 +9,7 @@ import store from '../store/store';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from '../styles/theme';
 
-export function Providers({ children, session }) {
+export default function Providers({ children, session }) {
   return (
     <>
       <SessionProvider session={session}>

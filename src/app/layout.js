@@ -1,7 +1,7 @@
 import NavBar from '../ui/NavBar';
 import Footer from '../ui/Footer';
 
-import { Providers } from '@/lib/providers';
+import Providers from '@/lib/providers';
 
 import '../styles/globals.css';
 

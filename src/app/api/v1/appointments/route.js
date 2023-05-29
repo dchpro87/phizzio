@@ -10,7 +10,11 @@ import dbConnect from '@/lib/dbConnect';
 import Appointment from '@/models/appointmentModel';
 
 export async function POST(req) {
-  const session = await getServerSession({ req, authOptions });
+  const session = await getServerSession({
+    req,
+    res: NextResponse,
+    authOptions,
+  });
   if (!session) {
     return NextResponse.json(
       {
@@ -43,7 +47,11 @@ export async function POST(req) {
 }
 
 export async function GET(req) {
-  const session = await getServerSession({ req, authOptions });
+  const session = await getServerSession({
+    req,
+    res: NextResponse,
+    authOptions,
+  });
   if (!session) {
     return NextResponse.json(
       {

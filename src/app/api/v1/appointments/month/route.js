@@ -2,13 +2,8 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
-import { incrementUserActivety } from '@/lib/incrementUserActivety';
-import { getUserIdFromToken } from '@/lib/utils';
-
-import { getAll } from '@/lib/handlerFactory';
 import dbConnect from '@/lib/dbConnect';
 import Appointment from '@/models/appointmentModel';
-import Client from '@/models/clientModel';
 
 export async function GET(req) {
   const session = await getServerSession({ req, authOptions });
@@ -27,7 +22,7 @@ export async function GET(req) {
   const { userId, year, month } = queryStr;
 
   //  GMT
-  const startDate = new Date(year, month, '01'); // month - 1 because month index starts from 0
+  const startDate = new Date(year, month, '01');
   const endDate = new Date(year, parseInt(month) + 1, 0, 23, 59, 59);
   await dbConnect();
   try {
