@@ -98,7 +98,7 @@ function ResponsiveAppBar() {
 
   const handleSignout = async () => {
     setShowLogoutDialog((prev) => !prev);
-    const data = await signOut({ redirect: false, callbackUrl: '/' });
+    const data = await signOut({ redirect: true, callbackUrl: '/' });
     router.push(data.url);
   };
 
@@ -107,7 +107,7 @@ function ResponsiveAppBar() {
       <Dialog
         showDialog={showLogoutDialog}
         closeDialog={() => setShowLogoutDialog((prev) => !prev)}
-        content='Log out of PHIZZIO?'
+        content='Log out of PHIZIO?'
         // onConfirm={() => signOut({ callBackUrl: '/thanks', redirect: true })}
         onConfirm={handleSignout}
       />

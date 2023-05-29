@@ -1,7 +1,9 @@
 'use client';
-import { useState } from 'react';
 
+import { useState } from 'react';
+import { signIn } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 import {
   useGetAllAppointmentsQuery,
@@ -20,6 +22,7 @@ export default function AppointmentsMain() {
   const [clickedAppointmentId, setClickedAppointmentId] = useState('');
   const { data: session, status } = useSession();
   const userId = session?.user?.userId;
+  const router = useRouter();
 
   const {
     data: clientsData,
@@ -36,6 +39,7 @@ export default function AppointmentsMain() {
   });
 
   if (status === 'unauthenticated') signIn();
+  // if (status === 'unauthenticated') router.push('./login');
 
   const daysAppointments = appointmentsData?.appointments?.filter(
     (appointment) => {

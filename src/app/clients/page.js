@@ -46,7 +46,10 @@ export default function ClientsMain() {
 
   const { data: session, status } = useSession();
   if (status === 'unauthenticated') signIn();
-  if (session?.user?.userId !== userId) signIn();
+
+  // useEffect(() => {
+  //   if (session?.user?.userId !== userId) signIn();
+  // }, [session, userId]);
 
   if (isClientsLoading || isAppointmentsLoading)
     return (
