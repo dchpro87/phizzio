@@ -14,7 +14,6 @@ import Box from '@mui/material/Box';
 
 import AppointmentCard from '../clients/AppointmentCard';
 import UpdateAppointment from '../clients/UpdateAppointment';
-import { set } from 'mongoose';
 
 export default function AppointmentsMain() {
   const [selectedDay, setSelectedDay] = useState('');

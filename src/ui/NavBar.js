@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { signOut, signIn } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 

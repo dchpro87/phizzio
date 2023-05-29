@@ -29,8 +29,6 @@ export async function GET(req) {
   //  GMT
   const startDate = new Date(year, month, '01'); // month - 1 because month index starts from 0
   const endDate = new Date(year, parseInt(month) + 1, 0, 23, 59, 59);
-  console.log('startDate', startDate);
-  console.log('endDate', endDate);
   await dbConnect();
   try {
     const allAppointments = await Appointment.find({
