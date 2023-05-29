@@ -12,8 +12,7 @@ import CheckIcon from '@mui/icons-material/Check';
 const initialValue = dayjs(new Date());
 
 async function getAppointments(date, userId, { signal }) {
-  const _month = date.month() + 1;
-  const url = `./api/v1/appointments/month?userId=${userId}&year=${date.year()}&month=${_month}`;
+  const url = `./api/v1/appointments/month?userId=${userId}&year=${date.year()}&month=${date.month()}`;
 
   const response = await fetch(url, { signal });
   const data = await response.json();
@@ -26,6 +25,7 @@ async function getAppointments(date, userId, { signal }) {
   const daysToHighlight = data.map((appointment) =>
     dayjs(appointment.dateTime).date()
   );
+  // console.log(daysToHighlight);
   return { daysToHighlight };
 }
 
@@ -93,7 +93,7 @@ export default function MainDatePicker({ userId, onDateSelected }) {
     setIsLoading(true);
     setHighlightedDays([]);
     fetchHighlightedDays(date, userId);
-    onDateSelected(date);
+    onDateSelected('');
   };
 
   const handleChange = (date) => {

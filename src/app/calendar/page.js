@@ -14,6 +14,7 @@ import Box from '@mui/material/Box';
 
 import AppointmentCard from '../clients/AppointmentCard';
 import UpdateAppointment from '../clients/UpdateAppointment';
+import { set } from 'mongoose';
 
 export default function AppointmentsMain() {
   const [selectedDay, setSelectedDay] = useState('');
@@ -40,7 +41,7 @@ export default function AppointmentsMain() {
   const daysAppointments = appointmentsData?.appointments?.filter(
     (appointment) => {
       const appointmentDay = new Date(appointment.dateTime).getDate();
-      return appointmentDay === selectedDay;
+      return appointmentDay === selectedDay && appointment.clientId !== null;
     }
   );
 
@@ -58,7 +59,7 @@ export default function AppointmentsMain() {
   ));
 
   const handleDateSelected = (date) => {
-    setSelectedDay(date.date());
+    date === '' ? setSelectedDay('') : setSelectedDay(date.date());
     //  find all appointments for the selected day
   };
 

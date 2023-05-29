@@ -185,9 +185,11 @@ export default function UpdateAppointment({
             <DateTimePicker
               label='Date'
               sx={{ width: '30ch' }}
+              // value={dateTime}
               value={dayjs(dateTime)}
               onChange={(date) => {
-                setDateTime(date.toISOString());
+                setDateTime(date);
+                // setDateTime(date.toISOString());
                 setIsUpdated(false);
               }}
               // sx={{ m: 1 }}
