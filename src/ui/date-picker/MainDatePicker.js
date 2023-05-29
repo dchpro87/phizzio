@@ -21,12 +21,11 @@ async function getAppointments(date, userId, { signal }) {
   if (!response.ok) {
     throw new Error(data.message || 'Could not fetch appointments.');
   }
-  //  create array of days from the dates returned in data
-  const daysToHighlight = data.map((appointment) => {
-    // return dayjs(appointment.dateTime).date();
-    if (appointment.clientId) dayjs(appointment.dateTime).date();
-  });
 
+  //  create array of days from the dates returned in data
+  const daysToHighlight = data.map((appointment) =>
+    dayjs(appointment.dateTime).date()
+  );
   return { daysToHighlight };
 }
 

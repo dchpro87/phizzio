@@ -26,12 +26,12 @@ export async function GET(req) {
   const queryStr = Object.fromEntries(searchParams);
   const { userId, year, month } = queryStr;
 
-  const startDate = new Date(year, month - 1, 1); // month - 1 because month index starts from 0
-  const endDate = new Date(year, month, 0);
+  const startDate = new Date(year, month - 1, 2); // month - 1 because month index starts from 0
+  const endDate = new Date(year, month, 1);
 
   await dbConnect();
   try {
-    const appointments = await Appointment.find({
+    const allAppointments = await Appointment.find({
       userId: userId,
       dateTime: {
         $gte: startDate,
@@ -39,14 +39,16 @@ export async function GET(req) {
       },
     });
 
-    if (!appointments) {
+    if (!allAppointments) {
       return NextResponse.json({
         Status: 'fail',
         message: 'No appointments found!',
       });
     }
 
-    const clients = await Client.find({ userId: userId });
+    const appointments = allAppointments.filter(
+      (appointment) => appointment.clientId
+    );
 
     return NextResponse.json(appointments, { status: 200 });
   } catch (err) {

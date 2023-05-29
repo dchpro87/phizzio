@@ -84,7 +84,10 @@ export async function DELETE(req) {
     const userId = await getUserIdFromToken(req);
     await incrementUserActivety(userId);
 
-    const client = await Client.findOneAndDelete({ _id: clientId });
+    const client = await Client.findOneAndUpdate(
+      { _id: clientId },
+      { active: false }
+    );
 
     if (!client) throw new Error('Client not found!');
 
@@ -99,3 +102,29 @@ export async function DELETE(req) {
     );
   }
 }
+
+// export async function DELETE(req) {
+//   const { searchParams } = new URL(req.url);
+//   const clientId = searchParams.get('clientId');
+
+//   await dbConnect();
+
+//   try {
+//     const userId = await getUserIdFromToken(req);
+//     await incrementUserActivety(userId);
+
+//     const client = await Client.findOneAndDelete({ _id: clientId });
+
+//     if (!client) throw new Error('Client not found!');
+
+//     return NextResponse.json(client, { status: 200 });
+//   } catch (err) {
+//     return NextResponse.json(
+//       {
+//         status: 'fail',
+//         message: err.message,
+//       },
+//       { status: 400 }
+//     );
+//   }
+// }
