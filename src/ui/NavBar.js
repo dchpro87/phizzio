@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { signOut } from 'next-auth/react';
+import { signOut, signIn } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 
@@ -42,7 +42,8 @@ function ResponsiveAppBar() {
   const userId = session?.user?.userId;
   const email = session?.user?.email;
 
-  useGetUserByIdQuery(userId);
+  const { user } = useGetUserByIdQuery(userId);
+  if (userId && !user) signIn();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

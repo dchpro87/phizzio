@@ -44,8 +44,9 @@ export default function ClientsMain() {
     filter: `?userId=${userId}`,
   });
 
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   if (status === 'unauthenticated') signIn();
+  console.log('session', session);
 
   if (isClientsLoading || isAppointmentsLoading)
     return (
@@ -67,7 +68,6 @@ export default function ClientsMain() {
   const clientAppointments = appointmentsData?.appointments?.filter(
     (appointment) => appointment?.clientId?.id === clickedClientId
   );
-
 
   const appointment = clientAppointments?.find(
     (appointment) => appointment.id === clickedAppointmentId
