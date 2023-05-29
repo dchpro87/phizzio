@@ -25,6 +25,7 @@ export async function GET(req, response) {
 
   //  convert query searchParams object to POJO
   const queryParams = Object.fromEntries(searchParams.entries());
+  // queryParams.active = true;
 
   await dbConnect();
   try {

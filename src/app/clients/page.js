@@ -65,8 +65,9 @@ export default function ClientsMain() {
   ));
 
   const clientAppointments = appointmentsData?.appointments?.filter(
-    (appointment) => appointment.clientId === clickedClientId
+    (appointment) => appointment?.clientId?.id === clickedClientId
   );
+
 
   const appointment = clientAppointments?.find(
     (appointment) => appointment.id === clickedAppointmentId

@@ -50,7 +50,7 @@ export default function AppointmentsMain() {
       appointment={appointment}
       clientName={
         clientsData?.clients?.find(
-          (client) => client.id === appointment.clientId
+          (client) => client.id === appointment?.clientId?.id
         ).name
       }
       onCardClicked={() => setClickedAppointmentId(appointment.id)}
@@ -74,7 +74,7 @@ export default function AppointmentsMain() {
             appointment={appointment}
             clientName={
               clientsData?.clients?.find(
-                (client) => client.id === appointment.clientId
+                (client) => client.id === appointment?.clientId?.id
               ).name
             }
             onCancelClicked={() => setClickedAppointmentId('')}

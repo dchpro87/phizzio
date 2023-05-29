@@ -49,6 +49,15 @@ const appointmentSchema = new mongoose.Schema(
   }
 );
 
+// populate the clientId field witht the active field from the Client model
+appointmentSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'clientId',
+    select: 'active',
+  });
+  next();
+});
+
 const Appointment =
   mongoose.models.Appointment ||
   mongoose.model('Appointment', appointmentSchema);

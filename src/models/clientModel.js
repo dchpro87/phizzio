@@ -33,7 +33,7 @@ const clientSchema = new mongoose.Schema(
     active: {
       type: Boolean,
       default: true,
-      select: false,
+      // select: false,
     },
     userId: {
       type: mongoose.Schema.ObjectId,
@@ -47,6 +47,11 @@ const clientSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+clientSchema.pre(/^find/, function (next) {
+  this.find({ active: { $ne: false } });
+  next();
+});
 
 const Client = mongoose.models.Client || mongoose.model('Client', clientSchema);
 

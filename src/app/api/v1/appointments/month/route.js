@@ -46,12 +46,7 @@ export async function GET(req) {
       });
     }
 
-    const clients = await Client.find({ userId: userId, active: true });
-
-    console.log('Appointment', appointments);
-    console.log('Clients', clients);
-
-    //remove appointments with inactive clients
+    const clients = await Client.find({ userId: userId });
 
     return NextResponse.json(appointments, { status: 200 });
   } catch (err) {
