@@ -42,8 +42,7 @@ function ResponsiveAppBar() {
   const userId = session?.user?.userId;
   const email = session?.user?.email;
 
-  const { user } = useGetUserByIdQuery(userId);
-  if (userId && !user) signIn();
+  const { data } = useGetUserByIdQuery(userId);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

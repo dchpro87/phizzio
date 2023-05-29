@@ -46,7 +46,7 @@ export default function ClientsMain() {
 
   const { data: session, status } = useSession();
   if (status === 'unauthenticated') signIn();
-  console.log('session', session);
+  if (session?.user?.userId !== userId) signIn();
 
   if (isClientsLoading || isAppointmentsLoading)
     return (
