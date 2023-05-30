@@ -67,6 +67,16 @@ const theme = createTheme({
       textTransform: 'none',
     },
   },
+  components: {
+    MuiPickersToolbar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#64b330',
+          color: 'text.light',
+        },
+      },
+    },
+  },
 });
 
 export default theme;

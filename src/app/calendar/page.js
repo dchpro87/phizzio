@@ -22,24 +22,22 @@ export default function AppointmentsMain() {
   const [clickedAppointmentId, setClickedAppointmentId] = useState('');
   const { data: session, status } = useSession();
   const userId = session?.user?.userId;
-  const router = useRouter();
 
   const {
     data: clientsData,
-    isSuccess: isClientsSuccess,
-    isLoading: isClientsLoading,
+    // isSuccess: isClientsSuccess,
+    // isLoading: isClientsLoading,
   } = useGetClientsQuery({ userId, filter: '?sort=name' });
 
   const {
     data: appointmentsData,
-    isSuccess: isAppointmentsSuccess,
+    // isSuccess: isAppointmentsSuccess,
     isLoading: isAppointmentsLoading,
   } = useGetAllAppointmentsQuery({
     filter: `?userId=${userId}`,
   });
 
   if (status === 'unauthenticated') signIn();
-  // if (status === 'unauthenticated') router.push('./login');
 
   const daysAppointments = appointmentsData?.appointments?.filter(
     (appointment) => {
@@ -63,7 +61,6 @@ export default function AppointmentsMain() {
 
   const handleDateSelected = (date) => {
     date === '' ? setSelectedDay('') : setSelectedDay(date.date());
-    //  find all appointments for the selected day
   };
 
   if (clickedAppointmentId) {
