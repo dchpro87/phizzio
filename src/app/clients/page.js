@@ -129,7 +129,10 @@ export default function ClientsMain() {
           {clickedClientId.length > 0 && (
             <ClientDetails
               client={client}
-              onCancelClicked={() => setClickedClientId('')}
+              resetClickedClientId={() => {
+                setClickedClientId('');
+                setClickedAppointmentId('');
+              }}
             />
           )}
           {!isAddingAppointment &&

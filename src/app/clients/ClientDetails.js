@@ -23,7 +23,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 
 import Dialog from '@/ui/Dialog';
 
-export default function ClientDetals({ client, onCancelClicked }) {
+export default function ClientDetals({ client, resetClickedClientId }) {
   const [message, setMessage] = useState('');
   const [isUpdated, setIsUpdated] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
@@ -55,7 +55,7 @@ export default function ClientDetals({ client, onCancelClicked }) {
       const result = await deleteClient(payload).unwrap();
 
       if (result.error) throw new Error(result.error.data.message);
-      onCancelClicked((prev) => !prev);
+      resetClickedClientId();
     } catch (err) {
       setMessage(err.message);
       console.log(err);
@@ -78,37 +78,39 @@ export default function ClientDetals({ client, onCancelClicked }) {
     };
 
     try {
-      if (!payload.name || payload.name.trim().length < 3)
-        onCancelClicked((prev) => !prev);
+      if (payload.name.trim().length < 3) {
+        resetClickedClientId();
+        return;
+      }
       const result = await updateClient(payload);
 
       if (result.error) throw new Error(result.error.data.message);
 
-      onCancelClicked((prev) => !prev);
+      resetClickedClientId();
     } catch (err) {
       setMessage(err.message);
       console.log(err.message);
     }
   };
 
-  const handleSubmitAppointment = async (event) => {
-    event.preventDefault();
+  // const handleSubmitAppointment = async (event) => {
+  //   event.preventDefault();
 
-    const payload = {};
+  //   const payload = {};
 
-    try {
-      if (!payload.name || payload.name.trim().length < 3)
-        onCancelClicked((prev) => !prev);
-      const result = await updateClient(payload);
+  //   try {
+  //     if (!payload.name || payload.name.trim().length < 3)
+  //       resetClickedClientId((prev) => !prev);
+  //     const result = await updateClient(payload);
 
-      if (result.error) throw new Error(result.error.data.message);
+  //     if (result.error) throw new Error(result.error.data.message);
 
-      onCancelClicked((prev) => !prev);
-    } catch (err) {
-      setMessage(err.message);
-      console.log(err.message);
-    }
-  };
+  //     resetClickedClientId((prev) => !prev);
+  //   } catch (err) {
+  //     setMessage(err.message);
+  //     console.log(err.message);
+  //   }
+  // };
 
   return (
     <>
@@ -266,7 +268,7 @@ export default function ClientDetals({ client, onCancelClicked }) {
               </LoadingButton>
               <Button
                 variant='outlined'
-                // onClick={() => onCancelClicked((prev) => !prev)}
+                // onClick={() => resetClickedClientId((prev) => !prev)}
                 onClick={() => setExpandClientUpdate((prev) => !prev)}
               >
                 Cancel

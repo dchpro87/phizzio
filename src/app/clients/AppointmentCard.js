@@ -31,7 +31,10 @@ export default function AppointmentCard({
 
   return (
     <Card
+      raised
       sx={{
+        border: 1,
+        borderColor: 'primary.main',
         width: '100%',
         mt: 2,
         ':hover': {

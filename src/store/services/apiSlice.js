@@ -68,7 +68,7 @@ export const apiSlice = createApi({
         method: 'DELETE',
         body: payload,
       }),
-      invalidatesTags: ['Client'],
+      invalidatesTags: ['Client', 'Appointment'],
     }),
     createAppointment: builder.mutation({
       query: (payload) => ({
