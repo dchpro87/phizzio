@@ -22,7 +22,6 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 
 import Dialog from '@/ui/Dialog';
-import { set } from 'mongoose';
 
 export default function ClientDetals({
   client,

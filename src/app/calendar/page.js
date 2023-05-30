@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 
 import {
   useGetAllAppointmentsQuery,
@@ -16,6 +15,7 @@ import Box from '@mui/material/Box';
 
 import AppointmentCard from '../clients/AppointmentCard';
 import UpdateAppointment from '../clients/UpdateAppointment';
+import dayjs from 'dayjs';
 
 export default function AppointmentsMain() {
   const [selectedDay, setSelectedDay] = useState('');
@@ -41,8 +41,9 @@ export default function AppointmentsMain() {
 
   const daysAppointments = appointmentsData?.appointments?.filter(
     (appointment) => {
-      const appointmentDay = new Date(appointment.dateTime).getDate();
-      return appointmentDay === selectedDay && appointment.clientId !== null;
+      const appointmentDay = dayjs(appointment.dateTime).format('YYYY-MM-DD');
+      const foo = selectedDay ? selectedDay.format('YYYY-MM-DD') : '';
+      return appointmentDay === foo && appointment.clientId !== null;
     }
   );
 
@@ -60,7 +61,7 @@ export default function AppointmentsMain() {
   ));
 
   const handleDateSelected = (date) => {
-    date === '' ? setSelectedDay('') : setSelectedDay(date.date());
+    date === '' ? setSelectedDay('') : setSelectedDay(date);
   };
 
   if (clickedAppointmentId) {
