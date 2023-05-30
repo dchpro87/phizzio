@@ -133,6 +133,7 @@ export default function ClientsMain() {
                 setClickedClientId('');
                 setClickedAppointmentId('');
               }}
+              isAddingAppointment={isAddingAppointment}
             />
           )}
           {!isAddingAppointment &&
@@ -150,6 +151,7 @@ export default function ClientsMain() {
             <UpdateAppointment
               appointment={appointment}
               onCancelClicked={() => setClickedAppointmentId('')}
+              isAddingAppointment={isAddingAppointment}
             />
           )}
         </Container>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession, signIn } from 'next-auth/react';
 
 import {
@@ -22,8 +22,13 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 
 import Dialog from '@/ui/Dialog';
+import { set } from 'mongoose';
 
-export default function ClientDetals({ client, resetClickedClientId }) {
+export default function ClientDetals({
+  client,
+  resetClickedClientId,
+  isAddingAppointment,
+}) {
   const [message, setMessage] = useState('');
   const [isUpdated, setIsUpdated] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
@@ -46,6 +51,10 @@ export default function ClientDetals({ client, resetClickedClientId }) {
   const [deleteClient, deleteResult] = useDeleteClientMutation();
 
   if (status === 'unauthenticated') signIn();
+
+  useEffect(() => {
+    if (isAddingAppointment) setExpandClientUpdate(false);
+  }, [isAddingAppointment]);
 
   const handleDeleteClient = async () => {
     try {

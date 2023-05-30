@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 
 import dayjs from 'dayjs';
@@ -36,6 +36,7 @@ export default function UpdateAppointment({
   clientId,
   clientName,
   appointment,
+  isAddingAppointment,
 }) {
   const [dateTime, setDateTime] = useState(appointment.dateTime);
   const [treatmentType, setTreatmentType] = useState(appointment.treatmentType);
@@ -55,6 +56,10 @@ export default function UpdateAppointment({
   const { data: session } = useSession();
 
   const btnColor = isUpdated ? 'primary.main' : 'secondary.main';
+
+  useEffect(() => {
+    if (isAddingAppointment) onCancelClicked();
+  }, [isAddingAppointment, onCancelClicked]);
 
   const [updateAppointment, updateAppointmentResult] =
     useUpdateAppointmentMutation();
