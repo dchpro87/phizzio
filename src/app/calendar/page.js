@@ -12,6 +12,7 @@ import {
 import Container from '@mui/material/Container';
 import MainDatePicker from '@/ui/date-picker/MainDatePicker';
 import Box from '@mui/material/Box';
+import { Skeleton } from '@mui/material';
 
 import AppointmentCard from '../clients/AppointmentCard';
 import UpdateAppointment from '../clients/UpdateAppointment';
@@ -25,13 +26,13 @@ export default function AppointmentsMain() {
 
   const {
     data: clientsData,
-    // isSuccess: isClientsSuccess,
-    // isLoading: isClientsLoading,
+    isSuccess: isClientsSuccess,
+    isLoading: isClientsLoading,
   } = useGetClientsQuery({ userId, filter: '?sort=name' });
 
   const {
     data: appointmentsData,
-    // isSuccess: isAppointmentsSuccess,
+    isSuccess: isAppointmentsSuccess,
     isLoading: isAppointmentsLoading,
   } = useGetAllAppointmentsQuery({
     filter: `?userId=${userId}&sort=dateTime`,
@@ -93,10 +94,24 @@ export default function AppointmentsMain() {
   return (
     <>
       <Container maxWidth='sm'>
-        <MainDatePicker userId={userId} onDateSelected={handleDateSelected} />
-        {isAppointmentsLoading ? (
-          <div>Loading...</div>
+        {!isAppointmentsSuccess ? (
+          <Skeleton
+            variant='rectangular'
+            width='100%'
+            animation='wave'
+            sx={{ marginBottom: '1rem' }}
+          >
+            <div style={{ paddingTop: '71%' }} />
+          </Skeleton>
         ) : (
+          <MainDatePicker userId={userId} onDateSelected={handleDateSelected} />
+        )}
+        {!isAppointmentsSuccess && !isClientsSuccess ? (
+          <Skeleton variant='rectangular' width='100%' animation='wave'>
+            <div style={{ paddingTop: '29%' }} />
+          </Skeleton>
+        ) : (
+          // <div>Loading...</div>
           <Box>{appointmentsList}</Box>
         )}
       </Container>

@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 
 export default function Client({ client, onCardClicked }) {
+  console.log('client', client);
   return (
     <Card
       sx={{

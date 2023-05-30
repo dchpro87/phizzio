@@ -22,6 +22,7 @@ import ClientMenu from './ClientMenu';
 import CreateAppointment from './CreateAppointment';
 import AppointmentCard from './AppointmentCard';
 import UpdateAppointment from './UpdateAppointment';
+import { Skeleton } from '@mui/material';
 
 export default function ClientsMain() {
   const [isAddingClient, setIsAddingClient] = useState(false);
@@ -51,10 +52,10 @@ export default function ClientsMain() {
   //   if (session?.user?.userId !== userId) signIn();
   // }, [session, userId]);
 
-  if (isClientsLoading || isAppointmentsLoading)
-    return (
-      <SpinnerWithMessage message='Fetching your clients and checking for appointments' />
-    );
+  // if (isClientsSuccess || isAppointmentsSuccess)
+  //   return (
+  //     <SpinnerWithMessage message='Fetching your clients and checking for appointments' />
+  //   );
 
   const client = clientsData?.clients?.find(
     (client) => client.id === clickedClientId
@@ -84,93 +85,110 @@ export default function ClientsMain() {
     />
   ));
 
-  if (isClientsLoading || isAppointmentsLoading) {
-    return (
-      <SpinnerWithMessage message='Fetching your clients and checking for appointments' />
-    );
-  }
+  // if (isClientsLoading || isAppointmentsLoading) {
+  //   return (
+  //     <SpinnerWithMessage message='Fetching your clients and checking for appointments' />
+  //   );
+  // }
 
-  if (isClientsSuccess && clientsData?.clients?.length > 0) {
-    // Render the main content
-    return (
-      <>
-        <Container maxWidth='sm'>
-          {!isAddingClient && clickedClientId === '' && (
-            <ClientHeader onAddClicked={setIsAddingClient} />
-          )}
-          {!isAddingClient && clickedClientId.length > 0 && (
-            <ClientMenu
-              name={client.name}
-              onBackClicked={() => {
-                setClickedClientId('');
-                setIsAddingAppointment(false);
-                setClickedAppointmentId('');
-              }}
-              onBookClicked={() => {
-                setIsAddingAppointment((prev) => !prev);
-              }}
-            />
-          )}
-          {!isAddingClient && clickedClientId === '' && (
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'rows',
-                flexWrap: 'wrap',
-                justifyContent: 'space-around',
-              }}
-            >
-              {clientsList}
-            </Box>
-          )}
-          {isAddingClient && clickedClientId === '' && (
-            <CreateClient onCancelClicked={setIsAddingClient} />
-          )}
-          {clickedClientId.length > 0 && (
-            <ClientDetails
-              client={client}
-              resetClickedClientId={() => {
-                setClickedClientId('');
-                setClickedAppointmentId('');
-              }}
-              isAddingAppointment={isAddingAppointment}
-            />
-          )}
-          {!isAddingAppointment &&
-            clickedClientId.length > 0 &&
-            appointmentsData.length > 0 &&
-            !clickedAppointmentId && <Box>{appointmentsList}</Box>}
+  // if (isClientsSuccess && clientsData?.clients?.length > 0) {
+  // Render the main content
+  return (
+    <>
+      <Container maxWidth='sm'>
+        {!isAddingClient && clickedClientId === '' && (
+          <ClientHeader onAddClicked={setIsAddingClient} />
+        )}
 
-          {isAddingAppointment && (
-            <CreateAppointment
-              onCancelClicked={() => setIsAddingAppointment(false)}
-              clientId={clickedClientId}
-            />
-          )}
-          {clickedAppointmentId.length > 0 && (
-            <UpdateAppointment
-              appointment={appointment}
-              onCancelClicked={() => setClickedAppointmentId('')}
-              isAddingAppointment={isAddingAppointment}
-            />
-          )}
-        </Container>
-        <br />
-        <br />
-        <br />
-        <br />
-      </>
-    );
-  }
+        {!isAddingClient && clickedClientId.length > 0 && (
+          <ClientMenu
+            name={client.name}
+            onBackClicked={() => {
+              setClickedClientId('');
+              setIsAddingAppointment(false);
+              setClickedAppointmentId('');
+            }}
+            onBookClicked={() => {
+              setIsAddingAppointment((prev) => !prev);
+            }}
+          />
+        )}
+
+        {!isAddingClient && clickedClientId === '' && (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'rows',
+              flexWrap: 'wrap',
+              justifyContent: 'space-around',
+            }}
+          >
+            {isClientsSuccess ? (
+              clientsList
+            ) : (
+              <Skeleton
+                variant='rectangular'
+                width='100%'
+                animation='wave'
+                sx={{ marginBottom: '1rem' }}
+              >
+                <div style={{ paddingTop: '20%' }} />
+              </Skeleton>
+            )}
+          </Box>
+        )}
+
+        {isAddingClient && clickedClientId === '' && (
+          <CreateClient onCancelClicked={setIsAddingClient} />
+        )}
+
+        {clickedClientId.length > 0 && (
+          <ClientDetails
+            client={client}
+            resetClickedClientId={() => {
+              setClickedClientId('');
+              setClickedAppointmentId('');
+            }}
+            isAddingAppointment={isAddingAppointment}
+          />
+        )}
+
+        {!isAddingAppointment &&
+          clickedClientId.length > 0 &&
+          appointmentsData.length > 0 &&
+          !clickedAppointmentId && <Box>{appointmentsList}</Box>}
+
+        {isAddingAppointment && (
+          <CreateAppointment
+            onCancelClicked={() => setIsAddingAppointment(false)}
+            clientId={clickedClientId}
+          />
+        )}
+
+        {clickedAppointmentId.length > 0 && (
+          <UpdateAppointment
+            appointment={appointment}
+            onCancelClicked={() => setClickedAppointmentId('')}
+            isAddingAppointment={isAddingAppointment}
+          />
+        )}
+      </Container>
+      <br />
+      <br />
+      <br />
+      <br />
+    </>
+  );
+  // }
 
   // Render when there are no clients
-  return (
-    <Container maxWidth='sm'>
-      {!isAddingClient ? (
-        <NoClients onAddClicked={setIsAddingClient} />
-      ) : (
-        <CreateClient onCancelClicked={setIsAddingClient} />
-      )}
-    </Container>
-  );
+  // return (
+  //   <Container maxWidth='sm'>
+  //     {!isAddingClient ? (
+  //       <NoClients onAddClicked={setIsAddingClient} />
+  //     ) : (
+  //       <CreateClient onCancelClicked={setIsAddingClient} />
+  //     )}
+  //   </Container>
+  // );
 }
