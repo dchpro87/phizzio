@@ -125,6 +125,7 @@ export default function ClientDetals({ client, onCancelClicked }) {
           expandIcon={<ExpandMoreIcon />}
           aria-controls='panel1a-content'
           id='panel1a-header'
+          sx={{ backgroundColor: 'primary.main', color: 'text.light' }}
         >
           <Typography variant='h4' component='h4'>
             Info

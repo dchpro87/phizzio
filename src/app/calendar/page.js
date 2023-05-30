@@ -34,7 +34,7 @@ export default function AppointmentsMain() {
     // isSuccess: isAppointmentsSuccess,
     isLoading: isAppointmentsLoading,
   } = useGetAllAppointmentsQuery({
-    filter: `?userId=${userId}`,
+    filter: `?userId=${userId}&sort=dateTime`,
   });
 
   if (status === 'unauthenticated') signIn();

@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
+import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 
 export default function AppointmentCard({
@@ -43,7 +44,12 @@ export default function AppointmentCard({
       onClick={() => onCardClicked(id)}
     >
       <CardHeader title={`${date} ${time}`} subheader={clientName} />
-      <CardContent>{treatmentType}</CardContent>
+      <Divider sx={{ mb: 1, bgcolor: 'primary.main' }} />
+      <CardContent>
+        <Typography variant='h3' component='h3' color='text.secondary'>
+          {treatmentType}
+        </Typography>
+      </CardContent>
     </Card>
   );
 }
