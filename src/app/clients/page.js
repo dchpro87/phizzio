@@ -85,22 +85,14 @@ export default function ClientsMain() {
     />
   ));
 
-  // if (isClientsLoading || isAppointmentsLoading) {
-  //   return (
-  //     <SpinnerWithMessage message='Fetching your clients and checking for appointments' />
-  //   );
-  // }
-
-  // if (isClientsSuccess && clientsData?.clients?.length > 0) {
-  // Render the main content
   return (
     <>
       <Container maxWidth='sm'>
-        {!isAddingClient && clickedClientId === '' && (
+        {!isAddingClient && !clickedClientId && (
           <ClientHeader onAddClicked={setIsAddingClient} />
         )}
 
-        {!isAddingClient && clickedClientId.length > 0 && (
+        {!isAddingClient && clickedClientId !== '' && (
           <ClientMenu
             name={client.name}
             onBackClicked={() => {
@@ -114,7 +106,7 @@ export default function ClientsMain() {
           />
         )}
 
-        {!isAddingClient && clickedClientId === '' && (
+        {!isAddingClient && !clickedClientId && (
           <Box
             sx={{
               display: 'flex',
@@ -138,11 +130,11 @@ export default function ClientsMain() {
           </Box>
         )}
 
-        {isAddingClient && clickedClientId === '' && (
+        {isAddingClient && !clickedClientId && (
           <CreateClient onCancelClicked={setIsAddingClient} />
         )}
 
-        {clickedClientId.length > 0 && (
+        {clickedClientId !== '' && (
           <ClientDetails
             client={client}
             resetClickedClientId={() => {
@@ -154,8 +146,8 @@ export default function ClientsMain() {
         )}
 
         {!isAddingAppointment &&
-          clickedClientId.length > 0 &&
-          appointmentsData.length > 0 &&
+          clickedClientId !== '' &&
+          appointmentsData !== '' &&
           !clickedAppointmentId && <Box>{appointmentsList}</Box>}
 
         {isAddingAppointment && (
@@ -165,7 +157,7 @@ export default function ClientsMain() {
           />
         )}
 
-        {clickedAppointmentId.length > 0 && (
+        {clickedAppointmentId !== '' && (
           <UpdateAppointment
             appointment={appointment}
             onCancelClicked={() => setClickedAppointmentId('')}

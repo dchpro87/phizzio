@@ -94,7 +94,9 @@ export default function AppointmentsMain() {
   return (
     <>
       <Container maxWidth='sm'>
-        {!isAppointmentsSuccess ? (
+        {isAppointmentsSuccess ? (
+          <MainDatePicker userId={userId} onDateSelected={handleDateSelected} />
+        ) : (
           <Skeleton
             variant='rectangular'
             width='100%'
@@ -103,16 +105,13 @@ export default function AppointmentsMain() {
           >
             <div style={{ paddingTop: '71%' }} />
           </Skeleton>
-        ) : (
-          <MainDatePicker userId={userId} onDateSelected={handleDateSelected} />
         )}
-        {!isAppointmentsSuccess && !isClientsSuccess ? (
+        {isAppointmentsSuccess && isClientsSuccess ? (
+          <Box>{appointmentsList}</Box>
+        ) : (
           <Skeleton variant='rectangular' width='100%' animation='wave'>
             <div style={{ paddingTop: '29%' }} />
           </Skeleton>
-        ) : (
-          // <div>Loading...</div>
-          <Box>{appointmentsList}</Box>
         )}
       </Container>
       <br />
