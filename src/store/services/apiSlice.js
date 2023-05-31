@@ -51,7 +51,7 @@ export const apiSlice = createApi({
       invalidatesTags: ['Client'],
     }),
     getClients: builder.query({
-      query: (queryStr) => `/clients/${queryStr.userId}${queryStr.filter}`,
+      query: (query) => `/clients/${query.path}?${query.queryStr}`,
       providesTags: ['Client'],
     }),
     updateClient: builder.mutation({
@@ -87,7 +87,7 @@ export const apiSlice = createApi({
       invalidatesTags: ['Appointment'],
     }),
     getAllAppointments: builder.query({
-      query: (queryStr) => `/appointments/${queryStr.filter}`,
+      query: (query) => `/appointments/${query.path}?${query.queryStr}`,
       providesTags: ['Appointment'],
     }),
     deleteAppointment: builder.mutation({

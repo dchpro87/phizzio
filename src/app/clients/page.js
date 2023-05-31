@@ -35,27 +35,16 @@ export default function ClientsMain() {
     data: clientsData,
     isSuccess: isClientsSuccess,
     isLoading: isClientsLoading,
-  } = useGetClientsQuery({ userId, filter: '?sort=name' });
+  } = useGetClientsQuery({ path: userId, queryStr: 'sort=name' });
 
   const {
     data: appointmentsData,
     isSuccess: isAppointmentsSuccess,
     isLoading: isAppointmentsLoading,
-  } = useGetAllAppointmentsQuery({
-    filter: `?userId=${userId}`,
-  });
+  } = useGetAllAppointmentsQuery({ path: userId, queryStr: 'sort=dateTime' });
 
   const { data: session, status } = useSession();
   if (status === 'unauthenticated') signIn();
-
-  // useEffect(() => {
-  //   if (session?.user?.userId !== userId) signIn();
-  // }, [session, userId]);
-
-  // if (isClientsSuccess || isAppointmentsSuccess)
-  //   return (
-  //     <SpinnerWithMessage message='Fetching your clients and checking for appointments' />
-  //   );
 
   const client = clientsData?.clients?.find(
     (client) => client.id === clickedClientId
@@ -92,7 +81,7 @@ export default function ClientsMain() {
           <ClientHeader onAddClicked={setIsAddingClient} />
         )}
 
-        {!isAddingClient && clickedClientId !== '' && (
+        {!isAddingClient && clickedClientId && (
           <ClientMenu
             name={client.name}
             onBackClicked={() => {
@@ -134,7 +123,7 @@ export default function ClientsMain() {
           <CreateClient onCancelClicked={setIsAddingClient} />
         )}
 
-        {clickedClientId !== '' && (
+        {clickedClientId && (
           <ClientDetails
             client={client}
             resetClickedClientId={() => {
@@ -146,8 +135,8 @@ export default function ClientsMain() {
         )}
 
         {!isAddingAppointment &&
-          clickedClientId !== '' &&
-          appointmentsData !== '' &&
+          clickedClientId &&
+          appointmentsData &&
           !clickedAppointmentId && <Box>{appointmentsList}</Box>}
 
         {isAddingAppointment && (
@@ -157,7 +146,7 @@ export default function ClientsMain() {
           />
         )}
 
-        {clickedAppointmentId !== '' && (
+        {clickedAppointmentId && (
           <UpdateAppointment
             appointment={appointment}
             onCancelClicked={() => setClickedAppointmentId('')}
@@ -171,16 +160,4 @@ export default function ClientsMain() {
       <br />
     </>
   );
-  // }
-
-  // Render when there are no clients
-  // return (
-  //   <Container maxWidth='sm'>
-  //     {!isAddingClient ? (
-  //       <NoClients onAddClicked={setIsAddingClient} />
-  //     ) : (
-  //       <CreateClient onCancelClicked={setIsAddingClient} />
-  //     )}
-  //   </Container>
-  // );
 }

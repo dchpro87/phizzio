@@ -28,15 +28,13 @@ export default function AppointmentsMain() {
     data: clientsData,
     isSuccess: isClientsSuccess,
     isLoading: isClientsLoading,
-  } = useGetClientsQuery({ userId, filter: '?sort=name' });
+  } = useGetClientsQuery({ path: userId, queryStr: 'sort=name' });
 
   const {
     data: appointmentsData,
     isSuccess: isAppointmentsSuccess,
     isLoading: isAppointmentsLoading,
-  } = useGetAllAppointmentsQuery({
-    filter: `?userId=${userId}&sort=dateTime`,
-  });
+  } = useGetAllAppointmentsQuery({ path: userId, queryStr: 'sort=dateTime' });
 
   if (status === 'unauthenticated') signIn();
 

@@ -225,9 +225,9 @@ export default function UpdateAppointment({
                 label='Musculoskeletal disorders'
               />
               <FormControlLabel
-                value='post-surgical-rehabilitation'
+                value='post-surgical rehabilitation'
                 control={<Radio />}
-                label='Post surgical rehabilitation'
+                label='Post-surgical rehabilitation'
               />
               <FormControlLabel
                 value='chronic-pain'
