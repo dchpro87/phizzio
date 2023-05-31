@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useSession, signIn } from 'next-auth/react';
 import { useSelector } from 'react-redux';
 
-import SpinnerWithMessage from '@/ui/SpinnerWithMessage';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
@@ -73,6 +72,13 @@ export default function ClientsMain() {
       onCardClicked={setClickedAppointmentId}
     />
   ));
+
+  if (!isAddingClient && isClientsSuccess && clientsData?.clients?.length === 0)
+    return (
+      <Container maxWidth='sm'>
+        <NoClients onAddClicked={() => setIsAddingClient((prev) => !prev)} />
+      </Container>
+    );
 
   return (
     <>

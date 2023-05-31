@@ -23,7 +23,7 @@ export default function NoClients({ onAddClicked }) {
         <Button
           variant='contained'
           sx={{ color: 'text.light' }}
-          onClick={() => onAddClicked((prev) => !prev)}
+          onClick={onAddClicked}
         >
           Add a client
         </Button>

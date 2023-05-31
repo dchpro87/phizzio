@@ -42,7 +42,9 @@ function ResponsiveAppBar() {
   const userId = session?.user?.userId;
   const email = session?.user?.email;
 
-  const { data } = useGetUserByIdQuery(userId);
+  const { data, isSuccess } = useGetUserByIdQuery(userId);
+
+  const isUser = data?.status !== 'fail';
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -133,7 +135,7 @@ function ResponsiveAppBar() {
               />
             </Link>
           </Box>
-          {status === 'authenticated' && (
+          {isUser && (
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 size='large'
@@ -188,7 +190,7 @@ function ResponsiveAppBar() {
             </Link>
           </Box>
 
-          {status === 'authenticated' && (
+          {isUser && (
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
                 <Button
@@ -201,13 +203,13 @@ function ResponsiveAppBar() {
               ))}
             </Box>
           )}
-          {status === 'unauthenticated' && (
+          {!isUser && (
             <Box
               sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}
             ></Box>
           )}
 
-          {status === 'unauthenticated' && (
+          {!isUser && (
             <Box sx={{ flexGrow: 0 }}>
               <Button
                 variant='outlined'
@@ -225,7 +227,7 @@ function ResponsiveAppBar() {
               </Button>
             </Box>
           )}
-          {status === 'authenticated' && (
+          {isUser && (
             <Tooltip arrow title='Send comments to the developer guys'>
               <MessageIcon
                 sx={{
@@ -237,7 +239,7 @@ function ResponsiveAppBar() {
               />
             </Tooltip>
           )}
-          {status === 'authenticated' && (
+          {isUser && (
             <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar
