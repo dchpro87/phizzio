@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 
 export default function ClientHeader({ onAddClicked }) {
   return (
-    <Paper sx={{ p: 2 }}>
+    <Paper sx={{ p: 2 }} elevation={3}>
       <Typography
         variant='h3'
         component='h3'

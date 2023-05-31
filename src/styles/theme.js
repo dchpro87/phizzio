@@ -39,7 +39,7 @@ const theme = createTheme({
     },
     background: {
       paper: '#f2f2f2',
-      default: '#EFF8E7',
+      default: '#D7EDC4',
     },
   },
   shape: {
