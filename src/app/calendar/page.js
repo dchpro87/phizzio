@@ -92,7 +92,7 @@ export default function AppointmentsMain() {
   return (
     <>
       <Container maxWidth='sm'>
-        {isAppointmentsSuccess ? (
+        {status === 'authenticated' && isAppointmentsSuccess ? (
           <MainDatePicker userId={userId} onDateSelected={handleDateSelected} />
         ) : (
           <Skeleton

@@ -23,6 +23,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import MessageIcon from '@mui/icons-material/Message';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import Dialog from './Dialog';
 import CommentDialog from './CommentDialog';
@@ -42,9 +43,13 @@ function ResponsiveAppBar() {
   const userId = session?.user?.userId;
   const email = session?.user?.email;
 
-  const { data } = useGetUserByIdQuery(userId);
+  const {
+    data,
+    isSuccess: isUserSuccess,
+    isLoading: isUserLoading,
+  } = useGetUserByIdQuery(userId);
 
-  const isUser = data?.id || false;
+  const isUser = (data?.id && status === 'authenticated') || false;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -211,22 +216,27 @@ function ResponsiveAppBar() {
 
           {!isUser && (
             <Box sx={{ flexGrow: 0 }}>
-              <Button
-                variant='outlined'
-                sx={{
-                  color: 'text.light',
-                  borderColor: 'text.light',
-                  '&:hover': {
+              {status === 'loading' || isUserLoading ? (
+                <CircularProgress size='2rem' sx={{ color: 'text.light' }} />
+              ) : (
+                <Button
+                  variant='outlined'
+                  sx={{
+                    color: 'text.light',
                     borderColor: 'text.light',
-                    bgcolor: 'action.hover',
-                  },
-                }}
-                onClick={() => router.push('/login')}
-              >
-                Login
-              </Button>
+                    '&:hover': {
+                      borderColor: 'text.light',
+                      bgcolor: 'action.hover',
+                    },
+                  }}
+                  onClick={() => router.push('/login')}
+                >
+                  Login
+                </Button>
+              )}
             </Box>
           )}
+
           {isUser && (
             <Tooltip arrow title='Send comments to the developer guys'>
               <MessageIcon
@@ -239,6 +249,7 @@ function ResponsiveAppBar() {
               />
             </Tooltip>
           )}
+
           {isUser && (
             <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
