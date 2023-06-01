@@ -104,12 +104,8 @@ export default function AppointmentsMain() {
             <div style={{ paddingTop: '71%' }} />
           </Skeleton>
         )}
-        {isAppointmentsSuccess && isClientsSuccess ? (
+        {isAppointmentsSuccess && isClientsSuccess && (
           <Box>{appointmentsList}</Box>
-        ) : (
-          <Skeleton variant='rectangular' width='100%' animation='wave'>
-            <div style={{ paddingTop: '29%' }} />
-          </Skeleton>
         )}
       </Container>
       <br />
