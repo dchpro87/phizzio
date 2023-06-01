@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
-export default function ClientHeader({ onAddClicked }) {
+export default function ClientHeader({ onAddClicked, status }) {
   return (
     <Paper sx={{ p: 2 }} elevation={3}>
       <Typography
@@ -18,6 +18,7 @@ export default function ClientHeader({ onAddClicked }) {
       <Button
         variant='contained'
         sx={{ color: 'text.light', mt: 2 }}
+        disabled={status === 'loading' || status === 'unauthenticated'}
         onClick={() => onAddClicked((prev) => !prev)}
       >
         Add a client

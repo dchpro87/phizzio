@@ -2,9 +2,10 @@ import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
+import Skeleton from '@mui/material/Skeleton';
 
 export default function Client({ client, onCardClicked }) {
-  return (
+  return client ? (
     <Card
       sx={{
         width: '18ch',
@@ -34,5 +35,13 @@ export default function Client({ client, onCardClicked }) {
         {/* </div> */}
       </Box>
     </Card>
+  ) : (
+    <Skeleton
+      variant='rounded'
+      width='18ch'
+      height={100}
+      animation='wave'
+      sx={{ mt: 2 }}
+    />
   );
 }

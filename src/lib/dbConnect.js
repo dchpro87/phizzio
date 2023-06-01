@@ -5,8 +5,6 @@ const MONGODB_URI =
     ? process.env.MONGODB_URI_DEV
     : process.env.MONGODB_URI_PROD;
 
-console.log('process.env.NODE_ENV', process.env.NODE_ENV);
-
 if (!MONGODB_URI) {
   throw new Error(
     'Please define the MONGODB_URI environment variable inside .env.local'

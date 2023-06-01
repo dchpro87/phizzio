@@ -49,9 +49,11 @@ export default function ClientsMain() {
     (client) => client.id === clickedClientId
   );
 
-  const clientsList = clientsData?.clients?.map((client) => (
+  const clientsList = (
+    isClientsLoading ? Array.from(new Array(6)) : clientsData?.clients
+  )?.map((client, index) => (
     <ClientCard
-      key={client.id}
+      key={index}
       client={client}
       onCardClicked={setClickedClientId}
     />
@@ -84,7 +86,7 @@ export default function ClientsMain() {
     <>
       <Container maxWidth='sm'>
         {!isAddingClient && !clickedClientId && (
-          <ClientHeader onAddClicked={setIsAddingClient} />
+          <ClientHeader onAddClicked={setIsAddingClient} status={status} />
         )}
 
         {!isAddingClient && clickedClientId && (
@@ -110,18 +112,7 @@ export default function ClientsMain() {
               justifyContent: 'space-around',
             }}
           >
-            {isClientsSuccess ? (
-              clientsList
-            ) : (
-              <Skeleton
-                variant='rectangular'
-                width='100%'
-                animation='wave'
-                sx={{ marginBottom: '1rem' }}
-              >
-                <div style={{ paddingTop: '20%' }} />
-              </Skeleton>
-            )}
+            {clientsList}
           </Box>
         )}
 
