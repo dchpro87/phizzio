@@ -21,7 +21,6 @@ import ClientMenu from './ClientMenu';
 import CreateAppointment from './CreateAppointment';
 import AppointmentCard from './AppointmentCard';
 import UpdateAppointment from './UpdateAppointment';
-import { Skeleton } from '@mui/material';
 
 export default function ClientsMain() {
   const [isAddingClient, setIsAddingClient] = useState(false);
@@ -29,20 +28,17 @@ export default function ClientsMain() {
   const [clickedClientId, setClickedClientId] = useState('');
   const [clickedAppointmentId, setClickedAppointmentId] = useState('');
   const { userId } = useSelector((state) => state.user);
+  const { status } = useSession();
 
-  const {
-    data: clientsData,
-    isSuccess: isClientsSuccess,
-    isLoading: isClientsLoading,
-  } = useGetClientsQuery({ path: userId, queryStr: 'sort=name' });
+  const { data: clientsData, isLoading: isClientsLoading } = useGetClientsQuery(
+    { path: userId, queryStr: 'sort=name' }
+  );
 
-  const {
-    data: appointmentsData,
-    isSuccess: isAppointmentsSuccess,
-    isLoading: isAppointmentsLoading,
-  } = useGetAllAppointmentsQuery({ path: userId, queryStr: 'sort=dateTime' });
+  const { data: appointmentsData } = useGetAllAppointmentsQuery({
+    path: userId,
+    queryStr: 'sort=dateTime',
+  });
 
-  const { data: session, status } = useSession();
   if (status === 'unauthenticated') signIn();
 
   const client = clientsData?.clients?.find(
@@ -75,7 +71,7 @@ export default function ClientsMain() {
     />
   ));
 
-  if (!isAddingClient && isClientsSuccess && clientsData?.clients?.length === 0)
+  if (!isAddingClient && clientsData?.clients?.length === 0)
     return (
       <Container maxWidth='sm'>
         <NoClients onAddClicked={() => setIsAddingClient((prev) => !prev)} />

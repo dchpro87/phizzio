@@ -17,7 +17,6 @@ export async function GET(req, { params }) {
     );
   }
 
-  // const userId = 12345;
   const userId = params?.id;
 
   await dbConnect();
