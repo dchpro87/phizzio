@@ -11,7 +11,6 @@ export default function Client({ client, onCardClicked }) {
         width: '18ch',
         mt: 2,
         p: 2,
-        // bgcolor: "grey.900",
         ':hover': {
           bgcolor: 'action.hover',
           cursor: 'pointer',
@@ -25,21 +24,19 @@ export default function Client({ client, onCardClicked }) {
           flexDirection: 'column',
         }}
       >
-        {/* <div> */}
         <Typography fontSize='0.8rem' sx={{ fontWeight: '500' }}>
           {client.name}
         </Typography>
         <Divider sx={{ mb: 1, bgcolor: 'primary.main' }} />
         <Typography fontSize='0.6rem'>{client.email}</Typography>
         <Typography fontSize='0.6rem'>{client.cellphone}</Typography>
-        {/* </div> */}
       </Box>
     </Card>
   ) : (
     <Skeleton
       variant='rounded'
       width='18ch'
-      height={100}
+      height={90}
       animation='wave'
       sx={{ mt: 2 }}
     />
