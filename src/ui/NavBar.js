@@ -43,9 +43,9 @@ function ResponsiveAppBar() {
   const userId = session?.user?.userId;
   const email = session?.user?.email;
 
-  const { data: user, isLoading: isUserLoading } = useGetUserByIdQuery(userId);
+  // const { data: user, isLoading: isUserLoading } = useGetUserByIdQuery(userId);
 
-  const isUser = (user?.id && status === 'authenticated') || false;
+  const isUser = status === 'authenticated' || false;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -212,7 +212,7 @@ function ResponsiveAppBar() {
 
           {!isUser && (
             <Box sx={{ flexGrow: 0 }}>
-              {status === 'loading' || isUserLoading ? (
+              {status === 'loading' ? (
                 <CircularProgress size='2rem' sx={{ color: 'text.light' }} />
               ) : (
                 <Button

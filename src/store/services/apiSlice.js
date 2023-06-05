@@ -8,21 +8,21 @@ export const apiSlice = createApi({
   endpoints: (builder) => ({
     getUserById: builder.query({
       query: (userId) => `/users/${userId}`,
-      async onQueryStarted(userId, { dispatch, queryFulfilled }) {
-        try {
-          const { data: user } = await queryFulfilled;
-          dispatch(
-            updateUser({
-              userId: user.id,
-              name: user.name,
-              email: user.email,
-              cellphone: user.cellphone,
-            })
-          );
-        } catch (err) {
-          console.log('no session on first request(');
-        }
-      },
+      // async onQueryStarted(userId, { dispatch, queryFulfilled }) {
+      //   try {
+      //     const { data: user } = await queryFulfilled;
+      //     dispatch(
+      //       updateUser({
+      //         userId: user.id,
+      //         name: user.name,
+      //         email: user.email,
+      //         cellphone: user.cellphone,
+      //       })
+      //     );
+      //   } catch (err) {
+      //     console.log('no session on first request(');
+      //   }
+      // },
       providesTags: ['User'],
     }),
     updateUserById: builder.mutation({

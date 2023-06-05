@@ -10,6 +10,7 @@ export const authOptions = {
       id: 'credentials',
       name: 'credentials',
       async authorize(credentials, req) {
+        console.log('💥authorize');
         const { email, password } = credentials;
         await dbConnect();
         const user = await User.findOne({ email }).select(
@@ -31,15 +32,14 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async session({ session, token, user }) {
-      session.user.userId = token.sub;
-      // session.user.image = '';
-      // console.log('session', { session, token, user });
-      return session;
-    },
     async jwt({ token, user, account, profile, isNewUser }) {
-      // console.log('jwt', { token, user, account, profile, isNewUser });
+      console.log('💥jwt callback');
       return token;
+    },
+    async session({ session, token, user }) {
+      console.log('💥session callback');
+      session.user.userId = token.sub;
+      return session;
     },
   },
   session: {

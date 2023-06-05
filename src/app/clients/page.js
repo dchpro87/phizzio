@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useSession, signIn } from 'next-auth/react';
-import { useSelector } from 'react-redux';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -27,8 +26,11 @@ export default function ClientsMain() {
   const [isAddingAppointment, setIsAddingAppointment] = useState(false);
   const [clickedClientId, setClickedClientId] = useState('');
   const [clickedAppointmentId, setClickedAppointmentId] = useState('');
-  const { userId } = useSelector((state) => state.user);
-  const { status } = useSession();
+
+  const { data: session, status } = useSession();
+  // const name = session?.user?.name;
+  const userId = session?.user?.userId;
+  // const email = session?.user?.email;
 
   const { data: clientsData, isLoading: isClientsLoading } = useGetClientsQuery(
     { path: userId, queryStr: 'sort=name' }

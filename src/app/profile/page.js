@@ -20,10 +20,15 @@ export default function Profile() {
   const { data: session, status } = useSession();
   const userId = session?.user?.userId;
 
-  const { isSuccess, isError } = useGetUserByIdQuery(userId);
+  const {
+    data: user,
+    isSuccess: isUserSuccess,
+    isError,
+  } = useGetUserByIdQuery(userId);
   if (status === 'unauthenticated') signIn();
 
-  if (!isSuccess) return <SpinnerWithMessage message='Fetching your profile' />;
+  if (!isUserSuccess)
+    return <SpinnerWithMessage message='Fetching your profile' />;
   if (isError) return <p>Something went wrong, maybe check your connection.</p>;
 
   return (
@@ -42,7 +47,7 @@ export default function Profile() {
         <Divider />
 
         <AccordionDetails>
-          <MyProfile />
+          <MyProfile user={user} />
         </AccordionDetails>
       </Accordion>
 
