@@ -30,11 +30,10 @@ export default function HomePage() {
           Streamline Your Physiotherapy Practice
         </Typography>
         <Typography variant='body1' align='center' gutterBottom>
-          Phi:zio is a revolutionary web application designed to empower
-          physiotherapists in managing their clients and optimizing their
-          practice. Say goodbye to manual record-keeping and disorganized
-          scheduling, and embrace a seamless and efficient approach to client
-          management.
+          Phi:zio is a web application designed to empower physiotherapists in
+          managing their clients and optimizing their practice. Say goodbye to
+          manual record-keeping and disorganized scheduling, and embrace a
+          seamless and efficient approach to client management.
         </Typography>
         <br />
         <Typography variant='h3' align='center' gutterBottom>
@@ -85,7 +84,7 @@ export default function HomePage() {
               practice&apos;s organization.
             </Typography>
           </li>
-          <li>
+          {/* <li>
             <Typography variant='body1'>
               <strong>Improved Client Experience:</strong> Deliver exceptional
               service to your clients with timely notifications, appointment
@@ -100,7 +99,7 @@ export default function HomePage() {
               your practice&apos;s performance, track client progress, and
               identify areas for improvement.
             </Typography>
-          </li>
+          </li> */}
         </ul>
         <Typography variant='body1' align='center'>
           Get Started with Phi:zio Today
