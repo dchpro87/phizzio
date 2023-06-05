@@ -28,9 +28,7 @@ export default function ClientsMain() {
   const [clickedAppointmentId, setClickedAppointmentId] = useState('');
 
   const { data: session, status } = useSession();
-  // const name = session?.user?.name;
   const userId = session?.user?.userId;
-  // const email = session?.user?.email;
 
   const { data: clientsData, isLoading: isClientsLoading } = useGetClientsQuery(
     { path: userId, queryStr: 'sort=name' }
@@ -42,6 +40,10 @@ export default function ClientsMain() {
   });
 
   if (status === 'unauthenticated') signIn();
+  if (userId === 'undefined') {
+    console.log('💥refetching');
+    refetchAppointments();
+  }
 
   const client = clientsData?.clients?.find(
     (client) => client.id === clickedClientId

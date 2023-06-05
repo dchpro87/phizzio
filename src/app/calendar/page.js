@@ -33,9 +33,14 @@ export default function AppointmentsMain() {
     data: appointmentsData,
     isSuccess: isAppointmentsSuccess,
     isLoading: isAppointmentsLoading,
+    refetch: refetchAppointments,
   } = useGetAllAppointmentsQuery({ path: userId, queryStr: 'sort=dateTime' });
 
   if (status === 'unauthenticated') signIn();
+  if (userId === 'undefined') {
+    console.log('💥refetching');
+    refetchAppointments();
+  }
 
   const daysAppointments = appointmentsData?.appointments?.filter(
     (appointment) => {
