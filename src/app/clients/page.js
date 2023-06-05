@@ -34,10 +34,11 @@ export default function ClientsMain() {
     { path: userId, queryStr: 'sort=name' }
   );
 
-  const { data: appointmentsData } = useGetAllAppointmentsQuery({
-    path: userId,
-    queryStr: 'sort=dateTime',
-  });
+  const { data: appointmentsData, refetch: refetchAppointments } =
+    useGetAllAppointmentsQuery({
+      path: userId,
+      queryStr: 'sort=dateTime',
+    });
 
   if (status === 'unauthenticated') signIn();
   if (userId === 'undefined') {
