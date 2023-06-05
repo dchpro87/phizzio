@@ -1,5 +1,7 @@
 'use client';
 
+import NoAppontments from './NoAppointments';
+
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
@@ -96,7 +98,7 @@ export default function AppointmentsMain() {
   return (
     <>
       <Container maxWidth='sm'>
-        {status === 'authenticated' && isAppointmentsSuccess ? (
+        {isAppointmentsSuccess && appointmentsData?.appointments?.length ? (
           <MainDatePicker userId={userId} onDateSelected={handleDateSelected} />
         ) : isAppointmentsLoading ? (
           <Skeleton
@@ -108,7 +110,7 @@ export default function AppointmentsMain() {
             <div style={{ paddingTop: '71%' }} />
           </Skeleton>
         ) : (
-          <p>No appoinrments found</p>
+          <NoAppontments />
         )}
         {isAppointmentsSuccess && isClientsSuccess && (
           <Box>{appointmentsList}</Box>

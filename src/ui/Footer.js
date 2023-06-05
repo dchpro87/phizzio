@@ -2,6 +2,8 @@
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import Link from '@mui/material/Link';
 
 export default function Footer() {
   return (
@@ -18,8 +20,11 @@ export default function Footer() {
       }}
     >
       <Typography variant='body2' align='center' sx={{ color: 'text.light' }}>
-        By continuing, you agree to our Terms of Use and Privacy Policy.
+        This app is under development - June 2023.
       </Typography>
+      <Link href='https://github.com/dchpro87/phizzio' target='_blank'>
+        <GitHubIcon sx={{ color: 'text.light', marginLeft: '0.5rem' }} />
+      </Link>
     </Box>
   );
 }
