@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSession } from 'next-auth/react';
 
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
@@ -10,13 +10,15 @@ import { useUpdatePasswordMutation } from '../../store/services/apiSlice';
 
 export default function ChangePassword() {
   const [message, setMessage] = useState('');
-  const { userId } = useSelector((state) => state.user);
 
   const [updatePassword, mutationResult] = useUpdatePasswordMutation();
 
   const currentPasswordInputRef = useRef();
   const newPasswordInputRef = useRef();
   const confirmPasswordInputRef = useRef();
+
+  const { data: session } = useSession();
+  const userId = session?.user?.userId;
 
   const handleSubmit = async (event) => {
     event.preventDefault();

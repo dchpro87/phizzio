@@ -1,13 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSession } from 'next-auth/react';
 
-import {
-  updateUserName,
-  updateUserEmail,
-  updateUserCellphone,
-} from '../../store/features/user/userSlice';
 import { useUpdateUserByIdMutation } from '../../store/services/apiSlice';
 
 import TextField from '@mui/material/TextField';
@@ -17,29 +12,32 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 import { capitalizeName } from '../../lib/utils';
 
-export default function MyProfile() {
+export default function MyProfile({ user }) {
   const [message, setMessage] = useState('');
-  const { userId, name, email, cellphone } = useSelector((state) => state.user);
-  const [isUpdated, setIsUpdated] = useState(true);
 
-  const dispatch = useDispatch();
+  const [isUpdated, setIsUpdated] = useState(true);
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
+  const [cellphone, setCellphone] = useState(user.cellphone);
+
+  const { data: session } = useSession();
+  const userId = session?.user?.userId;
+
   const [updateUserById, mutationResult] = useUpdateUserByIdMutation();
 
-  //  change button color when user updates profile
-  //  no validation!!!
   const btnColor = isUpdated ? 'primary.main' : 'secondary.main';
 
   const handleNameChange = (event) => {
     setIsUpdated(false);
-    dispatch(updateUserName({ name: event.target.value }));
+    setName(event.target.value);
   };
   const handleEmailChange = (event) => {
     setIsUpdated(false);
-    dispatch(updateUserEmail({ email: event.target.value }));
+    setEmail(event.target.value);
   };
   const handleCellphoneChange = (event) => {
     setIsUpdated(false);
-    dispatch(updateUserCellphone({ cellphone: event.target.value }));
+    setCellphone(event.target.value);
   };
 
   const handleSubmit = async (event) => {
@@ -51,7 +49,6 @@ export default function MyProfile() {
     const payload = { userId, name: capitalizeName(name), email, cellphone };
 
     try {
-      //  check email and cellphone are valid
       if (!payload.email || !/\S+@\S+\.\S+/.test(payload.email))
         throw new Error('Please provide a valid email');
 
@@ -67,7 +64,6 @@ export default function MyProfile() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        {/* <hr /> */}
         <Box
           my={2}
           sx={{
@@ -98,7 +94,7 @@ export default function MyProfile() {
             id='cellphone'
             size='small'
             name='cellphone'
-            type='text'
+            type='tel'
             value={cellphone ? cellphone : ''}
             label='Cellphone'
             onChange={handleCellphoneChange}

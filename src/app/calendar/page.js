@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
-import { useSelector } from 'react-redux';
 
 import {
   useGetAllAppointmentsQuery,
@@ -22,8 +21,9 @@ import dayjs from 'dayjs';
 export default function AppointmentsMain() {
   const [selectedDay, setSelectedDay] = useState('');
   const [clickedAppointmentId, setClickedAppointmentId] = useState('');
-  const { userId } = useSelector((state) => state.user);
-  const { status } = useSession();
+
+  const { data: session, status } = useSession();
+  const userId = session?.user?.userId;
 
   const { data: clientsData, isSuccess: isClientsSuccess } = useGetClientsQuery(
     { path: userId, queryStr: 'sort=name' }
@@ -103,7 +103,7 @@ export default function AppointmentsMain() {
             <div style={{ paddingTop: '71%' }} />
           </Skeleton>
         ) : (
-          <p>No appoinrments founs</p>
+          <p>No appoinrments found</p>
         )}
         {isAppointmentsSuccess && isClientsSuccess && (
           <Box>{appointmentsList}</Box>
