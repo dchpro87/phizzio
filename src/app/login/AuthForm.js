@@ -17,14 +17,16 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 export default function AuthForm() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [revealPassword, setRevealPassword] = useState(false);
-  const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
   const router = useRouter();
   const searchParams = useSearchParams();
   const queryStr = Object.fromEntries(searchParams);
+
+  const [isLogin, setIsLogin] = useState(
+    queryStr.signUp === 'true' ? false : true
+  );
+  const [revealPassword, setRevealPassword] = useState(false);
+  const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const [enteredName, setEnteredName] = useState(queryStr.name ?? '');
   const [enteredEmail, setEnteredEmail] = useState(queryStr.email ?? '');
@@ -36,6 +38,7 @@ export default function AuthForm() {
   );
 
   let callbackUrl = null;
+  const isDemo = queryStr.email === 'demo@phizzio.com';
 
   function handleSwitchAuthMode() {
     setIsLogin((prevState) => !prevState);
@@ -47,7 +50,7 @@ export default function AuthForm() {
     setMessage('');
     setIsLoading(true);
 
-    if (isLogin && queryStr.email !== 'demo@phizzio.com') {
+    if (isLogin && !isDemo) {
       const result = await signIn('credentials', {
         email: enteredEmail,
         password: enteredPassword,
@@ -65,16 +68,16 @@ export default function AuthForm() {
         router.push(callbackUrl ?? '/');
       }
     } else {
-      // create new user
       try {
-        // generate random email for demo user with the word demo in it
         const randomNum = Math.floor(Math.random() * 10000);
 
         const createNewUser = await createUser({
           name: capitalizeName(enteredName),
           email: queryStr.email ? `demo${randomNum}@phizzio.com` : enteredEmail,
           password: enteredPassword,
-          passwordConfirm: enteredPasswordConfirm,
+          passwordConfirm: queryStr.password
+            ? enteredPassword
+            : enteredPasswordConfirm,
         });
 
         if (createNewUser.status === 'success') {
@@ -140,6 +143,7 @@ export default function AuthForm() {
             name='email'
             type='email'
             required
+            disabled={isDemo}
             // inputRef={emailInputRef}
             value={enteredEmail}
             label='Email'
@@ -153,13 +157,16 @@ export default function AuthForm() {
             name='password'
             type={revealPassword ? 'text' : 'password'}
             required
+            disabled={isDemo}
             // inputRef={passwordInputRef}
             value={enteredPassword}
             label='Password'
             InputProps={{
               endAdornment: (
                 <VisibilityOffIcon
-                  onClick={() => setRevealPassword((prev) => !prev)}
+                  onClick={() => {
+                    !isDemo ? setRevealPassword((prev) => !prev) : null;
+                  }}
                   sx={{
                     cursor: 'pointer',
                     position: 'absolute',
@@ -193,7 +200,12 @@ export default function AuthForm() {
           >
             <span>{isLogin ? 'Login' : 'Create Account'}</span>
           </LoadingButton>
-          <Button variant='text' type='button' onClick={handleSwitchAuthMode}>
+          <Button
+            variant='text'
+            type='button'
+            disabled={isDemo}
+            onClick={handleSwitchAuthMode}
+          >
             {isLogin ? 'Create new account' : 'Login with existing account'}
           </Button>
         </Box>

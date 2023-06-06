@@ -7,6 +7,7 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { Stack } from '@mui/material';
 
 export default function HomePage() {
   const { status } = useSession();
@@ -101,35 +102,37 @@ export default function HomePage() {
             </Typography>
           </li> */}
         </ul>
-        <Button
-          variant='contained'
-          // color='secondary'
-          size='large'
-          sx={{ color: 'text.light' }}
-          onClick={() => {
-            router.push(
-              '/login?name=Demo&email=demo@phizzio.com&password=demo1234'
-            );
-          }}
-        >
-          Demo
-        </Button>
         {/* <Typography variant='body1' align='center'>
           Get Started with Phi:zio Today
         </Typography> */}
         {status === 'unauthenticated' && (
-          <Button
-            variant='contained'
-            color='secondary'
-            size='large'
-            sx={{ color: 'text.light' }}
-            fullWidth
-            onClick={() => {
-              router.push('/login');
-            }}
-          >
-            Sign Up Now
-          </Button>
+          <Stack direction='row' spacing={2}>
+            <Button
+              variant='contained'
+              // color='secondary'
+              size='small'
+              sx={{ color: 'text.light' }}
+              onClick={() => {
+                router.push(
+                  '/login?name=Demo&email=demo@phizzio.com&password=demo1234'
+                );
+              }}
+            >
+              Demo login
+            </Button>
+            <Button
+              variant='contained'
+              color='secondary'
+              size='small'
+              sx={{ color: 'text.light' }}
+              fullWidth
+              onClick={() => {
+                router.push('/login?signUp=true');
+              }}
+            >
+              Sign Up Now
+            </Button>
+          </Stack>
         )}
       </Box>
       <br />
