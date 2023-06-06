@@ -78,8 +78,11 @@ export default function AuthForm() {
         });
 
         if (createNewUser.status === 'success') {
+          console.log('New user created successfully!');
           const result = await signIn('credentials', {
-            email: enteredEmail,
+            email: queryStr.email
+              ? `demo${randomNum}@phizzio.com`
+              : enteredEmail,
             password: enteredPassword,
             redirect: false,
           });
