@@ -17,7 +17,7 @@ export default function NoClients({ onAddClicked }) {
           alignItems: 'center',
         }}
       >
-        <Typography variant='h3' component='h3' gutterBottom>
+        <Typography variant='subtitle1' component='h3' gutterBottom>
           No Clients found. Add some.
         </Typography>
         <Button
