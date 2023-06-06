@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import createUser from '../../features/create-user';
 import { capitalizeName } from '../../lib/utils';
@@ -22,12 +22,18 @@ export default function AuthForm() {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const [enteredName, setEnteredName] = useState('');
-  const [enteredEmail, setEnteredEmail] = useState('');
-  const [enteredPassword, setEnteredPassword] = useState('');
-  const [enteredPasswordConfirm, setEnteredPasswordConfirm] = useState('');
-
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const queryStr = Object.fromEntries(searchParams);
+
+  const [enteredName, setEnteredName] = useState(queryStr.name ?? '');
+  const [enteredEmail, setEnteredEmail] = useState(queryStr.email ?? '');
+  const [enteredPassword, setEnteredPassword] = useState(
+    queryStr.password ?? ''
+  );
+  const [enteredPasswordConfirm, setEnteredPasswordConfirm] = useState(
+    queryStr.password ?? ''
+  );
 
   let callbackUrl = null;
 
@@ -41,7 +47,7 @@ export default function AuthForm() {
     setMessage('');
     setIsLoading(true);
 
-    if (isLogin) {
+    if (isLogin && queryStr.email !== 'demo@phizzio.com') {
       const result = await signIn('credentials', {
         email: enteredEmail,
         password: enteredPassword,
@@ -61,9 +67,12 @@ export default function AuthForm() {
     } else {
       // create new user
       try {
+        // generate random email for demo user with the word demo in it
+        const randomNum = Math.floor(Math.random() * 10000);
+
         const createNewUser = await createUser({
           name: capitalizeName(enteredName),
-          email: enteredEmail,
+          email: queryStr.email ? `demo${randomNum}@phizzio.com` : enteredEmail,
           password: enteredPassword,
           passwordConfirm: enteredPasswordConfirm,
         });
