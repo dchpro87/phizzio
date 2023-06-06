@@ -101,9 +101,22 @@ export default function HomePage() {
             </Typography>
           </li> */}
         </ul>
-        <Typography variant='body1' align='center'>
+        <Button
+          variant='contained'
+          // color='secondary'
+          size='large'
+          sx={{ color: 'text.light' }}
+          onClick={() => {
+            router.push(
+              '/login?name=Demo&email=demo@phizzio.com&password=demo1234'
+            );
+          }}
+        >
+          Demo
+        </Button>
+        {/* <Typography variant='body1' align='center'>
           Get Started with Phi:zio Today
-        </Typography>
+        </Typography> */}
         {status === 'unauthenticated' && (
           <Button
             variant='contained'
