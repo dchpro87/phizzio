@@ -106,16 +106,14 @@ export default function HomePage() {
           Get Started with Phi:zio Today
         </Typography> */}
         {status === 'unauthenticated' && (
-          <Stack direction='row' spacing={2}>
+          <Stack direction='row' spacing={2} sx={{ my: 2 }}>
             <Button
               variant='contained'
               // color='secondary'
-              size='small'
+              size='large'
               sx={{ color: 'text.light' }}
               onClick={() => {
-                router.push(
-                  '/login?name=Demo&email=demo@phizzio.com&password=demo1234'
-                );
+                router.push('/login?demo=true');
               }}
             >
               Demo login
@@ -123,9 +121,8 @@ export default function HomePage() {
             <Button
               variant='contained'
               color='secondary'
-              size='small'
+              size='large'
               sx={{ color: 'text.light' }}
-              fullWidth
               onClick={() => {
                 router.push('/login?signUp=true');
               }}

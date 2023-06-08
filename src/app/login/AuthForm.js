@@ -20,25 +20,27 @@ export default function AuthForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const queryStr = Object.fromEntries(searchParams);
+  const isDemo = queryStr.demo === 'true';
 
   const [isLogin, setIsLogin] = useState(
-    queryStr.signUp === 'true' ? false : true
+    queryStr?.signUp === 'true' ? false : true
   );
   const [revealPassword, setRevealPassword] = useState(false);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const [enteredName, setEnteredName] = useState(queryStr.name ?? '');
-  const [enteredEmail, setEnteredEmail] = useState(queryStr.email ?? '');
+  const [enteredName, setEnteredName] = useState(isDemo ? 'Demo' : '');
+  const [enteredEmail, setEnteredEmail] = useState(
+    isDemo ? 'demo@phizzio.com' : ''
+  );
   const [enteredPassword, setEnteredPassword] = useState(
-    queryStr.password ?? ''
+    isDemo ? '12345678' : ''
   );
   const [enteredPasswordConfirm, setEnteredPasswordConfirm] = useState(
-    queryStr.password ?? ''
+    isDemo ? '12345678' : ''
   );
 
   let callbackUrl = null;
-  const isDemo = queryStr.email === 'demo@phizzio.com';
 
   function handleSwitchAuthMode() {
     setIsLogin((prevState) => !prevState);
@@ -73,20 +75,16 @@ export default function AuthForm() {
 
         const createNewUser = await createUser({
           name: capitalizeName(enteredName),
-          email: queryStr.email ? `demo${randomNum}@phizzio.com` : enteredEmail,
-          password: enteredPassword,
-          passwordConfirm: queryStr.password
-            ? enteredPassword
-            : enteredPasswordConfirm,
+          email: isDemo ? `demo${randomNum}@phizzio.com` : enteredEmail,
+          password: isDemo ? '12345678' : enteredPassword,
+          passwordConfirm: isDemo ? '12345678' : enteredPasswordConfirm,
         });
 
         if (createNewUser.status === 'success') {
           console.log('New user created successfully!');
           const result = await signIn('credentials', {
-            email: queryStr.email
-              ? `demo${randomNum}@phizzio.com`
-              : enteredEmail,
-            password: enteredPassword,
+            email: isDemo ? `demo${randomNum}@phizzio.com` : enteredEmail,
+            password: isDemo ? '12345678' : enteredPassword,
             redirect: false,
           });
 
@@ -134,6 +132,7 @@ export default function AuthForm() {
               // inputRef={userNameInputRef}
               value={enteredName}
               label='Full Name'
+              autoFocus={!isLogin}
               onChange={(e) => setEnteredName(e.target.value)}
             />
           )}
@@ -147,7 +146,7 @@ export default function AuthForm() {
             // inputRef={emailInputRef}
             value={enteredEmail}
             label='Email'
-            autoFocus
+            autoFocus={isLogin}
             onChange={(e) => setEnteredEmail(e.target.value)}
           />
 
