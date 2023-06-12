@@ -190,6 +190,7 @@ export default function UpdateAppointment({
             <DateTimePicker
               label='Date'
               sx={{ width: '30ch' }}
+              minDateTime={dayjs()}
               // value={dateTime}
               value={dayjs(dateTime)}
               onChange={(date) => {

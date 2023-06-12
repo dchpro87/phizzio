@@ -128,6 +128,7 @@ export default function CreateAppointment({ onCancelClicked, clientId }) {
 
             <DateTimePicker
               label='Date'
+              minDateTime={dayjs()}
               sx={{ width: '30ch' }}
               // value={dayjs(dateRaised)}
               onChange={(date) => setDateTime(date.toISOString())}
